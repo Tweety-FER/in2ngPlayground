@@ -1,0 +1,120 @@
+.in2.comment {
+  width: 100%;
+  border-top: 1px solid black;
+  padding: 1em;
+  margin-bottom: 2em;
+}
+.in2.comment .metadata {
+  display: inline-block;
+  padding-right: 2em;
+  color: #bfc1c1;
+  text-weight: bold;
+  cursor: pointer;
+  font-size: 0.7em;
+}
+.in2.comment .metadata .author {
+  font-size: 1.25em;
+  color: #a5a8a8;
+}
+.in2.comment .text {
+  padding: 0;
+  margin: 2em;
+  margin-left: 1em;
+  border-left: 2px solid #bfc1c1;
+  padding-left: 1em;
+}
+.in2.comment .toolbar .like {
+  margin-right: 2em;
+}
+.in2.comment .toolbar .like.button {
+  padding: 0.25em;
+  border-radius: 10%;
+  background-color: #3385ff;
+  border: 1px solid #0066ff;
+  cursor: pointer;
+  font-size: 10pt;
+}
+.in2.comment .toolbar .like.button:hover {
+  background-color: #66a3ff;
+  border: 1px solid #3385ff;
+}
+.in2.comment .toolbar .like.button:active {
+  background-color: #99c2ff;
+}
+.in2.comment .toolbar .like.counter {
+  font-size: 0.9em;
+  font-weight: bolder;
+  float: right;
+}
+.in2.comment .toolbar .like.counter:before {
+  content: 'Likes: ';
+}
+
+.form {
+  display: block;
+}
+.form .field {
+  display: block;
+  margin: 1em;
+}
+.form .field .label {
+  display: block;
+}
+.form .field input {
+  display: block;
+  width: 100%;
+  height: 2em;
+}
+.form .field textarea {
+  display: block;
+  width: 100%;
+  min-height: 5em;
+  max-height: 20em;
+  resize: none;
+}
+.in2.article {
+  font-family: "Times New Roman";
+  margin: 1em;
+  margin-left: 3em;
+  margin-right: 2em;
+}
+.in2.article .title {
+  font-size: 1.6em;
+  font-weight: bolder;
+}
+.in2.article .text {
+  white-space: pre;
+}
+.in2.article .comments .comment {
+  width: 60%;
+  display: block;
+  margin: 0 auto;
+}
+
+.in2.tabs {
+  display: block;
+  width: 100%;
+}
+.in2.tabs .headers {
+  display: inline-block;
+  width: 100%;
+}
+.in2.tabs .headers .header {
+  pointer: cursor;
+  display: inline;
+  background-color: white;
+  padding-left: 1em;
+  padding-right: 1em;
+  border: 1px solid black;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  margin-bottom: -3px;
+}
+.in2.tabs .headers .header.active {
+  font-weight: bolder;
+  border-bottom: 2px solid white;
+}
+.in2.tabs .panel {
+  border: 1px solid black;
+  border-top: 1px solid black;
+}

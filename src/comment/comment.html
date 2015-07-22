@@ -1,0 +1,13 @@
+<div class="in2 comment">
+  <div class="metadata">
+    <span class="author">{{comment.username}}</span>
+    <span class="time">{{comment.time | date:'dd.MM.yyyy HH:mm'}}</span>
+  </div>
+  <div class="text">
+    {{comment.text}}
+  </div>
+  <div class="toolbar">
+    <span class="like button" ng-click="comment.like()">Like</span>
+    <span class="like counter">{{comment.likes}}</span>
+  </div>
+</div>

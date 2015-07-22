@@ -1,0 +1,41 @@
+<html lang="en">
+  <head>
+    <title>Playground</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="dev/css/style.css" type="text/css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.js"></script>
+    <script type="text/javascript" src="dev/js/playground.js"></script>
+  </head>
+  <body ng-app="in2.playground" ng-controller="ExampleController as ex">
+    <div class="in2 article">
+      <h1 class="title">{{ ex.title | in2TitleCase }}</h1>
+      
+      <div class="text">
+        {{ex.text}}
+      </div>
+      
+      <div class="comments">
+        <in2-tabs>
+          <in2-tab>
+            <div class="comment form">
+              <div class="field">
+                <label for="user">Author</label>
+                <input id="user" type="text" ng-model="ex.user" />
+              </div>
+              
+              <div class="field">
+                <label for="body">Text</label>
+                <textarea rows="3" cols="6" id="body" ng-model="ex.comment"></textarea>
+              </div>
+              
+              <button type="button" ng-click="ex.submit()">Submit</button>
+            </div>
+          </in2-tab>
+          <in2-tab name="Old Comments">
+            <in2-comment ng-repeat="comment in ex.comments" text="{{comment.text}}" username="{{comment.username}}" time="comment.time" afterLike="ex.alertLike()"></in2-comment>
+          </in2-tab>
+        </in2-tabs>
+      </div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,68 @@
+@metadataColour: #BFC1C1;
+@borderColour: #BFC1C1;
+@buttonColor: #3385FF;
+
+.in2 {
+  &.comment {
+    width : 100%;
+    border-top: 1px solid black;
+    padding: 1em;
+    margin-bottom: 2em;
+    
+    .metadata {
+      display: inline-block;
+      padding-right: 2em;
+      color: @metadataColour;
+      text-weight: bold;
+      cursor: pointer;
+      font-size: 0.7em;
+      
+      .author {
+        font-size: 1.25em;
+        color: darken(@metadataColour, 10%);
+      }
+    }
+    
+    .text {
+      padding : 0;
+      margin: 2em;
+      margin-left: 1em;
+      border-left: 2px solid @borderColour;
+      padding-left: 1em;
+    }
+    
+    .toolbar {
+      .like {
+        margin-right: 2em;
+      
+        &.button {
+          padding: 0.25em;
+          border-radius: 10%;
+          background-color: @buttonColor;
+          border: 1px solid darken(@buttonColor, 10%);
+          cursor: pointer;
+          font-size: 10pt;
+          
+          &:hover {
+            background-color: lighten(@buttonColor, 10%);
+            border: 1px solid @buttonColor
+          }
+          
+          &:active {
+            background-color: lighten(@buttonColor, 20%);
+          }
+        }
+        
+        &.counter {
+          font-size: 0.9em;
+          font-weight: bolder;
+          float: right;
+          
+          &:before {
+            content: 'Likes: ';
+          }
+        }
+      }
+    }
+  }
+}

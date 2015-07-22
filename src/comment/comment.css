@@ -1,0 +1,51 @@
+.in2.comment {
+  width: 100%;
+  border-top: 1px solid black;
+  padding: 1em;
+  margin-bottom: 2em;
+}
+.in2.comment .metadata {
+  display: inline-block;
+  padding-right: 2em;
+  color: #bfc1c1;
+  text-weight: bold;
+  cursor: pointer;
+  font-size: 0.7em;
+}
+.in2.comment .metadata .author {
+  font-size: 1.25em;
+  color: #a5a8a8;
+}
+.in2.comment .text {
+  padding: 0;
+  margin: 2em;
+  margin-left: 1em;
+  border-left: 2px solid #bfc1c1;
+  padding-left: 1em;
+}
+.in2.comment .toolbar .like {
+  margin-right: 2em;
+}
+.in2.comment .toolbar .like.button {
+  padding: 0.25em;
+  border-radius: 10%;
+  background-color: #3385ff;
+  border: 1px solid #0066ff;
+  cursor: pointer;
+  font-size: 10pt;
+}
+.in2.comment .toolbar .like.button:hover {
+  background-color: #66a3ff;
+  border: 1px solid #3385ff;
+}
+.in2.comment .toolbar .like.button:active {
+  background-color: #99c2ff;
+}
+.in2.comment .toolbar .like.counter {
+  font-size: 0.9em;
+  font-weight: bolder;
+  float: right;
+}
+.in2.comment .toolbar .like.counter:before {
+  content: 'Likes: ';
+}

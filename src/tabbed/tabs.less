@@ -1,0 +1,32 @@
+
+.in2.tabs {
+  display: block;
+  width: 100%;
+  
+  .headers {
+    display: inline-block;
+    width: 100%;
+    
+    .header {
+      pointer: cursor;
+      display: inline;
+      background-color: white;
+      padding-left: 1em;
+      padding-right: 1em;
+      border: 1px solid black;
+      border-top-left-radius: 10px;
+      border-top-right-radius: 10px;
+      margin-bottom: -3px;
+      
+      &.active {
+        font-weight: bolder;
+        border-bottom: 2px solid white;
+      }
+    }
+  }
+  
+  .panel {
+    border: 1px solid black;
+    border-top: 1px solid black;
+  }
+}
