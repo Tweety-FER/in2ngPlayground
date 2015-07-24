@@ -1,3 +1,7 @@
+/**
+* @author Luka Skukan
+* @version 0.1.0
+*/
 (function() {
   'use strict';
   
