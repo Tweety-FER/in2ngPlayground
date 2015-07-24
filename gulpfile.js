@@ -166,3 +166,20 @@ gulp.task('lint', function() {
         .pipe(jshint())
         .pipe(jshint.reporter('default'));
 });
+
+//Setting the default to build and run test
+gulp.task('default', ['unit-test']);
+
+/*
+* Watch for changes. Run default task for every change, which involves rebuilding and retesting.
+*/
+gulp.task('watch', function() {
+  gulp.watch([
+    'src/**/*.es6',
+    'src/**/*.coffee',
+    'src/**/*.js',
+    'src/**/*.less',
+    'src/**/*.css',
+    'src/**/*.html'
+  ], ['unit-test']);
+});

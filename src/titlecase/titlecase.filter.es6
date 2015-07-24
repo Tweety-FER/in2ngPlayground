@@ -15,11 +15,11 @@
     *
     * @param value : string - String to titlecase (word-based titlecase)
     * @param notCapitalisedList : [string] - Optional list of string to lowercase instead of titlecase
-    * @return - Given string, only with words transformed to titlecase
+    * @return - Given string, only with words transformed to a titlecase format
     */
     return function(value, notCapitalisedList) {
       let words = value.split(' ');
-      let processed = []; //A list of processed words
+      let processed = []; //A list that will be filled with processed words
 
       //If a list was given, lowercase its word for easier comparison. Default to empty list of words.
       notCapitalisedList = !!notCapitalisedList ? notCapitalisedList.map((v) => v.toLowerCase()) : [];
