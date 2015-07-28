@@ -24,14 +24,77 @@ git clone https://github.com/Tweety-FER/in2ngPlayground.git
 
 You now have this repository in the directory **in2ngPlayground**
 
-### Git updates
+### Updating the Repository
 
-When you are done with your updates, you have to **add**, **commit** and **push** your changes. Adding changes is a means of notifying git that those files have changes. You can simply navigate to the root directory of the project and execute the following, if you wish to add everything.
+Once you have made your changes to the repository, by adding, removing or editing files, you can have to make them available on the repository. This is performed in three steps:
+
+  - *adding/removing* changes
+  - *commiting* changes
+  - *pushing* changes
+
+If you have added a file or changed an existing file, you have to use the `git add` command to notify the git versioning system that the file was created or changed. You can do this like so:
+
+```bash
+git add example_file.txt
+```
+
+If you want to add it all at once, navigate to the root of the project (in this case, the *in2ngPlayground* directory) and just type in:
 
 ```bash
 git add .
 ```
 
+Likewise, when you remove files, you have to notify git. For this, we use the `git rm` command. If the file still exists, using this command will both remove it and notify git of the change. An example:
 
+```bash
+git rm example_file.txt
+```
 
+Once you are done with your project, or a particular part of it (for example a new bug fix or adding a new directive), you have to *commit* your changes. Commiting stores a group of changes. Each commit is accompanied by a message. When you commit, an editor will be opened and will ask you for a message. An example of committing:
 
+```bash
+git commit
+```
+
+You can pass in a short message without opening a window, by using the **-m** flag, like so:
+
+```bash
+git commit -m "Changed background colour to blue"
+```
+
+It is a good idea to make the messages a bit longer, however, and as descriptive as possible. Generally, the message should follow this format:
+
+```
+Short line summarizing the changes
+
+List of changes in more detail. Use imperative form, such as
+"change user login form", in all commit messages. You don't
+have to describe every minor thing, but the reader should understand
+what and why this commit was created.
+
+Don't be afraid to use multiple paragraphs, or even lists of things
+you have done. In short:
+  - Descriptive, but not too long
+  - Imperative tone
+  - Multiple paragraphs and lists are OK
+```
+
+You can read more about the importance of good commit messages [here](http://chris.beams.io/posts/git-commit/)
+
+## Tutorial
+  1. Introduction to Automation
+    1. [NodeJS and NPM]()
+    2. [Gulp]()
+  2. AngularJS Basics
+    1. [Introduction]()
+    2. [Expressions]()
+    3. [Bootstrapping Angular]()
+    4. [Controllers]()
+    5. [Factories]()
+    6. [Filters]()
+    7. [Introduction to Directives]()
+    8. [Advanced Directives]()
+    9. [Best Practices]()
+  3. Unit Testing AngularJS
+    1. [Karma and Jasmine]()
+    2. [How and What to Unit Test?]()
