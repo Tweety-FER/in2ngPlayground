@@ -83,18 +83,18 @@ You can read more about the importance of good commit messages [here](http://chr
 
 ## Tutorial
   1. Introduction to Automation
-    1. [NodeJS and NPM]()
-    2. [Gulp]()
+    1. [NodeJS and NPM](https://github.com/Tweety-FER/in2ngPlayground/blob/master/tutorial/automation/node.md)
+    2. [Gulp](https://github.com/Tweety-FER/in2ngPlayground/blob/master/tutorial/automation/gulp.md)
   2. AngularJS Basics
-    1. [Introduction]()
-    2. [Expressions]()
-    3. [Bootstrapping Angular]()
-    4. [Controllers]()
-    5. [Factories]()
-    6. [Filters]()
-    7. [Introduction to Directives]()
-    8. [Advanced Directives]()
-    9. [Best Practices]()
+    1. [Introduction](https://github.com/Tweety-FER/in2ngPlayground/blob/master/tutorial/angular/intro.md)
+    2. [Expressions](https://github.com/Tweety-FER/in2ngPlayground/blob/master/tutorial/angular/expressions.md)
+    3. [Bootstrapping Angular](https://github.com/Tweety-FER/in2ngPlayground/blob/master/tutorial/angular/bootstrapping.md)
+    4. [Controllers](https://github.com/Tweety-FER/in2ngPlayground/blob/master/tutorial/angular/controllers.md)
+    5. [Factories](https://github.com/Tweety-FER/in2ngPlayground/blob/master/tutorial/angular/factories.md)
+    6. [Filters](https://github.com/Tweety-FER/in2ngPlayground/blob/master/tutorial/angular/filters.md)
+    7. [Introduction to Directives](https://github.com/Tweety-FER/in2ngPlayground/blob/master/tutorial/angular/directives.md)
+    8. [Advanced Directives](https://github.com/Tweety-FER/in2ngPlayground/blob/master/tutorial/angular/advanced-directives.md)
+    9. [Best Practices](https://github.com/Tweety-FER/in2ngPlayground/blob/master/tutorial/angular/best-practices.md)
   3. Unit Testing AngularJS
-    1. [Karma and Jasmine]()
-    2. [How and What to Unit Test?]()
+    1. [Karma and Jasmine](https://github.com/Tweety-FER/in2ngPlayground/blob/master/tutorial/testing/karma.md)
+    2. [How and What to Unit Test?](https://github.com/Tweety-FER/in2ngPlayground/blob/master/testing/how-and-what.md)
