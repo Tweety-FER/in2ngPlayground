@@ -87,8 +87,8 @@ You can read more about the importance of good commit messages [here](http://chr
     2. [Gulp](https://github.com/Tweety-FER/in2ngPlayground/blob/master/tutorial/automation/gulp.md)
   2. AngularJS Basics
     1. [Introduction](https://github.com/Tweety-FER/in2ngPlayground/blob/master/tutorial/angular/intro.md)
-    2. [Expressions](https://github.com/Tweety-FER/in2ngPlayground/blob/master/tutorial/angular/expressions.md)
-    3. [Bootstrapping Angular](https://github.com/Tweety-FER/in2ngPlayground/blob/master/tutorial/angular/bootstrapping.md)
+    2. [Bootstrapping and Modules](https://github.com/Tweety-FER/in2ngPlayground/blob/master/tutorial/angular/bootstrapping.md)
+    3. [Expressions](https://github.com/Tweety-FER/in2ngPlayground/blob/master/tutorial/angular/expressions.md)
     4. [Controllers](https://github.com/Tweety-FER/in2ngPlayground/blob/master/tutorial/angular/controllers.md)
     5. [Factories](https://github.com/Tweety-FER/in2ngPlayground/blob/master/tutorial/angular/factories.md)
     6. [Filters](https://github.com/Tweety-FER/in2ngPlayground/blob/master/tutorial/angular/filters.md)
