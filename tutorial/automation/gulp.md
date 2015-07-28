@@ -1,6 +1,6 @@
 # Gulp
 
-Back in the chapter about [node and NPM](https://github.com/Tweety-FER/in2ngPlayground/blob/master/tutorial/automation/node.md) we explained how to install our build tools. Now it's time to explain the basics of using them for simple, but tedious tasks, like concatenating code, translating [LESS](http://lesscss.org) to CSS or [CoffeeScript](http://coffeescript.org/) to JavaScript, etc. The helpful Gulp tool reduces these tasks to a simple command.
+Back in the chapter about [node and NPM](https://github.com/Tweety-FER/in2ngPlayground/blob/master/tutorial/automation/node.md) we explained how to install our build tools. Gulp, in particular, is installed using the command `npm install -g gulp`. Now it's time to explain the basics of using them for simple, but tedious tasks, like concatenating code, translating [LESS](http://lesscss.org) to CSS or [CoffeeScript](http://coffeescript.org/) to JavaScript, etc. The helpful Gulp tool reduces these tasks to a simple command.
 
 The user (that's you!) can define various commands and then execute them from the command line. Furthermore, there is a nifty *watch* feature, which allows you to specify a command to execute every time your source code changes. For example, it might be a good idea to run all your unit tests after you've made some changes, to make sure nothing is broken.
 
