@@ -1,0 +1,3 @@
+# Gulp
+
+Back in the chapter about [node and NPM](https://github.com/Tweety-FER/in2ngPlayground/blob/master/tutorial/automation/node.md) we explained how to install our build tools. Now it's time to explain the basics of using them for simple, but tedious tasks, like concatenating code, translating LESS to CSS or CoffeeScript to JavaScript, etc. The helpful Gulp tool reduces these tasks to a simple command.
