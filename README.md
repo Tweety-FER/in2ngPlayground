@@ -5,7 +5,7 @@ A small angularJS-based playground repo used for the AngularJS training track.
 
 ### Git setup
 
-If you are on the AngularJS track in IN2, clone this repository. You can do this by installing git. Then, create a github account if you already do not have one, and notify us of its creation by emailing your username to [us](luka.skukan@in2.hr).
+If you are on the AngularJS track in IN2, clone this repository. You can do this after [installing git](https://git-scm.com/download). Then, create a github account if you already do not have one, and notify us of its creation by emailing your username to [us](luka.skukan@in2.hr).
 
 Set up the basics of your git account - your username, password and proxy settings.
 
