@@ -66,6 +66,16 @@ npm install
 
 If you ever feel like creating your own package.json file from scratch, there is one more important command you need to know - `npm init`. When you run this command, the NPM will ask you a few simple questions and generate the package.json file according to your responses.
 
+
+### Proxy settings
+
+If you're using NPM from behind a proxy (which is likely), you will have to set up NPM's proxy settings. You can do this from the command line:
+
+```bash
+npm config set proxy http://proxy.in2.hr:8080
+npm config set https-proxy http://proxy.in2.hr:8080
+```
+
 ---
 
 You now know the basics of the npm! When you're done playing around with it, it's time for [gulp](https://github.com/Tweety-FER/in2ngPlayground/blob/master/tutorial/automation/gulp.md)!
