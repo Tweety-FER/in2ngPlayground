@@ -72,7 +72,7 @@ You will implement the `in2BusinessCard` element directive, which implements a v
 It will be used as follows:
 
 ```html
-<in2-business-card company="IN2" fullName="Ivan Rep" position="Senior Minion", image="https://pbs.twimg.com/profile_images/557113121748160513/opy8TCJe.png"></in2-business-card>
+<in2-business-card company="IN2" full-name="Ivan Rep" position="Senior Minion", image="https://pbs.twimg.com/profile_images/557113121748160513/opy8TCJe.png"></in2-business-card>
 ```
   
 As stated, include comments, unit tests, an example and provide a brief description below.
@@ -92,7 +92,7 @@ Implement an accordion directive called `in2Accordion`. It should be a *transclu
     That's what my boss told me to do
   </in2-accordion-item>
   <in2-accordion-item title="How do I write one?">
-    Just mash the keyboard until something happens
+    Just mash on the keyboard until something happens
   </in2-accordion-item>
 </in2-accordion>
 ```
