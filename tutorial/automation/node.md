@@ -74,7 +74,11 @@ If you're using NPM from behind a proxy (which is likely), you will have to set 
 ```bash
 npm config set proxy http://proxy.in2.hr:8080
 npm config set https-proxy http://proxy.in2.hr:8080
+npm config set strict-ssl false
+npm config set registry http://registry.npmjs.org/
 ```
+
+You might have to do similar things for other command-line tools you might be using, e.g. Bower.
 
 ---
 
