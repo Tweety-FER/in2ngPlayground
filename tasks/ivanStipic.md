@@ -81,7 +81,7 @@ As stated, include comments, unit tests, an example and provide a brief descript
 
 ## Advanced Directive
 
-Implement an accordion directive called `in2Accordion`. It should be a *transcluded* directive which also contains nested child transcluded directives called `in2AccordionItem`. It should function similarly to the basic accordion in [this example](http://semantic-ui.com/modules/accordion.html). Both directives may only use controllerAs syntax, not the `$scope`, where applicable. They may **not** use `$broadcast` and `$on` functions for communication. If they need to communicate, use some other mean of communication (e.g. `require` in the directive declaration or a shared service). Other implementation details are up to you. It should be used like so (you may add other parameters if you wish):
+Implement an accordion directive called `in2Accordion`. It should be a *transcluded* directive which also contains nested child transcluded directives called `in2AccordionItem`. It should function similarly to the basic accordion in [this example](http://semantic-ui.com/modules/accordion.html). Both directives must use controllerAs syntax, not the `$scope`, where applicable. They may **not** use `$broadcast` and `$on` functions for communication. If they need to communicate, use some other mean of communication (e.g. `require` in the directive declaration or a shared service). Other implementation details are up to you. It should be used like so (you may add other parameters if you wish):
 
 ```html
 <in2-accordion>
