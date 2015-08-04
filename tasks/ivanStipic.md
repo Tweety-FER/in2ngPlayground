@@ -15,7 +15,7 @@ You are to implement a factory called `in2Formatting`. It must produce a functio
 
   - All instances of `**some content**` will be replaced with `<b>some content</b>`
   - All instances of `*some content*` will be replaced with `<em>some content</em>`
-  - All instances of `\`some content\`` will be replaced with `<code>some content</code>`
+  - All instances of ``some content`` will be replaced with `<code>some content</code>`
   
 It should work as follows (module names may vary):
 
