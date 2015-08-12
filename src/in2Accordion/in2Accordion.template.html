@@ -1,0 +1,39 @@
+﻿<style>
+    .accordion {
+        width: 40em;
+        height: auto;
+        border: 1px solid gray;
+        border-radius: 10px;
+        margin-top: 2em;        
+        overflow-wrap: break-word;                
+    }
+
+    .accordionItem {        
+        border: 1px solid gray;
+        border-radius: 10px;
+        overflow-wrap: break-word;
+        padding: 0.2em;        
+        margin-right: 0.5em;
+    }
+
+    .accordionTitle {
+        padding-left: 0.4em;
+    }
+
+    .accordionItemVisible {  
+        display: normal;
+        padding: 0.2em;
+    }
+
+    .accordionItemHidden {        
+        display: none;
+    }
+</style>
+
+
+<div class="accordion">
+    <h1 class="accordionTitle">{{title}}</h1>
+    <ul>
+        <ng-transclude></ng-transclude>
+    </ul>
+</div>

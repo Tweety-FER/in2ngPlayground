@@ -79,7 +79,9 @@ you have done. In short:
   - Multiple paragraphs and lists are OK
 ```
 
-You can read more about the importance of good commit messages [here](http://chris.beams.io/posts/git-commit/)
+You can read more about the importance of good commit messages [here](http://chris.beams.io/posts/git-commit/).
+
+This are the basics of *local* git repository management. However, you must also keep it in sync with the other copies of the repository. Once you have commited your changes, you can publish them using the `git push` command. Once you have done that, other copies can be updated to include your changed if they owners execute the `git pull` command. Likewise, when someone else performs a push, you will have to perform a `git pull` to keep up to date. If you want to go deeper into Git, take a look at [this book](https://git-scm.com/book/en/v2).
 
 ## Tutorial
   1. Introduction to Automation

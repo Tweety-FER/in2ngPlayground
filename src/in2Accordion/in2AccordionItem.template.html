@@ -1,0 +1,6 @@
+﻿<li class="accordionItem">
+    <h3 ng-click="accordionItemCtrl.initializeAccordionItems(parentArray); accordionItemCtrl.openTabWithId($id);" ng-init="myClass = 'accordionItemHidden';">{{accordionItemCtrl.title}}</h3>
+    <div ng-class="myClass">
+        <ng-transclude></ng-transclude>
+    </div>
+</li>

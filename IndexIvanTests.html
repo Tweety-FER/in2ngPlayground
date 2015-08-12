@@ -1,0 +1,53 @@
+﻿<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>AngularTest</title>       
+        <script src="dev/js/angular.js"></script>
+    </head>
+
+    <body ng-app="in2.playground">
+        <div ng-controller="in2FormattingController as formatCtrl">
+            <h1>{{formatCtrl.test}}</h1>
+        </div>    
+    
+        <div ng-controller="in2PadController as padCtrl">
+            <h1>{{padCtrl.text | in2Pad:15:'!'}}</h1>
+        </div>
+
+        <div>
+            <in2-business-card company="IN2" full-name="Ivan Rep" position="Senior Minion" image="https://pbs.twimg.com/profile_images/557113121748160513/opy8TCJe.png"></in2-business-card>
+        </div>
+
+        <div>
+            <in2-accordion title="in2Accordion">
+                <in2-accordion-item title="What are directives?">
+                    I have no idea
+                </in2-accordion-item>
+                <in2-accordion-item title="Why use them?">
+                    That's what I was told to do
+                </in2-accordion-item>
+                <in2-accordion-item title="How do I write one?">
+                    Just mash on the keyboard until something happens
+                </in2-accordion-item>
+            </in2-accordion>
+        </div>
+
+        <script src="src/main.js"></script>
+
+        <script src="src/in2Formatting/in2Formatting.controller.js"></script>
+        <script src="src/in2Formatting/in2Formatting.service.js"></script>
+
+        <script src="src/in2Pad/in2Pad.controller.js"></script>
+        <script src="src/in2Pad/in2Pad.filter.js"></script>
+
+        <script src="src/in2BusinessCard/in2BusinessCard.controller.js"></script>
+        <script src="src/in2BusinessCard/in2BusinessCard.directive.js"></script>
+
+        <script src="src/in2Accordion/in2Accordion.directive.js"></script>
+        <script src="src/in2Accordion/in2Accordion.controller.js"></script>
+        <script src="src/in2Accordion/in2AccordionItem.directive.js"></script>
+        <script src="src/in2Accordion/in2AccordionItem.controller.js"></script>
+    </body>
+</html>
+

@@ -1,0 +1,69 @@
+﻿<style>
+    .buisnessCard {
+        border: 1px solid black;
+        width: 20em;
+        height: 10em;
+        font-family: Verdana, Cursive;        
+    }
+
+    .buisnessCardFront {
+        width: 100%;
+        height:100%;
+        text-align: left;
+    }
+
+    .buisnessCardFrontLogo {
+        float:right;
+        width: 25%;
+    }
+
+    .buisnessCardBack {
+        width: 100%;
+        height:100%;
+        text-align: center;
+    }
+
+    .buisnessCardBackLogo {        
+        width: 40%;
+    }
+
+</style>
+
+<div ng-click="front = !front" ng-init="front = ctrl.getFrontSide()">
+<div ng-switch on="front">
+    <div ng-switch-when="true">        
+        <div class="buisnessCard">
+            <table class="buisnessCardFront">
+                <tr>
+                    <td>
+                        <img class="buisnessCardFrontLogo" ng-src="{{ctrl.image}}"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td>{{ctrl.fullName}}</td>
+                </tr>
+                <tr>
+                    <td>{{ctrl.company}}</td>
+                </tr>
+                <tr>
+                    <td>{{ctrl.position}}</td>
+                </tr>
+            </table>            
+        </div>       
+    </div>
+    <div ng-switch-when="false">    
+        <div class="buisnessCard" >
+            <table class="buisnessCardBack">
+                <tr>
+                    <td>
+                        <img class="buisnessCardBackLogo" ng-src="{{ctrl.image}}"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Have a nice day</td>
+                </tr>            
+            </table>            
+        </div>
+    </div>
+</div>
+</div>
