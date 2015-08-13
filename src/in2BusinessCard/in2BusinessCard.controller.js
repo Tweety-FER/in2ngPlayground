@@ -1,7 +1,7 @@
 ﻿(function () {
     'use strict';
 
-    angular.module('in2.playground')
+    angular.module('in2.playground.businesscard.controller', [])
         .controller("in2BusinessCardController", BuisnessCardCtrl);
 
     BuisnessCardCtrl.$inject = [];

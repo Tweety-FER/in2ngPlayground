@@ -1,14 +1,14 @@
 ﻿(function () {
     'use strict';
 
-    angular.module('in2.playground')
+    angular.module('in2.playground.accordion.item', ['in2.playground.accordion.item.controller', 'templates'])
         .directive('in2AccordionItem', AccordionItemDirective);
 
-    AccordionItemDirective.$inject = [];
+    AccordionItemDirective.$inject = ['$templateCache'];
 
     // a transcluded directive that creates new accordion item
     // accordion item text is added as a transcluded element
-    function AccordionItemDirective() {
+    function AccordionItemDirective($templateCache) {
         // link function which adds an accordion item's data to the parent's controller for each item in the accordion
         var addAccordionItemToController = function (scope, element, attrs, accordionController) {
             accordionController.addAccordionItem(scope);    // add this item's data to parent's controller
@@ -26,7 +26,7 @@
             controllerAs: 'accordionItemCtrl',  // controller name to use in template
             bindToController: true,     // bind controller to the template
             link: addAccordionItemToController, // link function with parent's controller
-            templateUrl: 'src/in2Accordion/in2AccordionItem.template.html'  // template with item's appearance and behaviour
+            template: $templateCache.get('in2Accordion/in2AccordionItem.template.html')  // template with item's appearance and behaviour
         };
     };
 })();

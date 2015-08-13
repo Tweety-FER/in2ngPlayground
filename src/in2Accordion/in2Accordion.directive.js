@@ -1,14 +1,14 @@
 ﻿(function () {
     'use strict';
 
-    angular.module('in2.playground')
+    angular.module('in2.playground.accordion', ['in2.playground.accordion.controller', 'templates'])
         .directive('in2Accordion', AccordionDirective);
 
-    AccordionDirective.$inject = [];
+    AccordionDirective.$inject = ['$templateCache'];
 
     // a transcluded directive that creates new empty accordion element
     // accordion items are added as transcluded elements
-    function AccordionDirective() {
+    function AccordionDirective($templateCache) {
         return {
             restrict: 'E',  // use only as an element
             transclude: true,   // enable transcluded elements
@@ -16,7 +16,7 @@
                 title: '@'  // simple binding
             },
             controller: 'in2AccordionController',   // controller for transcluded elements to reference to
-            templateUrl: 'src/in2Accordion/in2Accordion.template.html'  // template with accordion's appearance and behaviour
+            template: $templateCache.get('in2Accordion/in2Accordion.template.html') // template with accordion's appearance and behaviour
         };
     };
 })();

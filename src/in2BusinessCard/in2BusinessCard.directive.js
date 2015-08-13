@@ -1,14 +1,14 @@
 ﻿(function () {
     'use strict';
 
-    angular.module('in2.playground')
+    angular.module('in2.playground.businesscard', ['templates', 'in2.playground.businesscard.controller'])
         .directive('in2BusinessCard', BuisnessCardDirective);
 
-    BuisnessCardDirective.$inject = [];
+    BuisnessCardDirective.$inject = ['$templateCache'];
 
     // directive that creates a virtual buisness card and binds it to a controller
     // it has two sides and can be flipped when clicked on
-    function BuisnessCardDirective() {
+    function BuisnessCardDirective($templateCache) {
         return {
             scope: {
                 company: '@',   // simple binding
@@ -20,7 +20,7 @@
             controller: 'in2BusinessCardController',    // controller to bind the service to
             controllerAs: 'ctrl',   // controller name
             bindToController: true, // declare binding to controller
-            templateUrl: 'src/in2BusinessCard/in2BuisnessCardTemplate.html' // template with card's appearance and behaviour
+            template: $templateCache.get('in2BusinessCard/in2BuisnessCardTemplate.html') // template with card's appearance and behaviour
         };
     };
 })();
