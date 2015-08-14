@@ -1,17 +1,10 @@
-﻿in2Formatting is a factory with a single function - format.
-Format takes a string from the input and returns formatted string in which the special characters patterns are replaced by html tags in the following way:
-	-  **some content** is replaced by <b>some content</b>
-	-   *some content* is replaced by <i>some content</i>
-	-	 #some content# is replaced by <code>some content</code>
+﻿###Description:
 
-Format function consists of three methods, checkForBold, checkForItalic and checkForCode, one for each special character pattern.
-Each method searches through input string's elements one-by-one until it finds a special character it is looking for(**, * or #).
-Once found, the method saves it's position in a string to a variable named formatStartPosition.
-It then continues the search for second special character. If it isn't found, function finishes and returns unchanged string.
-If second special character is found, the method saves it's position in a string to a variable named formatEndPosition.
-Since a pair of special characters have been found, they are replaced by matching HTML tags.
+[`in2Formatting`](https://github.com/Tweety-FER/in2ngPlayground/blob/master/src/in2Formatting/in2Formatting.service.js) is a factory with a single function - format. Format takes a string from the input and returns formatted string in which the special characters patterns are replaced by html tags in the following way:
+	-  `**some content**` is replaced by `<b>some content</b>`
+	-   `*some content*` is replaced by `<i>some content</i>`
+	-	`#some content#` is replaced by `<code>some content</code>`
 
-This is done with replaceBold/Italic/Code methods which replace a first pair of matching special characters with HTML tags.
-After first pair of matching special characters has been replaced, formatStartPosition and formatEndPosition variables are reset to -1.
-This is done so that the search can continue from the position at which the last special character was replaced.
-The process repeats until the search through the entire input string has finished three times, once for each special character pattern.
+Format function consists of three methods, `checkForBold(text)`, `checkForItalic(text)` and `checkForCode(text)`, one for each special character pattern. Each method searches through input string's elements one-by-one until it finds a special character it is looking for(**, * or #). Once found, the method saves it's position in a string to a variable named formatStartPosition. It then continues the search for second special character. If it isn't found, function finishes and returns unchanged string. If second special character is found, the method saves it's position in a string to a variable named formatEndPosition. Since a pair of special characters have been found, they are replaced by matching HTML tags.
+
+This is done with `replaceBold/Italic/Code` methods which replace a first pair of matching special characters with HTML tags. After first pair of matching special characters has been replaced, `formatStartPosition` and `formatEndPosition` variables are reset to -1. This is done so that the search can continue from the position at which the last special character was replaced. The process repeats until the search through the entire input string has finished three times, once for each special character pattern.

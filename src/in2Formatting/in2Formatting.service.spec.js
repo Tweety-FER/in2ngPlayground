@@ -1,7 +1,7 @@
 ﻿describe('format string replacing special character patterns with matching html tags', function () {
     var format;
 
-    beforeEach(module('in2.playground'));
+    beforeEach(module('in2.playground.formatting'));
 
     beforeEach(inject(function (_in2Formatting_) {
         format = _in2Formatting_;

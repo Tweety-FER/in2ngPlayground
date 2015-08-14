@@ -1,17 +1,17 @@
-﻿in2BuisnessCard is a directive that implements a virtual buisness card. It represents a real buisness card and has two sides.
-The front side has company's logo, company's name, and employee's name and position.
-The back side has larger version of logo and motivational message.
-Those variables are binded to the directive's scope in fhe following way:
-	- company, fullName, position and image using simple binding
-	- frontSide using two-way binding; it represents the side the card is first turned on, default: true
+﻿###Description:
 
-The directive is binded to the controller in2BusinessCardController.
-The card's appearance and behaviour is defined with html file - in2BuisnessCardTemplate.html.
-The card can be flipped by clicking on it, which is defined with ng-click directive inside html template.
-It takes frontSide attribute from controller and changes it's value on every click.
-That values are then used in ng-switch directive which selects front or back side of the card, depending on the switched attribute value.
+[`in2BuisnessCard`](https://github.com/Tweety-FER/in2ngPlayground/blob/master/src/in2BusinessCard/in2BusinessCard.directive.js) is a directive that implements a virtual buisness card. It represents a real buisness card and has two sides. The front side has company's logo, company's name, and employee's name and position. The back side has larger version of logo and motivational message. Those variables are binded to the directive's scope in the following way:
+	- `company`, `fullName`, `position` and `image` using simple binding
+	- `frontSide` using two-way binding; it represents the side the card is first turned on, default: true
 
-The directive is used by using it's name as a html element in the following way, for example:
+The directive is binded to the controller [`in2BusinessCardController`](https://github.com/Tweety-FER/in2ngPlayground/blob/master/src/in2BusinessCard/in2BusinessCard.controller.js).
+The card's appearance and behaviour is defined with html file - [`in2BuisnessCard.html`](https://github.com/Tweety-FER/in2ngPlayground/blob/master/src/in2BusinessCard/in2BuisnessCard.template.html).
+The card can be flipped by clicking on it, which is defined with `ng-click` directive inside html template. It takes `frontSide` attribute from controller and changes it's value on every click. That values are then used in `ng-switch` directive which selects front or back side of the card, depending on the switched attribute value.
+
+The directive is used by using it's name as a html element in the following way:
+
+'''html
 <in2-business-card company="IN2" full-name="Ivan Rep" position="Senior Minion", image="https://pbs.twimg.com/profile_images/557113121748160513/opy8TCJe.png"></in2-business-card>
+'''
 
-Upon loading the webpage, <in2-business-card> is replaced with the in2BuisnessCardTemplate.html defined in the templateUrl as a new element.
+Upon loading the webpage, `<in2-business-card>` is replaced with the [`in2BuisnessCard.html`](https://github.com/Tweety-FER/in2ngPlayground/blob/master/src/in2BusinessCard/in2BuisnessCard.template.html) defined in the template as a new element.

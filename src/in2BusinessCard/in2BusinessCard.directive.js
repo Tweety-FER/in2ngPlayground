@@ -20,7 +20,7 @@
             controller: 'in2BusinessCardController',    // controller to bind the service to
             controllerAs: 'ctrl',   // controller name
             bindToController: true, // declare binding to controller
-            template: $templateCache.get('in2BusinessCard/in2BuisnessCardTemplate.html') // template with card's appearance and behaviour
+            template: $templateCache.get('in2BusinessCard/in2BuisnessCard.template.html') // template with card's appearance and behaviour
         };
     };
 })();

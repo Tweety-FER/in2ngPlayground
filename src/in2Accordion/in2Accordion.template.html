@@ -1,4 +1,11 @@
-﻿<style>
+﻿<div class="accordion">
+    <h1 class="accordionTitle">{{title}}</h1>
+    <ul>
+        <ng-transclude></ng-transclude>
+    </ul>
+</div>
+
+<style>
     .accordion {
         width: 40em;
         height: auto;
@@ -29,11 +36,3 @@
         display: none;
     }
 </style>
-
-
-<div class="accordion">
-    <h1 class="accordionTitle">{{title}}</h1>
-    <ul>
-        <ng-transclude></ng-transclude>
-    </ul>
-</div>

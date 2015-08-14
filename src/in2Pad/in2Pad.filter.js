@@ -1,7 +1,7 @@
 ﻿(function () {
     'use strict';
 
-    angular.module('in2.playground')
+    angular.module('in2.playground.pad', ['in2.playground.pad.controller'])
         .filter('in2Pad', Pad);
 
     Pad.$inject = [];
@@ -33,7 +33,7 @@
                 throw 'Invalid input - \'' + padCharacter + '\' is not a single character';  // throw exception if padding character is not a single character
             }
 
-            paddedText = applyPadding(paddedText, minimumLength, padCharacter); // call function for character padding
+            paddedText = applyPadding('' + paddedText, minimumLength, padCharacter); // call function for character padding
 
             return paddedText;
         };

@@ -1,14 +1,16 @@
-﻿in2Pad is a filter which applies padding function on a string based on two input parameters:
-	- Minimum length to pad to (mandatory)
-    - Padding character (optional, defaults to '0')
+﻿Description:
+
+[`in2Pad`](https://github.com/Tweety-FER/in2ngPlayground/blob/master/src/in2Pad/in2Pad.filter.js) is a filter which applies padding function on a string based on two input parameters:
+
+	- `minimumPaddedTextLength` (mandatory)
+    - `paddingCharacter` (optional, defaults to '0')
+
 Filter adds padding characters to the beginning of the input string until string length reaches minumum length.
 
-Function pad() makes sure all input arguments are correctly defined in the following way:
-	- If minimum length isn't defined, it will throw an exception stating that it cannot be undefined
-	- If padding character isn't defined, it's value is set to default value of '0'.
-	- If padding character is set to any type other than string, it will throw an exception stating that it must be a single character string.
-	- If padding character is a string with length greater than 1, it will throw an exception stating that padding character must be a single character.
+Function `pad()` makes sure all input arguments are correctly defined in the following way:
+	- If `minimumPaddedTextLength` isn't defined, it will throw an exception stating that it cannot be undefined
+	- If `paddingCharacter` isn't defined, it's value is set to default value of '0'.
+	- If `paddingCharacter` is set to any type other than string, it will throw an exception stating that it must be a single character string.
+	- If `paddingCharacter` is a string with length greater than 1, it will throw an exception stating that padding character must be a single character.
 
-After making sure all input arguments are correct, it will call applyPadding() function which will apply padding based on input arguments.
-If the input string is already longer than minimum length, it will be returned unchanged.
-Otherwise padding characters will be added to the beginning of the input string until it reaches minimum length, at which point it will be returned.
+After making sure all input arguments are correct, it will call `applyPadding()` function which will apply padding based on input arguments. If the input string is already longer than minimum length, it will be returned unchanged. Otherwise padding characters will be added to the beginning of the input string until it reaches minimum length, at which point it will be returned.

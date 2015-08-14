@@ -28378,7 +28378,10 @@ var minlengthDirective = function() {
     'in2.playground.comment',
     'in2.playground.example',
     'in2.playground.accordion',
-    'in2.playground.businesscard'
+    'in2.playground.accordion.item',
+    'in2.playground.businesscard',
+    'in2.playground.pad',
+    'in2.playground.formatting'
   ]);
   
   
@@ -28482,6 +28485,55 @@ var minlengthDirective = function() {
 (function () {
     'use strict';
 
+    angular.module('in2.playground.businesscard.controller', [])
+        .controller("in2BusinessCardController", BuisnessCardCtrl);
+
+    BuisnessCardCtrl.$inject = [];
+
+    function BuisnessCardCtrl() {
+        var my = this;
+
+        my.frontSide;
+
+        my.getFrontSide = getFrontSide;
+        
+        function getFrontSide() {
+            if (my.frontSide === false)
+                return false;
+            else
+                return true;
+        };
+    };
+})();
+(function () {
+    'use strict';
+
+    angular.module('in2.playground.businesscard', ['templates', 'in2.playground.businesscard.controller'])
+        .directive('in2BusinessCard', BuisnessCardDirective);
+
+    BuisnessCardDirective.$inject = ['$templateCache'];
+
+    // directive that creates a virtual buisness card and binds it to a controller
+    // it has two sides and can be flipped when clicked on
+    function BuisnessCardDirective($templateCache) {
+        return {
+            scope: {
+                company: '@',   // simple binding
+                fullName: '@',  // simple binding
+                position: '@',  // simple binding
+                image: '@', // simple binding
+                frontSide: '='  // two-way binding
+            },            
+            controller: 'in2BusinessCardController',    // controller to bind the service to
+            controllerAs: 'ctrl',   // controller name
+            bindToController: true, // declare binding to controller
+            template: $templateCache.get('in2BusinessCard/in2BuisnessCard.template.html') // template with card's appearance and behaviour
+        };
+    };
+})();
+(function () {
+    'use strict';
+
     angular.module('in2.playground.accordion.controller', [])
         .controller('in2AccordionController', AccordionCtrl);
 
@@ -28535,7 +28587,7 @@ var minlengthDirective = function() {
     'use strict';
 
     angular.module('in2.playground.accordion.item.controller', [])
-    .controller('in2AccordionItemController', AccordionItemCtrl);
+        .controller('in2AccordionItemController', AccordionItemCtrl);
 
     AccordionItemCtrl.$inject = [];
 
@@ -28609,56 +28661,7 @@ var minlengthDirective = function() {
 (function () {
     'use strict';
 
-    angular.module('in2.playground.businesscard.controller', [])
-        .controller("in2BusinessCardController", BuisnessCardCtrl);
-
-    BuisnessCardCtrl.$inject = [];
-
-    function BuisnessCardCtrl() {
-        var my = this;
-
-        my.frontSide;
-
-        my.getFrontSide = getFrontSide;
-        
-        function getFrontSide() {
-            if (my.frontSide === false)
-                return false;
-            else
-                return true;
-        };
-    };
-})();
-(function () {
-    'use strict';
-
-    angular.module('in2.playground.businesscard', ['templates', 'in2.playground.businesscard.controller'])
-        .directive('in2BusinessCard', BuisnessCardDirective);
-
-    BuisnessCardDirective.$inject = ['$templateCache'];
-
-    // directive that creates a virtual buisness card and binds it to a controller
-    // it has two sides and can be flipped when clicked on
-    function BuisnessCardDirective($templateCache) {
-        return {
-            scope: {
-                company: '@',   // simple binding
-                fullName: '@',  // simple binding
-                position: '@',  // simple binding
-                image: '@', // simple binding
-                frontSide: '='  // two-way binding
-            },            
-            controller: 'in2BusinessCardController',    // controller to bind the service to
-            controllerAs: 'ctrl',   // controller name
-            bindToController: true, // declare binding to controller
-            template: $templateCache.get('in2BusinessCard/in2BuisnessCardTemplate.html') // template with card's appearance and behaviour
-        };
-    };
-})();
-(function () {
-    'use strict';
-
-    angular.module('in2.playground')
+    angular.module('in2.playground.formatting.controller', [])
         .controller('in2FormattingController', FormattingCtrl);
 
     FormattingCtrl.$inject = ['in2Formatting'];
@@ -28674,7 +28677,7 @@ var minlengthDirective = function() {
 (function () {
     'use strict';
 
-    angular.module('in2.playground')
+    angular.module('in2.playground.formatting', ['in2.playground.formatting.controller'])
         .factory('in2Formatting', format);
 
     format.$inject = [];
@@ -28810,7 +28813,7 @@ var minlengthDirective = function() {
 (function () {
     'use strict';
 
-    angular.module('in2.playground')
+    angular.module('in2.playground.pad.controller', [])
         .controller("in2PadController", PadCtrl);
         
     PadCtrl.$inject = [];
@@ -28824,7 +28827,7 @@ var minlengthDirective = function() {
 (function () {
     'use strict';
 
-    angular.module('in2.playground')
+    angular.module('in2.playground.pad', ['in2.playground.pad.controller'])
         .filter('in2Pad', Pad);
 
     Pad.$inject = [];
@@ -28856,7 +28859,7 @@ var minlengthDirective = function() {
                 throw 'Invalid input - \'' + padCharacter + '\' is not a single character';  // throw exception if padding character is not a single character
             }
 
-            paddedText = applyPadding(paddedText, minimumLength, padCharacter); // call function for character padding
+            paddedText = applyPadding('' + paddedText, minimumLength, padCharacter); // call function for character padding
 
             return paddedText;
         };
@@ -29099,9 +29102,9 @@ var minlengthDirective = function() {
   
   
 })();
-angular.module("templates", []).run(["$templateCache", function($templateCache) {$templateCache.put("comment/comment.html","<div class=\"in2 comment\">\r\n  <div class=\"metadata\">\r\n    <span class=\"author\">{{comment.username}}</span>\r\n    <span class=\"time\">{{comment.time | date:\'dd.MM.yyyy HH:mm\'}}</span>\r\n  </div>\r\n  <div class=\"text\">\r\n    {{comment.text}}\r\n  </div>\r\n  <div class=\"toolbar\">\r\n    <span class=\"like button\" ng-click=\"comment.like()\">Like</span>\r\n    <span class=\"like counter\">{{comment.likes}}</span>\r\n  </div>\r\n</div>");
-$templateCache.put("in2Accordion/in2Accordion.template.html","<style>\r\n    .accordion {\r\n        width: 40em;\r\n        height: auto;\r\n        border: 1px solid gray;\r\n        border-radius: 10px;\r\n        margin-top: 2em;        \r\n        overflow-wrap: break-word;                \r\n    }\r\n\r\n    .accordionItem {        \r\n        border: 1px solid gray;\r\n        border-radius: 10px;\r\n        overflow-wrap: break-word;\r\n        padding: 0.2em;        \r\n        margin-right: 0.5em;\r\n    }\r\n\r\n    .accordionTitle {\r\n        padding-left: 0.4em;\r\n    }\r\n\r\n    .accordionItemVisible {  \r\n        display: normal;\r\n        padding: 0.2em;\r\n    }\r\n\r\n    .accordionItemHidden {        \r\n        display: none;\r\n    }\r\n</style>\r\n\r\n\r\n<div class=\"accordion\">\r\n    <h1 class=\"accordionTitle\">{{title}}</h1>\r\n    <ul>\r\n        <ng-transclude></ng-transclude>\r\n    </ul>\r\n</div>");
+angular.module("templates", []).run(["$templateCache", function($templateCache) {$templateCache.put("comment/comment.html","<div class=\"in2 comment\">\n  <div class=\"metadata\">\n    <span class=\"author\">{{comment.username}}</span>\n    <span class=\"time\">{{comment.time | date:\'dd.MM.yyyy HH:mm\'}}</span>\n  </div>\n  <div class=\"text\">\n    {{comment.text}}\n  </div>\n  <div class=\"toolbar\">\n    <span class=\"like button\" ng-click=\"comment.like()\">Like</span>\n    <span class=\"like counter\">{{comment.likes}}</span>\n  </div>\n</div>");
+$templateCache.put("in2Accordion/in2Accordion.template.html","<div class=\"accordion\">\r\n    <h1 class=\"accordionTitle\">{{title}}</h1>\r\n    <ul>\r\n        <ng-transclude></ng-transclude>\r\n    </ul>\r\n</div>\r\n\r\n<style>\r\n    .accordion {\r\n        width: 40em;\r\n        height: auto;\r\n        border: 1px solid gray;\r\n        border-radius: 10px;\r\n        margin-top: 2em;        \r\n        overflow-wrap: break-word;                \r\n    }\r\n\r\n    .accordionItem {        \r\n        border: 1px solid gray;\r\n        border-radius: 10px;\r\n        overflow-wrap: break-word;\r\n        padding: 0.2em;        \r\n        margin-right: 0.5em;\r\n    }\r\n\r\n    .accordionTitle {\r\n        padding-left: 0.4em;\r\n    }\r\n\r\n    .accordionItemVisible {  \r\n        display: normal;\r\n        padding: 0.2em;\r\n    }\r\n\r\n    .accordionItemHidden {        \r\n        display: none;\r\n    }\r\n</style>");
 $templateCache.put("in2Accordion/in2AccordionItem.template.html","<li class=\"accordionItem\">\r\n    <h3 ng-click=\"accordionItemCtrl.initializeAccordionItems(parentArray); accordionItemCtrl.openTabWithId($id);\" ng-init=\"myClass = \'accordionItemHidden\';\">{{accordionItemCtrl.title}}</h3>\r\n    <div ng-class=\"myClass\">\r\n        <ng-transclude></ng-transclude>\r\n    </div>\r\n</li>");
-$templateCache.put("in2BusinessCard/in2BuisnessCardTemplate.html","<style>\r\n    .buisnessCard {\r\n        border: 1px solid black;\r\n        width: 20em;\r\n        height: 10em;\r\n        font-family: Verdana, Cursive;        \r\n    }\r\n\r\n    .buisnessCardFront {\r\n        width: 100%;\r\n        height:100%;\r\n        text-align: left;\r\n    }\r\n\r\n    .buisnessCardFrontLogo {\r\n        float:right;\r\n        width: 25%;\r\n    }\r\n\r\n    .buisnessCardBack {\r\n        width: 100%;\r\n        height:100%;\r\n        text-align: center;\r\n    }\r\n\r\n    .buisnessCardBackLogo {        \r\n        width: 40%;\r\n    }\r\n\r\n</style>\r\n\r\n<div ng-click=\"front = !front\" ng-init=\"front = ctrl.getFrontSide()\">\r\n<div ng-switch on=\"front\">\r\n    <div ng-switch-when=\"true\">        \r\n        <div class=\"buisnessCard\">\r\n            <table class=\"buisnessCardFront\">\r\n                <tr>\r\n                    <td>\r\n                        <img class=\"buisnessCardFrontLogo\" ng-src=\"{{ctrl.image}}\"/>\r\n                    </td>\r\n                </tr>\r\n                <tr>\r\n                    <td>{{ctrl.fullName}}</td>\r\n                </tr>\r\n                <tr>\r\n                    <td>{{ctrl.company}}</td>\r\n                </tr>\r\n                <tr>\r\n                    <td>{{ctrl.position}}</td>\r\n                </tr>\r\n            </table>            \r\n        </div>       \r\n    </div>\r\n    <div ng-switch-when=\"false\">    \r\n        <div class=\"buisnessCard\" >\r\n            <table class=\"buisnessCardBack\">\r\n                <tr>\r\n                    <td>\r\n                        <img class=\"buisnessCardBackLogo\" ng-src=\"{{ctrl.image}}\"/>\r\n                    </td>\r\n                </tr>\r\n                <tr>\r\n                    <td>Have a nice day</td>\r\n                </tr>            \r\n            </table>            \r\n        </div>\r\n    </div>\r\n</div>\r\n</div>");
+$templateCache.put("in2BusinessCard/in2BuisnessCard.template.html","<div ng-click=\"front = !front\" ng-init=\"front = ctrl.getFrontSide()\">\r\n    <div ng-switch on=\"front\">\r\n        <div ng-switch-when=\"true\">        \r\n            <div class=\"buisnessCard\">\r\n                <table class=\"buisnessCardFront\">\r\n                    <tr>\r\n                        <td>\r\n                            <img class=\"buisnessCardFrontLogo\" ng-src=\"{{ctrl.image}}\"/>\r\n                        </td>\r\n                    </tr>\r\n                    <tr>\r\n                        <td>{{ctrl.fullName}}</td>\r\n                    </tr>\r\n                    <tr>\r\n                        <td>{{ctrl.company}}</td>\r\n                    </tr>\r\n                    <tr>\r\n                        <td>{{ctrl.position}}</td>\r\n                    </tr>\r\n                </table>            \r\n            </div>       \r\n        </div>\r\n        <div ng-switch-when=\"false\">    \r\n            <div class=\"buisnessCard\" >\r\n                <table class=\"buisnessCardBack\">\r\n                    <tr>\r\n                        <td>\r\n                            <img class=\"buisnessCardBackLogo\" ng-src=\"{{ctrl.image}}\"/>\r\n                        </td>\r\n                    </tr>\r\n                    <tr>\r\n                        <td>Have a nice day</td>\r\n                    </tr>            \r\n                </table>            \r\n            </div>\r\n        </div>\r\n    </div>\r\n</div>\r\n\r\n<style>\r\n    .buisnessCard {\r\n        border: 1px solid black;\r\n        width: 20em;\r\n        height: 10em;\r\n        font-family: Verdana, Cursive;        \r\n    }\r\n\r\n    .buisnessCardFront {\r\n        width: 100%;\r\n        height:100%;\r\n        text-align: left;\r\n    }\r\n\r\n    .buisnessCardFrontLogo {\r\n        float:right;\r\n        width: 25%;\r\n    }\r\n\r\n    .buisnessCardBack {\r\n        width: 100%;\r\n        height:100%;\r\n        text-align: center;\r\n    }\r\n\r\n    .buisnessCardBackLogo {        \r\n        width: 40%;\r\n    }\r\n\r\n</style>");
 $templateCache.put("tabbed/tab.html","<div class=\"tab body\" ng-show=\"tabs.tabs[name].active\" ng-transclude></div>");
-$templateCache.put("tabbed/tabs.html","<div class=\"in2 tabs\">\r\n  <div class=\"headers\">\r\n    <span class=\"header\" ng-class=\"{\'active\' : status.active}\" ng-repeat=\"(tab,status) in tabs.tabs\" ng-click=\"tabs.activate(tab)\">\r\n      {{tab}}\r\n    </span>\r\n  </div>\r\n  <div class=\"panel\" ng-transclude>\r\n  \r\n  </div>\r\n</div>");}]);
+$templateCache.put("tabbed/tabs.html","<div class=\"in2 tabs\">\n  <div class=\"headers\">\n    <span class=\"header\" ng-class=\"{\'active\' : status.active}\" ng-repeat=\"(tab,status) in tabs.tabs\" ng-click=\"tabs.activate(tab)\">\n      {{tab}}\n    </span>\n  </div>\n  <div class=\"panel\" ng-transclude>\n  \n  </div>\n</div>");}]);

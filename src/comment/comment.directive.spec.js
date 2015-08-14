@@ -5,8 +5,7 @@ describe('comment directive', function() {
   beforeEach(module('templates')); //Important! Won't pass if we don't include the templates!
   
   beforeEach(inject(function(_$rootScope_, _$compile_) {    
-    var scope = _$rootScope_.$new();
-    scope.text = 'a short text';
+    var scope = _$rootScope_.$new();    
     scope.time = new Date(2015, 10, 2, 10, 30);
     scope.afterLike = function() {};
     

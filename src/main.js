@@ -12,7 +12,10 @@
     'in2.playground.comment',
     'in2.playground.example',
     'in2.playground.accordion',
-    'in2.playground.businesscard'
+    'in2.playground.accordion.item',
+    'in2.playground.businesscard',
+    'in2.playground.pad',
+    'in2.playground.formatting'
   ]);
   
   

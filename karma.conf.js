@@ -17,6 +17,7 @@ module.exports = function(config) {
       'dev/js/angular.js',
       'dev/js/angular-mocks.js',
       'dev/js/templates.js',
+	  'dev/js/jquery-2.1.4.js',
       'src/**/*.js',
       'src/**/*.html' //Template files (must be preprocessed)
     ],
@@ -63,7 +64,7 @@ module.exports = function(config) {
 
     // start these browsers
     // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
-    browsers: ['PhantomJS', 'Chrome', 'Firefox', 'IE', 'Safari', 'Opera'],
+    browsers: ['PhantomJS', 'Chrome', 'Firefox', 'IE'],//, 'Safari', 'Opera'],
     
     plugins: [
       'karma-jasmine',

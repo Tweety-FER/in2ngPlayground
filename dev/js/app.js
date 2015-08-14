@@ -12,7 +12,10 @@
     'in2.playground.comment',
     'in2.playground.example',
     'in2.playground.accordion',
-    'in2.playground.businesscard'
+    'in2.playground.accordion.item',
+    'in2.playground.businesscard',
+    'in2.playground.pad',
+    'in2.playground.formatting'
   ]);
   
   
@@ -116,6 +119,55 @@
 (function () {
     'use strict';
 
+    angular.module('in2.playground.businesscard.controller', [])
+        .controller("in2BusinessCardController", BuisnessCardCtrl);
+
+    BuisnessCardCtrl.$inject = [];
+
+    function BuisnessCardCtrl() {
+        var my = this;
+
+        my.frontSide;
+
+        my.getFrontSide = getFrontSide;
+        
+        function getFrontSide() {
+            if (my.frontSide === false)
+                return false;
+            else
+                return true;
+        };
+    };
+})();
+(function () {
+    'use strict';
+
+    angular.module('in2.playground.businesscard', ['templates', 'in2.playground.businesscard.controller'])
+        .directive('in2BusinessCard', BuisnessCardDirective);
+
+    BuisnessCardDirective.$inject = ['$templateCache'];
+
+    // directive that creates a virtual buisness card and binds it to a controller
+    // it has two sides and can be flipped when clicked on
+    function BuisnessCardDirective($templateCache) {
+        return {
+            scope: {
+                company: '@',   // simple binding
+                fullName: '@',  // simple binding
+                position: '@',  // simple binding
+                image: '@', // simple binding
+                frontSide: '='  // two-way binding
+            },            
+            controller: 'in2BusinessCardController',    // controller to bind the service to
+            controllerAs: 'ctrl',   // controller name
+            bindToController: true, // declare binding to controller
+            template: $templateCache.get('in2BusinessCard/in2BuisnessCard.template.html') // template with card's appearance and behaviour
+        };
+    };
+})();
+(function () {
+    'use strict';
+
     angular.module('in2.playground.accordion.controller', [])
         .controller('in2AccordionController', AccordionCtrl);
 
@@ -169,7 +221,7 @@
     'use strict';
 
     angular.module('in2.playground.accordion.item.controller', [])
-    .controller('in2AccordionItemController', AccordionItemCtrl);
+        .controller('in2AccordionItemController', AccordionItemCtrl);
 
     AccordionItemCtrl.$inject = [];
 
@@ -243,56 +295,7 @@
 (function () {
     'use strict';
 
-    angular.module('in2.playground.businesscard.controller', [])
-        .controller("in2BusinessCardController", BuisnessCardCtrl);
-
-    BuisnessCardCtrl.$inject = [];
-
-    function BuisnessCardCtrl() {
-        var my = this;
-
-        my.frontSide;
-
-        my.getFrontSide = getFrontSide;
-        
-        function getFrontSide() {
-            if (my.frontSide === false)
-                return false;
-            else
-                return true;
-        };
-    };
-})();
-(function () {
-    'use strict';
-
-    angular.module('in2.playground.businesscard', ['templates', 'in2.playground.businesscard.controller'])
-        .directive('in2BusinessCard', BuisnessCardDirective);
-
-    BuisnessCardDirective.$inject = ['$templateCache'];
-
-    // directive that creates a virtual buisness card and binds it to a controller
-    // it has two sides and can be flipped when clicked on
-    function BuisnessCardDirective($templateCache) {
-        return {
-            scope: {
-                company: '@',   // simple binding
-                fullName: '@',  // simple binding
-                position: '@',  // simple binding
-                image: '@', // simple binding
-                frontSide: '='  // two-way binding
-            },            
-            controller: 'in2BusinessCardController',    // controller to bind the service to
-            controllerAs: 'ctrl',   // controller name
-            bindToController: true, // declare binding to controller
-            template: $templateCache.get('in2BusinessCard/in2BuisnessCardTemplate.html') // template with card's appearance and behaviour
-        };
-    };
-})();
-(function () {
-    'use strict';
-
-    angular.module('in2.playground')
+    angular.module('in2.playground.formatting.controller', [])
         .controller('in2FormattingController', FormattingCtrl);
 
     FormattingCtrl.$inject = ['in2Formatting'];
@@ -308,7 +311,7 @@
 (function () {
     'use strict';
 
-    angular.module('in2.playground')
+    angular.module('in2.playground.formatting', ['in2.playground.formatting.controller'])
         .factory('in2Formatting', format);
 
     format.$inject = [];
@@ -444,7 +447,7 @@
 (function () {
     'use strict';
 
-    angular.module('in2.playground')
+    angular.module('in2.playground.pad.controller', [])
         .controller("in2PadController", PadCtrl);
         
     PadCtrl.$inject = [];
@@ -458,7 +461,7 @@
 (function () {
     'use strict';
 
-    angular.module('in2.playground')
+    angular.module('in2.playground.pad', ['in2.playground.pad.controller'])
         .filter('in2Pad', Pad);
 
     Pad.$inject = [];
@@ -490,7 +493,7 @@
                 throw 'Invalid input - \'' + padCharacter + '\' is not a single character';  // throw exception if padding character is not a single character
             }
 
-            paddedText = applyPadding(paddedText, minimumLength, padCharacter); // call function for character padding
+            paddedText = applyPadding('' + paddedText, minimumLength, padCharacter); // call function for character padding
 
             return paddedText;
         };

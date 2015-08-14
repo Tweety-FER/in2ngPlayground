@@ -1,7 +1,7 @@
 ﻿(function () {
     'use strict';
 
-    angular.module('in2.playground')
+    angular.module('in2.playground.formatting', ['in2.playground.formatting.controller'])
         .factory('in2Formatting', format);
 
     format.$inject = [];

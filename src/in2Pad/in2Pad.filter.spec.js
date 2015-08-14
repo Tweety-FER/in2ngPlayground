@@ -2,7 +2,7 @@
     var $filter,
       pad;
 
-    beforeEach(module('in2.playground'));
+    beforeEach(module('in2.playground.pad'));
 
     beforeEach(inject(function (_$filter_) {
         $filter = _$filter_;

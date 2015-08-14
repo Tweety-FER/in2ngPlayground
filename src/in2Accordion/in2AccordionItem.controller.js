@@ -2,7 +2,7 @@
     'use strict';
 
     angular.module('in2.playground.accordion.item.controller', [])
-    .controller('in2AccordionItemController', AccordionItemCtrl);
+        .controller('in2AccordionItemController', AccordionItemCtrl);
 
     AccordionItemCtrl.$inject = [];
 

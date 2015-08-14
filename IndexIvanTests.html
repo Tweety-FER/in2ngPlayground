@@ -9,12 +9,11 @@
     <body ng-app="in2.playground">
         <div ng-controller="in2FormattingController as formatCtrl">
             <h1>{{formatCtrl.test}}</h1>
-        </div>    
-    
+        </div>
+           
         <div ng-controller="in2PadController as padCtrl">
             <h1>{{padCtrl.text | in2Pad:15:'!'}}</h1>
         </div>
-
         <div>
             <in2-business-card company="IN2" full-name="Ivan Rep" position="Senior Minion" image="https://pbs.twimg.com/profile_images/557113121748160513/opy8TCJe.png"></in2-business-card>
         </div>
@@ -30,7 +29,7 @@
                 <in2-accordion-item title="How do I write one?">
                     Just mash on the keyboard until something happens
                 </in2-accordion-item>
-            </in2-accordion>
+            </in2-accordion>            
         </div>
     </body>
 </html>
