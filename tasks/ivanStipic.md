@@ -38,11 +38,12 @@ As stated, include comments, unit tests, an example and provide a brief descript
 ###Description:
 
 [`in2Formatting`](https://github.com/Tweety-FER/in2ngPlayground/blob/master/src/in2Formatting/in2Formatting.service.js) is a factory with a single function - format. Format takes a string from the input and returns formatted string in which the special characters patterns are replaced by html tags in the following way:
+
 	-  `**some content**` is replaced by `<b>some content</b>`
 	-   `*some content*` is replaced by `<i>some content</i>`
 	-	`#some content#` is replaced by `<code>some content</code>`
 
-Format function consists of three methods, `checkForBold(text)`, `checkForItalic(text)` and `checkForCode(text)`, one for each special character pattern. Each method searches through input string's elements one-by-one until it finds a special character it is looking for(**, * or #). Once found, the method saves it's position in a string to a variable named formatStartPosition. It then continues the search for second special character. If it isn't found, function finishes and returns unchanged string. If second special character is found, the method saves it's position in a string to a variable named formatEndPosition. Since a pair of special characters have been found, they are replaced by matching HTML tags.
+Format function consists of three methods, `checkForBold(text)`, `checkForItalic(text)` and `checkForCode(text)`, one for each special character pattern. Each method searches through input string's elements one-by-one until it finds a special character it is looking for(`**`, `*` or `#`). Once found, the method saves it's position in a string to a variable named `formatStartPosition`. It then continues the search for second special character. If it isn't found, function finishes and returns unchanged string. If second special character is found, the method saves it's position in a string to a variable named `formatEndPosition`. Since a pair of special characters have been found, they are replaced by matching HTML tags.
 
 This is done with `replaceBold/Italic/Code` methods which replace a first pair of matching special characters with HTML tags. After first pair of matching special characters has been replaced, `formatStartPosition` and `formatEndPosition` variables are reset to -1. This is done so that the search can continue from the position at which the last special character was replaced. The process repeats until the search through the entire input string has finished three times, once for each special character pattern.
 
@@ -66,7 +67,7 @@ Some examples:
 
 As stated, include comments, unit tests, an example and provide a brief description below.
 
-Description:
+###Description:
 
 [`in2Pad`](https://github.com/Tweety-FER/in2ngPlayground/blob/master/src/in2Pad/in2Pad.filter.js) is a filter which applies padding function on a string based on two input parameters:
 
@@ -76,6 +77,7 @@ Description:
 Filter adds padding characters to the beginning of the input string until string length reaches minumum length.
 
 Function `pad()` makes sure all input arguments are correctly defined in the following way:
+
 	- If `minimumPaddedTextLength` isn't defined, it will throw an exception stating that it cannot be undefined
 	- If `paddingCharacter` isn't defined, it's value is set to default value of '0'.
 	- If `paddingCharacter` is set to any type other than string, it will throw an exception stating that it must be a single character string.
@@ -104,18 +106,19 @@ As stated, include comments, unit tests, an example and provide a brief descript
 ###Description:
 
 [`in2BuisnessCard`](https://github.com/Tweety-FER/in2ngPlayground/blob/master/src/in2BusinessCard/in2BusinessCard.directive.js) is a directive that implements a virtual buisness card. It represents a real buisness card and has two sides. The front side has company's logo, company's name, and employee's name and position. The back side has larger version of logo and motivational message. Those variables are binded to the directive's scope in the following way:
+	
 	- `company`, `fullName`, `position` and `image` using simple binding
 	- `frontSide` using two-way binding; it represents the side the card is first turned on, default: true
 
 The directive is binded to the controller [`in2BusinessCardController`](https://github.com/Tweety-FER/in2ngPlayground/blob/master/src/in2BusinessCard/in2BusinessCard.controller.js).
-The card's appearance and behaviour is defined with html file - [`in2BuisnessCard.html`](https://github.com/Tweety-FER/in2ngPlayground/blob/master/src/in2BusinessCard/in2BuisnessCard.html).
+The card's appearance and behaviour is defined with html file [`in2BuisnessCard.html`](https://github.com/Tweety-FER/in2ngPlayground/blob/master/src/in2BusinessCard/in2BuisnessCard.html).
 The card can be flipped by clicking on it, which is defined with `ng-click` directive inside html template. It takes `frontSide` attribute from controller and changes it's value on every click. That values are then used in `ng-switch` directive which selects front or back side of the card, depending on the switched attribute value.
 
 The directive is used by using it's name as a html element in the following way:
 
-'''html
+```html
 <in2-business-card company="IN2" full-name="Ivan Rep" position="Senior Minion", image="https://pbs.twimg.com/profile_images/557113121748160513/opy8TCJe.png"></in2-business-card>
-'''
+```
 
 Upon loading the webpage, `<in2-business-card>` is replaced with the [`in2BuisnessCard.html`](https://github.com/Tweety-FER/in2ngPlayground/blob/master/src/in2BusinessCard/in2BuisnessCard.html) defined in the template as a new element.
 
@@ -143,6 +146,7 @@ As stated, include comments, unit tests, an example and provide a brief descript
 
 [`in2Accordion`](https://github.com/Tweety-FER/in2ngPlayground/blob/master/src/in2Accordion/in2Accordion.directive.js) is a transcluded directive which also contains nested child transcluded directives called [`in2AccordionItem`](https://github.com/Tweety-FER/in2ngPlayground/blob/master/src/in2Accordion/in2AccordionItem.directive.js).
 It can be used in the following way:
+
 	```html
 	<in2-accordion>
 	  <in2-accordion-item title="What are directives?">
@@ -158,4 +162,5 @@ It can be used in the following way:
 	```
 It uses controller [`in2AccordionController`](https://github.com/Tweety-FER/in2ngPlayground/blob/master/src/in2Accordion/in2Accordion.controller.js) to store and return transcluded accorion item elements. It gets it's appearance from template [`in2Accordion.template.html`](https://github.com/Tweety-FER/in2ngPlayground/blob/master/src/in2Accordion/in2Accordion.template.html).
 
-Accordion items are defined by [`in2AccordionItem`](https://github.com/Tweety-FER/in2ngPlayground/blob/master/src/in2Accordion/in2AccordionItem.directive.js) directive, which has requirement for in2Accordion parent element. It is also a transcluded directive which contains it's text as a transcluded element. It is linked to parent's controller so it could have access to array of all items. This is required so it's controller can open selected item, while closing all others at the same time. All items are initially closed, and clicking on one of them opens it, while closing all others in the process. On first click on any item, its controller initializes its `accordionItems` array with data from all the items. This enables opening and closing of any array from any item's instance of [`in2AccordionItemController`](https://github.com/Tweety-FER/in2ngPlayground/blob/master/src/in2Accordion/in2AccordionItem.controller.js).
+Accordion items are defined by [`in2AccordionItem`](https://github.com/Tweety-FER/in2ngPlayground/blob/master/src/in2Accordion/in2AccordionItem.directive.js) directive, which has requirement for in2Accordion parent element. It is also a transcluded directive which contains it's text as a transcluded element. It is linked to parent's controller so it could have access to array of all items. This is required so it's controller can open selected item, while closing all others at the same time.
+All items are initially closed, and clicking on one of them opens it, while closing all others in the process. On first click on any item, its controller initializes its `accordionItems` array with data from all the items. This enables opening and closing of any array from any item's instance of [`in2AccordionItemController`](https://github.com/Tweety-FER/in2ngPlayground/blob/master/src/in2Accordion/in2AccordionItem.controller.js).
