@@ -1,6 +1,7 @@
 # Expressions
 
 Angular expressions are used by placing them in curly brackets, such as `{{ expression }}`. Functionally, they are almost the same as the expressions used in JavaScript, but they have a few important differences:
+	
 	-	Angular expressions are evaluated against a scope object, while JavaScript ones are evaluated against the global window object
 	-	Angular expressions can evaluate even if the result of their evaluation is `undefined` or `null`, while trying to do the same in JavaScript would result in `ReferenceError` or `TypeError`
 	-	Angular expressions can't use conditionals, loops and exceptions, and can't be used for function declarations
@@ -62,4 +63,4 @@ which will evaluate as:
   Expression that evaluates as false: Result after colon
 ```
 
-For more thorough information about expressions, you can visit official [`Angular documentation`](https://docs.angularjs.org/guide/expression). If you feel you have a good enough understanding of Angular expressions, continue to the next stop of your Angular journey - [`controllers`](https://github.com/Tweety-FER/in2ngPlayground/blob/master/tutorial/angular/controllers.md).
+For more thorough information about expressions, you can visit official [`Angular documentation`](https://docs.angularjs.org/guide/expression). If you feel you have a good enough understanding of Angular expressions, you can continue to the next stop of your Angular journey - [`controllers`](https://github.com/Tweety-FER/in2ngPlayground/blob/master/tutorial/angular/controllers.md).
