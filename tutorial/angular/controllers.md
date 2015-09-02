@@ -22,9 +22,9 @@ This can look a bit confusing at first, so let's break it down a little and expl
 In line 1, the module `tutorial` is selected as a source on which a new controller will be added.
 Line 2 has several things happening at once:
 
-	-  .controller() method creates a new controller
-	-  It’s first parameter `tutorialController1` is the name of the controller
-	-  Second parameter is a list of injected parameters written inside of square brackets. The last parameter in that list is a controller’s constructor function which defines its child scope.
+  -  .controller() method creates a new controller
+  -  It’s first parameter `tutorialController1` is the name of the controller
+  -  Second parameter is a list of injected parameters written inside of square brackets. The last parameter in that list is a controller’s constructor function which defines its child scope.
 
 Line 3 defines a new string variable named `hello` on its child scope. This variable, and any others defined inside child scope, is visible only inside the HTML element the controller `tutorialController1` is attached to.
 
