@@ -24,7 +24,7 @@ function DateTimeFactory() {
 };
 ```
 
-Factory is created by using `factory()` method on the `tutorial` module. The first argument, `dateTimeFactory`, is the name of the factory, while the second one, `DateTimeFactory`, is the factory function. This function can take zero or more arguments and must return exactly one object or function. In this example, factory function doesn’t take any elements and returns an object `dateTime`. It is an object which contains two functions, `date()` and `time()`, which return current date and time respectively. In order to use it, factory has to be injected into some other component. Since it is not a part of a root scope, we must inject it into a controller if we want to use its factory function. To do this, we will create a new controller and inject `dateTimeFactory` in it:
+Factory is created by using `factory()` method on the `tutorial` module. The first argument, `dateTimeFactory`, is the name of the factory, while the second one, `DateTimeFactory`, is the factory function. This function can take zero or more arguments and must return exactly one object or function. In this example, factory function doesn’t take any elements and returns an object `dateTime`. It is an object which contains two functions, `date()` and `time()`, which return current date and time respectively. In order to use it, factory has to be injected into some other component. Since it is not a part of a root scope, we can gain access to its factory function by injecting it into a controller. To do this, we will create a new controller and inject `dateTimeFactory` into it:
 
 ```javascript
 angular.module('tutorial')
@@ -79,15 +79,16 @@ RectangleAreaController.$inject = ['rectangleAreaFactory'];
 function RectangleAreaController (rectangleAreaFactory) {
     var my = this;
     my.area = rectangleAreaFactory(4, 5);
+};
 ```
 
 Since factory returns a function, we use it as one. We need to give it lengths of rectangle’s sides as two arguments from which it will calculate rectangle’s area and return it. We can save this value into a variable, which can then be used inside the element the controller is attached to:
 
 ```html
 <div ng-controller="dateTimeController as dtCtrl">
-<p>Area of rectangle with sides 4 and 5 is: {{ dtCtrl.area}}</p>
+	<p>Area of rectangle with sides 4 and 5 is: {{ dtCtrl.area}}</p>
 </div>
 ```
 
 When the page loads, Angular expression evaluates correctly and displays the value of 20 in its place.
-With this example we end our tutorial on factories. For more information about the subject, you can visit official Angular documentation on [services]( https://docs.angularjs.org/guide/services) and [providers]( https://docs.angularjs.org/guide/providers). When you feel ready to continue, check out our next step of our tutorial – we’re talking about [filters]( https://github.com/Tweety-FER/in2ngPlayground/blob/master/tutorial/angular/filters.md).
+With this example we end our tutorial on factories. For more information about the subject, you can visit official Angular documentation on [services]( https://docs.angularjs.org/guide/services) and [providers]( https://docs.angularjs.org/guide/providers). When you feel ready to continue, check out the next step of our tutorial, where we’re talking about [filters]( https://github.com/Tweety-FER/in2ngPlayground/blob/master/tutorial/angular/filters.md).
