@@ -1,6 +1,7 @@
 # Controllers
 
-Angular controller is used to augment the Angular scope. While Angular has a root scope that is accessible from anywhere inside the application, controller can be used to create its own child scope which is appended to the root scope and is visible only inside the element the controller is attached to. Attaching the controller to the element is done by using ngController directive.
+Angular controllers are used to augment angular by providing scoping and serving as isolated containers of values and functionalities. The entire application has access to the application root scope, but controllers can be used to create child scopes, forming a tree-like structure of scopes. A child scope and all of its values are only available in the HTML element the scope is attached to and its child elements and scopes. Attaching the controller to the element is done by using ngController directive.
+
 Let's see how this works in practice. First, we need to create a controller. There are several ways to do this, and we will show you 3 of them. We will assume that `Tutorial` module is already defined. If it isn’t, this can be done with:
 
 ```javascript
@@ -9,7 +10,7 @@ angular.module('tutorial', []);
 
 ### Official syntax
 
-The first way to create the controller is by using the official syntax:
+The first way to create the controller is by using the "official" syntax seen in the official Angular tutorial:
 
 ```javascript
 1	angular.module('tutorial')
@@ -19,14 +20,14 @@ The first way to create the controller is by using the official syntax:
 ```
 
 This can look a bit confusing at first, so let's break it down a little and explain what is going on.
-In line 1, the module `tutorial` is selected as a source on which a new controller will be added.
+In line 1, the module `tutorial` is selected as a source on which a new controller will be added (note that it is a module *getter*, not a module *setter*).
 Line 2 has several things happening at once:
 
   -  `.controller()` method creates a new controller
-  -  It’s first parameter `tutorialController1` is the name of the controller
-  -  Second parameter is a list of injected parameters written inside of square brackets. The last parameter in that list is a controller’s constructor function which defines its child scope.
+  -  Its first parameter `tutorialController1` is the name of the controller
+  -  The second parameter is a function with a list of its dependencies. As seen in a previous chapter, we can use elements defined elsewhere, but we need to inject them. Angular does this by name, so to preserve the name list for javascript minification, we need the list the names of the injected objects in the array. The last parameter in that array is the controller's constructor, which receives the injected values in the same orders that they are listed in as the preceding values of the arary.
 
-Line 3 defines a new string variable named `hello` on its child scope. This variable, and any others defined inside child scope, is visible only inside the HTML element the controller `tutorialController1` is attached to.
+Line 3 defines a new string variable named `hello` on its own scope. This variable, and any others defined inside the scope, is visible only inside the HTML element the controller `tutorialController1` is attached to and its children.
 
 A controller is attached to the HTML element using ngController directive in the following way:
 
@@ -36,7 +37,7 @@ A controller is attached to the HTML element using ngController directive in the
 </div>
 ```
 
-This creates a div with a `tutorialController1` attached to it, which means that its child scope can be used inside the element. This enables us to access variable `hello` defined inside controller’s child scope and use it as a part of an Angular expression. On loading of HTML document, it evaluates as:
+This creates a div with a `tutorialController1` attached to it, which means that its child scope can be used inside the element. This enables us to access variable `hello` defined inside controller’s child scope and use it as a part of an Angular expression. After the HTML page is loaded and the angular expressions are compiled, we get the following:
 
 ```html
 Trying to access child scope: Hello, I'm talking from the inside of tutorial controller 1
@@ -44,7 +45,7 @@ Trying to access child scope: Hello, I'm talking from the inside of tutorial con
 
 ### Using named function and $scope
 
-The second way to create the controller is functionally the same as the first one, but the syntax is much more readable and understandable. The most difficult part to understand about the official syntax is the line 2 in the previous example. That is why we will break it in several parts to make it much clearer. It is done in the following way:
+The second way to create the controller is functionally the same as the first one, but the syntax is much more readable and understandable. We break it into several parts to make it much clearer. It is done in the following way:
 
 ```javascript
 angular.module('tutorial')
@@ -61,7 +62,7 @@ The list of injected parameters is replaced by named function ` TutorialControll
 
 ### Using controllerAs syntax
 
-The third and the best way to create controller is by using controllerAs syntax. Using the first two ways, the controller’s child scope is appended to the root scope and is accessed in the same way as root scope – by using its variable or function names as part of an Angular expressions. This way, it can be unclear to which scope the variable belongs to. By using controllerAs syntax, we can give each controller’s child scope a name, which can avoid a lot of possible reference issues. It is done like this:
+The third and the best way to create controller is by using controllerAs syntax. Using the first two ways, the controller’s child scope is appended to the root scope and is accessed in the same way as root scope – by using its variable or function names as part of an Angular expressions. This way, it can be unclear to which scope the variable belongs to. By using controllerAs syntax, we can give each controller’s child scope a name, which can avoid a lot of possible reference issues. It is done like so:
 
 ```javascript
 angular.module('tutorial')
@@ -75,8 +76,7 @@ function TutorialController3() {
 };
 ```
 
-Instead of injecting and appending to root scope, we can access controller’s child scope by keyword `this`. Capturing it in a variable is optional but it is a good way to keep the context of the child scope, as using keyword `this` in a function inside the controller scope would change its context to scope of the function.
-We must also use controllerAs syntax when attaching the controller to the HTML element:
+Instead of injecting and appending to root scope, we can access controller’s scope via the keyword `this`. Capturing it in a variable is optional but it is a good way to keep the context of the child scope, as using keyword `this` changes context within function calls. When writing controller as this, we must use the controllerAs syntax when attaching the controller to an HTML element.
 
 ```html
 <div ng-controller="tutorialController3 as ctrl3">
