@@ -36,8 +36,8 @@ function TutorialFilterController() {
 };
 ```
 
-We will be performing tests on strings `firstName`, `lastName`, and `key`, number `balance`, and date `date`.
-The original display values, before using filters on them, can be displayed like this;
+We will be performing tests on the strings `firstName`, `lastName`, and `key`, the number `balance`, and the date `date`.
+The original display values, without using filters on them, can be displayed like this;
 
 ```html
 <div ng-controller="tutorialFilterController as filterCtrl">	
@@ -68,7 +68,7 @@ We can use filters to convert all string characters to uppercase or lowercase le
 <div ng-controller="tutorialFilterController as filterCtrl">	
     <p>First name formatted with uppercase filter: {{ filterCtrl.firstName | uppercase }}</p>
     <p>First name formatted with lowercase filter: {{ filterCtrl.firstName | lowercase }}</p>
-	<p>Original first name: {{ filterCtrl.firstName }}</p>
+    <p>Original first name: {{ filterCtrl.firstName }}</p>
     <p>Last name formatted with uppercase filter: {{ filterCtrl.lastName | uppercase }}</p>
     <p>Last name formatted with lowercase filter: {{ filterCtrl.lastName | lowercase }}</p>
     <p>Key formatted with uppercase filter: {{ filterCtrl.key | lowercase }}</p>  
@@ -87,7 +87,7 @@ Key formatted with uppercase filter: a45b_h7ts_hli8_1kgd
 ```
 
 As you can see, using different filters on the same variable only affects the way it is displayed and not the variable's actual value.
-Although we displayed first name in both uppercase and lowercase, displaying the original value after shows that it is still unchanged.
+Although we displayed the first name in both uppercase and lowercase, displaying the original value after shows that it is still unchanged.
 
 ### Number filter
 
@@ -198,10 +198,11 @@ function TutorialFilter(){
 };
 ```
 
-Custom filter is defined by using `filter()` method on a module on which it will be created on.
-This method takes two arguments, the first one `tutorialFilter` is filter's name, while the second one `TutorialFilter` is a filter factory function which must be defined in every filter.
-Filter factory function must return a function with at least one argument.
-The first argument is always a variable on which the filter will do custom formatting.
+A custom filter is defined by using the `filter()` method.
+This method takes two arguments, the first one, `tutorialFilter`, is the filter's name, while the second one, `TutorialFilter`, is a filter factory function.
+The filter factory function must return a function that takes at least one argument.
+The first argument is always a variable on which the filter will do custom formatting; the filter's input value.
+
 Other arguments, if they exist, can be used to give filter more options for performing the desired formatting.
 Keep in mind that second argument, if it exists, will be written as first argument after colon `:` when used in expressions.
 This is because the first one it the variable the filter is applied to.
