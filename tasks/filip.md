@@ -15,7 +15,7 @@ You are to implement a factory called `parseISO`. It must produce a function tha
 
 - yyyy-MM-dd (2015-03-22)
 - yyyy-MM-ddThh:mm:ss (2015-03-22T12:30:00)
-- yyyy-MM-ddThh:mm:ss(+| |-)zzzz (2015-03-22T12:30:00+0200, 2015-03-22T12:30:00 0200
+- yyyy-MM-ddThh:mm:ss(+| |-)zzzz (2015-03-22T12:30:00+0200 *or* 2015-03-22T12:30:00 0200)
 
 If the format is valid, it must return a valid date, otherwise throw an appropriate and informative exception.
 
@@ -40,10 +40,9 @@ Some examples:
 
 Becomes:
 
-<div>
 &#9733; &#9733; &#9733; &#9734; &#9734;
+
 &#9733; &#9733; &#9733; &#9734;
-</div>
 
 As stated, include comments, unit tests, an example and provide a brief description below.
 
@@ -71,7 +70,9 @@ As stated, include comments, unit tests, an example and provide a brief descript
 
 ## Advanced Directive
 
-Implement a simple slideshow functionality by writing the directive `in2-slide`, which represents a single slide, and `in2-slideshow`, which is a collection of slides. Each slide should have the title (`@`) parameter and should be *transcluded*. A set of slides should be wrapped in a slideshow, also a transcluded directive which takes no parameters, but controlls which slide is currently visible. The directives may **not** use `$broadcast` and `$on` functions for communication. Each slide should be formatted to show the title, the transcluded content as a body, and left and right arrows on the sides, if there exist a previous and next slide, respectively. If there is no previous slide, do not show the previous arrow, and the same goes for the next slide and the right arrow. By clicking on one of the arrows, the user navigates to the previous/next slide.
+Implement a simple slideshow functionality by writing the directive `in2-slide`, which represents a single slide, and `in2-slideshow`, which is a collection of slides. Each slide should have the title (`@`) parameter and should be *transcluded*. A set of slides should be wrapped in a slideshow, also a transcluded directive which takes no parameters, but controlls which slide is currently visible. The directives may **not** use `$broadcast` and `$on` functions for communication. Use some other method of communication, such as `require` or a shared factory/service. 
+
+Each slide should be formatted to show the title, the transcluded content as a body, and left and right arrows on the sides, if there exist a previous and next slide, respectively. If there is no previous slide, do not show the previous arrow, and the same goes for the next slide and the right arrow. By clicking on one of the arrows, the user navigates to the previous/next slide.
 
 An example of using these directives:
 
