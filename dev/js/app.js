@@ -15,7 +15,11 @@
     'in2.playground.accordion.item',
     'in2.playground.businesscard',
     'in2.playground.pad',
-    'in2.playground.formatting'
+    'in2.playground.formatting',
+    'in2.playground.rate',
+    'in2.playground.slideshow',
+    'in2.playground.terminal',
+    'in2.playground.parseiso'
   ]);
   
   
@@ -115,55 +119,6 @@
       return false; //Signal failure
     }
   }
-})();
-(function () {
-    'use strict';
-
-    angular.module('in2.playground.businesscard.controller', [])
-        .controller("in2BusinessCardController", BuisnessCardCtrl);
-
-    BuisnessCardCtrl.$inject = [];
-
-    function BuisnessCardCtrl() {
-        var my = this;
-
-        my.frontSide;
-
-        my.getFrontSide = getFrontSide;
-        
-        function getFrontSide() {
-            if (my.frontSide === false)
-                return false;
-            else
-                return true;
-        };
-    };
-})();
-(function () {
-    'use strict';
-
-    angular.module('in2.playground.businesscard', ['templates', 'in2.playground.businesscard.controller'])
-        .directive('in2BusinessCard', BuisnessCardDirective);
-
-    BuisnessCardDirective.$inject = ['$templateCache'];
-
-    // directive that creates a virtual buisness card and binds it to a controller
-    // it has two sides and can be flipped when clicked on
-    function BuisnessCardDirective($templateCache) {
-        return {
-            scope: {
-                company: '@',   // simple binding
-                fullName: '@',  // simple binding
-                position: '@',  // simple binding
-                image: '@', // simple binding
-                frontSide: '='  // two-way binding
-            },            
-            controller: 'in2BusinessCardController',    // controller to bind the service to
-            controllerAs: 'ctrl',   // controller name
-            bindToController: true, // declare binding to controller
-            template: $templateCache.get('in2BusinessCard/in2BuisnessCard.template.html') // template with card's appearance and behaviour
-        };
-    };
 })();
 (function () {
     'use strict';
@@ -289,6 +244,55 @@
             bindToController: true,     // bind controller to the template
             link: addAccordionItemToController, // link function with parent's controller
             template: $templateCache.get('in2Accordion/in2AccordionItem.template.html')  // template with item's appearance and behaviour
+        };
+    };
+})();
+(function () {
+    'use strict';
+
+    angular.module('in2.playground.businesscard.controller', [])
+        .controller("in2BusinessCardController", BuisnessCardCtrl);
+
+    BuisnessCardCtrl.$inject = [];
+
+    function BuisnessCardCtrl() {
+        var my = this;
+
+        my.frontSide;
+
+        my.getFrontSide = getFrontSide;
+        
+        function getFrontSide() {
+            if (my.frontSide === false)
+                return false;
+            else
+                return true;
+        };
+    };
+})();
+(function () {
+    'use strict';
+
+    angular.module('in2.playground.businesscard', ['templates', 'in2.playground.businesscard.controller'])
+        .directive('in2BusinessCard', BuisnessCardDirective);
+
+    BuisnessCardDirective.$inject = ['$templateCache'];
+
+    // directive that creates a virtual buisness card and binds it to a controller
+    // it has two sides and can be flipped when clicked on
+    function BuisnessCardDirective($templateCache) {
+        return {
+            scope: {
+                company: '@',   // simple binding
+                fullName: '@',  // simple binding
+                position: '@',  // simple binding
+                image: '@', // simple binding
+                frontSide: '='  // two-way binding
+            },            
+            controller: 'in2BusinessCardController',    // controller to bind the service to
+            controllerAs: 'ctrl',   // controller name
+            bindToController: true, // declare binding to controller
+            template: $templateCache.get('in2BusinessCard/in2BuisnessCard.template.html') // template with card's appearance and behaviour
         };
     };
 })();
@@ -514,6 +518,213 @@
         };
     };
 })();
+(function () {
+    'use strict';
+
+    angular
+        .module('in2.playground.rate.filter', [])
+        .filter('in2Rate', rate);
+
+    function rate() {
+        
+        return rate;
+        
+        function rate(rating, numStars){
+            var rateString = '';
+            
+            if (!angular.isNumber(rating)){
+                throw 'Invalid data type for rating: ' + typeof(rating) + ', number expected.';
+            }
+            //if number of stars is not defined set it to 5 (default)
+            if (angular.isUndefined(numStars)){
+                numStars = 5;
+            }
+            if (!angular.isNumber(numStars)){
+                throw 'Invalid data type for number of stars: ' + typeof(numStars) + ', number expected.';
+            }
+            if (numStars <= 0){
+                throw 'Number of stars must be greater than 0.';
+            }
+            if (rating > numStars){
+                throw 'Rating must be less or equal to the number of stars.';
+            }
+            
+            rateString += Array(rating + 1).join(String.fromCharCode(9733));  //add (rate) number of full stars
+            rateString += Array(numStars - rating + 1).join(String.fromCharCode(9734));  //add (numStars-rating) number of empty stars
+            return rateString;
+        }
+    }
+})();
+(function() {
+    'use strict';
+    angular
+        .module('in2.playground.rate', ['in2.playground.rate.filter'])
+})();
+(function () {
+    'use strict';
+
+    angular
+        .module('in2.playground.slideshow.slide.directive', ['templates'])
+        .directive('in2Slide', slide);
+    
+    slide.$inject = ['$templateCache'];
+
+    function slide($templateCache) {
+        return {
+            require: '^^in2Slideshow',
+            scope: {
+                title: '@'
+            },
+            restrict: 'EA',
+            controllerAs: 'ctrlSlideshow',
+            template: $templateCache.get('in2Slideshow/in2Slide.template.html'),
+            transclude: true,
+            link: function (scope, element, attrs, ctrl) {
+                ctrl.addSlide(element);
+            },
+        };
+    }
+})();
+(function () {
+    'use strict';
+
+    angular
+        .module('in2.playground.slideshow.controller', [])
+        .controller('in2SlideshowController', SlideshowController);
+
+    function SlideshowController() {
+        var vm = this;
+
+        vm.slides = []; //DOM elements
+        vm.visibleSlide = 0; //currently visible slide
+        vm.numSlides = 0; //number of slides
+        vm.showLeftArrow = false;
+        vm.showRightArrow = false;
+        
+        vm.addSlide = addSlide;
+        vm.slideRight = slideRight;
+        vm.slideLeft = slideLeft;
+
+        //adds a reference to the slide's scope to an array
+        function addSlide(slide) {
+            vm.slides.push(slide);
+            if (vm.visibleSlide != vm.numSlides) {
+                slide.addClass('ng-hide');
+            }
+            vm.numSlides++;
+            refreshArrows();
+        }
+
+        //handles sliding to the right
+        function slideRight() {
+            if (vm.visibleSlide < vm.numSlides - 1) {
+                vm.slides[vm.visibleSlide].addClass('ng-hide');
+                vm.visibleSlide++;
+                vm.slides[vm.visibleSlide].removeClass('ng-hide');
+            }
+            refreshArrows();
+        }
+
+        //handles sliding to the left
+        function slideLeft() {
+            if (vm.visibleSlide > 0) {
+                vm.slides[vm.visibleSlide].addClass('ng-hide');
+                vm.visibleSlide--;
+                vm.slides[vm.visibleSlide].removeClass('ng-hide');
+            }
+            refreshArrows();
+        }
+        
+        //
+        function refreshArrows() {
+            vm.showLeftArrow = (vm.visibleSlide == 0) ? false : true;
+            vm.showRightArrow = (vm.visibleSlide == vm.numSlides - 1) ? false : true;
+            
+        }
+    }
+})();
+(function () {
+	'use strict';
+
+	angular
+		.module('in2.playground.slideshow.directive', ['templates'])
+		.directive('in2Slideshow', slideshow);
+    
+	slideshow.$inject = ['$templateCache'];
+
+	function slideshow($templateCache) {
+		return {
+            scope: {},
+			controller: 'in2SlideshowController',
+			controllerAs: 'ctrl',
+            bindToController: true,
+			restrict: 'EA',
+            template: $templateCache.get('in2Slideshow/in2Slideshow.template.html'),
+            transclude: true
+		};
+	}
+})();
+(function() {
+    'use strict';
+    angular
+        .module('in2.playground.slideshow', ['in2.playground.slideshow.directive', 'in2.playground.slideshow.slide.directive', 'in2.playground.slideshow.controller'])
+})();
+(function() {
+    'use strict';
+
+    angular
+        .module('in2.playground.terminal.controller', [])
+        .controller('in2TerminalController', TerminalController);
+
+    function TerminalController(){
+        var vm = this;
+		
+		vm.userName = vm.user || 'user';  //if user parameter is not set use default username
+		vm.machineName = vm.machine || 'machine';  //if machine parameter is not set use default machine name
+		vm.commandHistory = [];  //array of strings representing commands
+		vm.promptPrefix = vm.userName + '@' + vm.machineName + '$ ';  //displayed before each command
+		
+		vm.keypress = keypress;
+		vm.keyCode = -1;
+		
+        function keypress(event) {
+			vm.keyCode = event.keyCode;
+			//if enter key was pressed
+			if (event.keyCode == 13){
+				vm.commandHistory.push(vm.command);  //add a command (value of input field) to the command history
+				vm.command = '';  //set value of the command input field to blank
+			}
+        }
+    }
+})();
+(function () {
+	'use strict';
+
+	angular
+		.module('in2.playground.terminal.directive', ['templates'])
+		.directive('in2Terminal', terminal);
+	
+	terminal.$inject = ['$templateCache'];
+
+	function terminal($templateCache) {
+		return {
+			scope: {
+				user: '@',
+				machine: '@'
+			},
+			controller: 'in2TerminalController',
+			controllerAs: 'ctrl',
+			restrict: 'EA',
+			template: $templateCache.get('in2Terminal/in2Terminal.template.html'),
+			bindToController: true
+		};
+	}
+})();
+(function() {
+    'use strict';
+    angular
+        .module('in2.playground.terminal', ['in2.playground.terminal.directive', 'in2.playground.terminal.controller'])
+})();
 /**
 * @author Luka Skukan
 * @version 0.1.0
@@ -687,6 +898,66 @@
     };
   }
   
+})();
+(function() {
+    'use strict';
+
+    angular
+        .module('in2.playground.parseiso.controller', [])
+        .controller('parseISO.controller', parseISOController);
+
+	parseISOController.$inject = ['$scope', 'parseISO'];
+	
+    function parseISOController($scope, parseISO){
+		$scope.parseISO = parseISO;
+		$scope.test = parseISO('2001-02-02T00:00:33-01:00').toUTCString();
+    }
+})();
+(function () {
+    'use strict';
+    angular
+        .module('in2.playground.parseiso.factory', [])
+        .factory('parseISO', ParseISO);
+
+    function ParseISO(){
+        
+        return parseISO;
+
+        function parseISO(dateString) {
+			//regex used for parsing ISO dates
+            var regex = /^(\d{4})(?:-(\d{2})(?:(?:-(\d{2}))(?:T(\d{2}):(\d{2})(?::(\d{2})(?:\.(\d{1,3}))?)?(?:(?:([Zz])|([+\-\s])(\d{2}):(\d{2})))?)?)?)?$/;
+			
+            var parts = regex.exec(dateString);
+            if (parts == null){  //dateString didnt match our regular expression
+                throw 'Invalid date format, ISO format required.';
+            }
+            
+            var year = parseInt(parts[1]);
+            var month = (parseInt(parts[2]) - 1) || 0;  //0-based month
+            var day = parseInt(parts[3]) || 1;
+            var hour = parseInt(parts[4]) || 0;
+            var minute = parseInt(parts[5]) || 0;
+            var second = parseInt(parts[6]) || 0;
+            var milisecond = parseFloat('0.' + parts[7])*1000 || 0;  //parts[7] reprezents fractions of a second not actual miliseconds
+            var timezoneOffset = 0;
+			var hasZ = parts[8] == 'z' || parts[8] == 'Z';
+            if (!hasZ && parts[9]){
+                var timezoneSign = (parts[9] == '-') ? 1: -1;
+                var timeZoneHour = parseInt(parts[10]);
+                var timeZoneMinute = parseInt(parts[11]);
+                timezoneOffset = timezoneSign*(timeZoneHour*60 + timeZoneMinute);
+            }
+			
+            var date = new Date(Date.UTC(year, month, day, hour, minute, second, milisecond));  //create a date without setting timezone
+            date.setUTCMinutes(date.getUTCMinutes() + timezoneOffset);  //modify date to account for timezone
+            return date;
+        }
+    }
+})();
+(function() {
+    'use strict';
+    angular
+        .module('in2.playground.parseiso', ['in2.playground.parseiso.factory', 'in2.playground.parseiso.controller'])
 })();
 /**
 * @author Luka Skukan

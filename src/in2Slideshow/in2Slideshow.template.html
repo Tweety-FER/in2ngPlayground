@@ -1,0 +1,36 @@
+<div class="slideshowContainer">
+    <button class="slideshowLeftArrow" ng-click="ctrl.slideLeft()" ng-show="ctrl.showLeftArrow"><</button>
+    <button class="slideshowRightArrow"ng-click="ctrl.slideRight()" ng-show="ctrl.showRightArrow">></button>
+    <div class="span">
+        <div class="transcludeContainer">
+            <ng-transclude/>
+        </div>
+    </div>
+</div>
+<style>
+    .slideshowContainer {
+        width: 100%;
+        height: 100%;
+    }
+    
+    .transcludeContainer {
+        width: 100%;
+    }
+    
+    
+    .slideshowContainer .slideshowLeftArrow {
+        float: left;
+        height: 100%;
+    }
+    
+    .slideshowContainer .slideshowRightArrow {
+        float: right;
+        height: 100%;
+    }
+    
+    .slideshowContainer .span {
+        display: block;
+        overflow: hidden;
+        padding: 0 5px;
+    }
+</style>

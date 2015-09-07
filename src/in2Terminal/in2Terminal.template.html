@@ -1,0 +1,37 @@
+<div class="terminalContainer">
+    <div ng-repeat="command in ctrl.commandHistory track by $index">
+        {{ ctrl.promptPrefix + command }}
+    </div>
+    <label for="commandInput">{{ ctrl.promptPrefix }}</label>
+    <span>
+        <input class="terminalPrompt" ng-keypress="ctrl.keypress($event)" ng-model="ctrl.command" name="commandInput" autofocus>
+    </span>
+</div>
+
+<style>
+    .terminalContainer {
+        background-color: black;
+        color: white;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+    }
+    
+    .terminalPrompt {
+        background-color: black;
+        color: white;
+        width: 100%;
+        border: none;
+        outline: 0;
+    }
+    
+    .terminalContainer label {
+        float: left;
+    }
+    
+    .terminalContainer span {
+        display: block;
+        overflow: hidden;
+        padding: 0 5px;
+    }
+</style>

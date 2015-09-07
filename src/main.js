@@ -15,7 +15,11 @@
     'in2.playground.accordion.item',
     'in2.playground.businesscard',
     'in2.playground.pad',
-    'in2.playground.formatting'
+    'in2.playground.formatting',
+    'in2.playground.rate',
+    'in2.playground.slideshow',
+    'in2.playground.terminal',
+    'in2.playground.parseiso'
   ]);
   
   
