@@ -14,10 +14,8 @@
 		vm.promptPrefix = vm.userName + '@' + vm.machineName + '$ ';  //displayed before each command
 		
 		vm.keypress = keypress;
-		vm.keyCode = -1;
 		
         function keypress(event) {
-			vm.keyCode = event.keyCode;
 			//if enter key was pressed
 			if (event.keyCode == 13){
 				vm.commandHistory.push(vm.command);  //add a command (value of input field) to the command history

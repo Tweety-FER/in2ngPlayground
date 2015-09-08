@@ -5,9 +5,9 @@
 		.module('in2.playground.terminal.directive', ['templates'])
 		.directive('in2Terminal', terminal);
 	
-	terminal.$inject = ['$templateCache'];
+	terminal.$inject = ['$templateCache', '$timeout'];
 
-	function terminal($templateCache) {
+	function terminal($templateCache, $timeout) {
 		return {
 			scope: {
 				user: '@',

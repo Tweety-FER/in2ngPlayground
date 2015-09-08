@@ -23,7 +23,11 @@ As stated, include comments, unit tests, an example and provide a brief descript
 
 ###Description:
 
-*add_here*
+[`parseISO`](https://github.com/Tweety-FER/in2ngPlayground/blob/master/src/parseISO/parseISO.factory.js) is a factory used for creating a function for parsing dates in ISO format. The function takes a single argument - date string in ISO format.
+
+Parsing is implemented using a regular expressin which extracts parts from the date string. Using those parts we create a new Date object and modify it's time zone offset. It is worth noting that months in Date constructor are 0-based meaning we have to subtract 1 from our parsed month of the date string.
+
+If the function parameter is not a string an exception with a message 'Invalid object, date string required.' is thrown. If the parameter is a string but in the wrong format an exception with a 'Invalid date format, ISO format required.' message is thrown.
 
 ## Filter
 
@@ -48,7 +52,11 @@ As stated, include comments, unit tests, an example and provide a brief descript
 
 ###Description:
 
-*add_here*
+[`in2Rate`](https://github.com/Tweety-FER/in2ngPlayground/blob/master/src/in2Rate/in2Rate.filter.js) is a filter used for formatting ratings so that they are represented with full and empty stars. The filter takes two arguments: `rating` and `number of stars` (optional). If number of stars parameter is not defined 5 is used as the default value.
+
+The implementation is simple - output a string with `rating` number of full stars and `number of stars` - `rating` number of empty stars.
+
+If the input parameters are not numbers an appropriate exception is raised. If `rating` is greater than `number of stars` of if `number of stars` is less or equal to 0 an appropriate exception is also raised.
 
 ## Simple Directive
 
@@ -66,7 +74,9 @@ As stated, include comments, unit tests, an example and provide a brief descript
 
 ###Description:
 
-*add_here*
+[`in2Terminal`](https://github.com/Tweety-FER/in2ngPlayground/blob/master/src/in2Terminal/in2Terminal.directive.js) is a directive used for creating a terminal-like element. It takes two optional parameters `user` and `machine`, representing username and machine name respectively.
+
+The created element is made of an input field and a containter containing previously entered commands. The input field uses `ng-keypress` directive to call a controller function for adding commands to the command history. The command container uses `ng-repeat` directive for displaying commands from an array containing previously entered commands. It is worth noting that `track by $index` must be used, otherwise `ng-repeat` directive wont work properly if the array containing previously entered commands contains duplicates.
 
 ## Advanced Directive
 
@@ -94,4 +104,6 @@ As stated, include comments, unit tests, an example and provide a brief descript
 
 ###Description:
 
-*add_here*
+[`in2Slideshow`](https://github.com/Tweety-FER/in2ngPlayground/blob/master/src/in2Slideshow/in2Slideshow.directive.js) and [`in2Slide`](https://github.com/Tweety-FER/in2ngPlayground/blob/master/src/in2Slideshow/in2Slide.directive.js) are directives used for ceating a slideshow element. `in2Slide` elements represent slides and must be placed inside a single `in2Slideshow` element.
+
+Each `in2Slide` element is registered (in a link function) to [`in2SlideshowController`](https://github.com/Tweety-FER/in2ngPlayground/blob/master/src/in2Slideshow/in2Slideshow.controller.js) which then handles sliding. That controller stores `visibleSlide` variable which represents the currently visible slide. `in2Slideshow` also contains left and right arrows which, when clicked, trigger sliding left or right respectively. Sliding is implemented with controller functions `slideLeft` and `slideRight` which add and remove `ng-hide` class to appropriate slides upon execution.

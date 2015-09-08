@@ -1,0 +1,32 @@
+<html>
+
+<head>
+	<script src="dev/js/playground.js"></script>
+</head>
+
+<body ng-app="in2.playground">
+	<div style="width:500px;height:200px;">
+		<in2-terminal user="korisnik"></in2-terminal>
+	</div>
+	</br>
+	<div style="width:500px; height:500px;">
+		<in2-slideshow>
+			<in2-slide title="Important Slideshow">
+				<b>Author:</b> Me
+			</in2-slide>
+			<in2-slide title="Facts">
+				Have some facts
+			</in2-slide>
+			<in2-slide title="Chart">
+				Look at this chart: <img src="http://www.adiumxtras.com/images/thumbs/dango_status_icon_set_7_19047_6248_thumb.png" />
+			</in2-slide>
+		</in2-slideshow>
+	</div>
+	</br>
+
+	{{ 4.21 | in2Rate }}
+	</br>
+	{{ 4 | in2Rate:7 }}
+</body>
+
+</html>

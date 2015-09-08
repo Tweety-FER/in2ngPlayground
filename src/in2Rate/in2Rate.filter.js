@@ -28,6 +28,9 @@
             if (rating > numStars){
                 throw 'Rating must be less or equal to the number of stars.';
             }
+			
+			rating = Math.floor(rating);
+			numStars = Math.floor(numStars);
             
             rateString += Array(rating + 1).join(String.fromCharCode(9733));  //add (rate) number of full stars
             rateString += Array(numStars - rating + 1).join(String.fromCharCode(9734));  //add (numStars-rating) number of empty stars

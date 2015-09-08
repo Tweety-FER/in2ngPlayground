@@ -548,6 +548,9 @@
             if (rating > numStars){
                 throw 'Rating must be less or equal to the number of stars.';
             }
+			
+			rating = Math.floor(rating);
+			numStars = Math.floor(numStars);
             
             rateString += Array(rating + 1).join(String.fromCharCode(9733));  //add (rate) number of full stars
             rateString += Array(numStars - rating + 1).join(String.fromCharCode(9734));  //add (numStars-rating) number of empty stars
@@ -685,10 +688,8 @@
 		vm.promptPrefix = vm.userName + '@' + vm.machineName + '$ ';  //displayed before each command
 		
 		vm.keypress = keypress;
-		vm.keyCode = -1;
 		
         function keypress(event) {
-			vm.keyCode = event.keyCode;
 			//if enter key was pressed
 			if (event.keyCode == 13){
 				vm.commandHistory.push(vm.command);  //add a command (value of input field) to the command history
@@ -704,9 +705,9 @@
 		.module('in2.playground.terminal.directive', ['templates'])
 		.directive('in2Terminal', terminal);
 	
-	terminal.$inject = ['$templateCache'];
+	terminal.$inject = ['$templateCache', '$timeout'];
 
-	function terminal($templateCache) {
+	function terminal($templateCache, $timeout) {
 		return {
 			scope: {
 				user: '@',
@@ -808,6 +809,10 @@
         return parseISO;
 
         function parseISO(dateString) {
+			if (!angular.isString(dateString)){
+				throw 'Invalid object, date string required.';
+			}
+			
 			//regex used for parsing ISO dates
             var regex = /^(\d{4})(?:-(\d{2})(?:(?:-(\d{2}))(?:T(\d{2}):(\d{2})(?::(\d{2})(?:\.(\d{1,3}))?)?(?:(?:([Zz])|([+\-\s])(\d{2}):(\d{2})))?)?)?)?$/;
 			

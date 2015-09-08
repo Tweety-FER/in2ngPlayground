@@ -14,6 +14,7 @@ describe('in2Rate.filter', function () {
         expect(rate(3)).toEqual('★★★☆☆');
         expect(rate(4)).toEqual('★★★★☆');
         expect(rate(5)).toEqual('★★★★★');
+		expect(rate(4.5)).toEqual('★★★★☆');
     });
     
     it('returns stars as expected with set number of stars', function () {
