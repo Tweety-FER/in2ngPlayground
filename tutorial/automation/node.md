@@ -66,6 +66,8 @@ npm install
 
 If you ever feel like creating your own package.json file from scratch, there is one more important command you need to know - `npm init`. When you run this command, the NPM will ask you a few simple questions and generate the package.json file according to your responses.
 
+**Note**: For some `npm install` commands to be resolved, you might have to install Python 2.7 and/or a C++ compiler.
+
 
 ### Proxy settings
 
