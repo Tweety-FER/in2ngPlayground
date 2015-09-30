@@ -19,7 +19,8 @@
     'in2.playground.rate',
     'in2.playground.slideshow',
     'in2.playground.terminal',
-    'in2.playground.parseiso'
+    'in2.playground.parseiso',
+	'in2.playground.reverse'
   ]);
   
   

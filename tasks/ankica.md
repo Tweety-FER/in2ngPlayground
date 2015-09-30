@@ -44,7 +44,11 @@ As stated, include comments, unit tests, an example and provide a brief descript
 
 ### Description:
 
-*Include some documentation describing the directive here, in markdown*
+[`reverse`](https://github.com/Tweety-FER/in2ngPlayground/blob/master/src/reverse/reverse.filter.js) is a filter used for reversing string and array values. The filter takes one argument, a `string` or an `array` and reverses its members.
+
+The implementation outputs a variable of the same type as the inputed one, with all its elements in reverse order.
+
+If the input parameteris not a `string` or an `array`, no reversing is done and the object is returned as it was before filtering.
 
 ## Simple Directive
 
