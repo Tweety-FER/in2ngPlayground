@@ -26,7 +26,11 @@ As stated, include comments, unit tests, an example and provide a brief descript
 
 ### Description:
 
-*Include some documentation describing the directive here, in markdown*
+[`metrics`](https://github.com/Tweety-FER/in2ngPlayground/blob/master/src/metrics/metrics.filter.js) is a factory method used for creating methods for transformation between miles and kilometers. 
+
+Each method takes in one parameter, a `positive number` which is to be transformed. The implementation outputs a number representing the transformed value.
+
+If the input parameter is not a `positive number`, an informative exception is thrown. Zero is considered a positive number.
 
 ## Filter
 
@@ -48,7 +52,7 @@ As stated, include comments, unit tests, an example and provide a brief descript
 
 The implementation outputs a variable of the same type as the inputed one, with all its elements in reverse order.
 
-If the input parameteris not a `string` or an `array`, no reversing is done and the object is returned as it was before filtering.
+If the input parameter is not a `string` or an `array`, no reversing is done and the object is returned as it was before filtering.
 
 ## Simple Directive
 
