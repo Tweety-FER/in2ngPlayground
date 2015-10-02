@@ -68,7 +68,7 @@ As stated, include comments, unit tests, an example and provide a brief descript
 
 ### Description:
 
-{`in2Loader`](https://github.com/Tweety-FER/in2ngPlayground/blob/master/src/in2Loader/in2Loader.directive.js) is a simple directive used for representing loading message to user.
+[`in2Loader`](https://github.com/Tweety-FER/in2ngPlayground/blob/master/src/in2Loader/in2Loader.directive.js) is a simple directive used for representing loading message to user.
 
 The directive has two-way binding element, named `status` which if `true` shows interactive loading message, and if `false` doesn't show anything.
 
