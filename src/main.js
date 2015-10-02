@@ -21,7 +21,8 @@
     'in2.playground.terminal',
     'in2.playground.parseiso',
 	'in2.playground.reverse',
-	'in2.playground.metrics'
+	'in2.playground.metrics',
+	'in2.playground.loader'
   ]);
   
   

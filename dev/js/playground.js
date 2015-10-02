@@ -28385,7 +28385,10 @@ var minlengthDirective = function() {
     'in2.playground.rate',
     'in2.playground.slideshow',
     'in2.playground.terminal',
-    'in2.playground.parseiso'
+    'in2.playground.parseiso',
+	'in2.playground.reverse',
+	'in2.playground.metrics',
+	'in2.playground.loader'
   ]);
   
   
@@ -28814,6 +28817,71 @@ var minlengthDirective = function() {
         };
     }
 })();
+(function() {
+    'use strict';
+
+    angular
+        .module('in2.playground.loader.controller', [])
+        .controller('in2LoaderController', LoaderController);
+
+    function LoaderController($scope){
+        $scope.isHidden = false;
+		$scope.loading = true;
+    }
+})();
+(function () {
+	'use strict';
+
+	angular
+		.module('in2.playground.loader.directive', [])
+		.directive('in2Loader', loader);
+	
+	loader.$inject = ['$interval'];
+
+	function loader($interval) {
+		return {
+			scope: {
+				state : '@'
+			},
+			controller: 'in2LoaderController',
+			controllerAs: 'ctrl',
+			restrict: 'AE',
+			replace: true,
+			template: '<div ng-hide="isHidden" state="true" id="loaderId"></div>',
+			bindToController: true,
+			link: function (scope, element) {
+				function callAtInterval() {
+						var innerHtml = angular.element(document.querySelector('#loaderId')).html();
+						console.log(innerHtml);
+						if (innerHtml == 'Loading...' || innerHtml.length == 0) {
+							innerHtml = 'Loading';
+						} else {
+							innerHtml += '.';
+						}
+						
+						angular.element(document.querySelector('#loaderId')).html(innerHtml);
+					}
+			
+			
+				scope.isHidden = true;
+				if(scope.ctrl.state) {
+										
+					scope.isHidden = false;
+					
+					scope.Timer = $interval(callAtInterval, 1000);
+					
+					
+				}
+			}
+		}
+	}
+})
+();
+(function() {
+    'use strict';
+    angular
+        .module('in2.playground.loader', ['in2.playground.loader.directive', 'in2.playground.loader.controller'])
+})();
 (function () {
     'use strict';
 
@@ -29092,6 +29160,64 @@ var minlengthDirective = function() {
     angular
         .module('in2.playground.terminal', ['in2.playground.terminal.directive', 'in2.playground.terminal.controller'])
 })();
+(function() {
+    'use strict';
+
+    angular
+        .module('in2.playground.metrics.controller', [])
+        .controller('metrics.controller', metricsController);
+
+	metricsController.$inject = ['$scope', 'metrics'];
+	
+    function metricsController($scope, metrics){
+		$scope.metrics = metrics;
+    }
+})();
+(function () {
+    'use strict';
+    angular
+        .module('in2.playground.metrics.factory', [])
+        .factory('metrics', Metrics);
+		
+	function Metrics() {
+		
+			var metrics = {
+				kmToMiles : function(milesOrKilometers) {
+					if (typeof milesOrKilometers === 'number') {
+						if (milesOrKilometers < 0 ) {
+							throw 'Negative numbers are not allowed!';
+						} else {
+							return milesOrKilometers * 0.621371192;
+						}
+					} else {
+						throw 'Only numbers are allowed!';
+					}
+				},
+				
+				milesToKm : function(milesOrKilometers) {
+					if (typeof milesOrKilometers === 'number') {
+						if (milesOrKilometers < 0 ) {
+							throw 'Negative numbers are not allowed!';
+						} else {
+							return milesOrKilometers * 1.609344;
+						}
+					} else {
+						throw 'Only numbers are allowed!';
+					}
+				}
+			};
+			
+			return metrics;
+		
+		}
+	
+	}
+)();
+(function() {
+    'use strict';
+    angular
+        .module('in2.playground.metrics', ['in2.playground.metrics.factory', 'in2.playground.metrics.controller'])
+})();
 /**
 * @author Luka Skukan
 * @version 0.1.0
@@ -29213,6 +29339,43 @@ var minlengthDirective = function() {
     'use strict';
     angular
         .module('in2.playground.parseiso', ['in2.playground.parseiso.factory', 'in2.playground.parseiso.controller'])
+})();
+(function() {
+	'use strict';
+	
+	angular
+		.module('in2.playground.reverse.filter', [])
+		.filter('reverse', reverse);
+		
+	function reverse() {
+		return reverse;
+		
+		function reverse(variable) {
+				var reversed, i;
+				
+				if (typeof variable === 'string') {
+					reversed = "";
+					for (i=variable.length; i>0; i--) {
+						reversed += variable[i-1];
+					}
+				} else if (variable instanceof Array) {
+					reversed = [];
+					for (i=variable.length; i>0; i--) {
+						reversed.push(variable[i-1]);
+					}
+				}
+				else {
+					reversed = variable;
+				}
+				
+				return reversed;
+			};
+	};
+})();
+(function() {
+    'use strict';
+    angular
+        .module('in2.playground.reverse', ['in2.playground.reverse.filter'])
 })();
 /**
 * @author Luka Skukan
@@ -29378,13 +29541,13 @@ var minlengthDirective = function() {
   
   
 })();
-angular.module("templates", []).run(["$templateCache", function($templateCache) {$templateCache.put("comment/comment.html","<div class=\"in2 comment\">\n  <div class=\"metadata\">\n    <span class=\"author\">{{comment.username}}</span>\n    <span class=\"time\">{{comment.time | date:\'dd.MM.yyyy HH:mm\'}}</span>\n  </div>\n  <div class=\"text\">\n    {{comment.text}}\n  </div>\n  <div class=\"toolbar\">\n    <span class=\"like button\" ng-click=\"comment.like()\">Like</span>\n    <span class=\"like counter\">{{comment.likes}}</span>\n  </div>\n</div>");
-$templateCache.put("in2Accordion/in2Accordion.template.html","<div class=\"accordion\">\n    <h1 class=\"accordionTitle\">{{title}}</h1>\n    <ul>\n        <ng-transclude></ng-transclude>\n    </ul>\n</div>\n\n<style>\n    .accordion {\n        width: 40em;\n        height: auto;\n        border: 1px solid gray;\n        border-radius: 10px;\n        margin-top: 2em;        \n        overflow-wrap: break-word;                \n    }\n\n    .accordionItem {        \n        border: 1px solid gray;\n        border-radius: 10px;\n        overflow-wrap: break-word;\n        padding: 0.2em;        \n        margin-right: 0.5em;\n    }\n\n    .accordionTitle {\n        padding-left: 0.4em;\n    }\n\n    .accordionItemVisible {  \n        display: normal;\n        padding: 0.2em;\n    }\n\n    .accordionItemHidden {        \n        display: none;\n    }\n</style>");
-$templateCache.put("in2Accordion/in2AccordionItem.template.html","<li class=\"accordionItem\">\n    <h3 ng-click=\"accordionItemCtrl.initializeAccordionItems(parentArray); accordionItemCtrl.openTabWithId($id);\" ng-init=\"myClass = \'accordionItemHidden\';\">{{accordionItemCtrl.title}}</h3>\n    <div ng-class=\"myClass\">\n        <ng-transclude></ng-transclude>\n    </div>\n</li>");
-$templateCache.put("in2BusinessCard/in2BuisnessCard.template.html","<div ng-click=\"front = !front\" ng-init=\"front = ctrl.getFrontSide()\">\n    <div ng-switch on=\"front\">\n        <div ng-switch-when=\"true\">        \n            <div class=\"buisnessCard\">\n                <table class=\"buisnessCardFront\">\n                    <tr>\n                        <td>\n                            <img class=\"buisnessCardFrontLogo\" ng-src=\"{{ctrl.image}}\"/>\n                        </td>\n                    </tr>\n                    <tr>\n                        <td>{{ctrl.fullName}}</td>\n                    </tr>\n                    <tr>\n                        <td>{{ctrl.company}}</td>\n                    </tr>\n                    <tr>\n                        <td>{{ctrl.position}}</td>\n                    </tr>\n                </table>            \n            </div>       \n        </div>\n        <div ng-switch-when=\"false\">    \n            <div class=\"buisnessCard\" >\n                <table class=\"buisnessCardBack\">\n                    <tr>\n                        <td>\n                            <img class=\"buisnessCardBackLogo\" ng-src=\"{{ctrl.image}}\"/>\n                        </td>\n                    </tr>\n                    <tr>\n                        <td>Have a nice day</td>\n                    </tr>            \n                </table>            \n            </div>\n        </div>\n    </div>\n</div>\n\n<style>\n    .buisnessCard {\n        border: 1px solid black;\n        width: 20em;\n        height: 10em;\n        font-family: Verdana, Cursive;        \n    }\n\n    .buisnessCardFront {\n        width: 100%;\n        height:100%;\n        text-align: left;\n    }\n\n    .buisnessCardFrontLogo {\n        float:right;\n        width: 25%;\n    }\n\n    .buisnessCardBack {\n        width: 100%;\n        height:100%;\n        text-align: center;\n    }\n\n    .buisnessCardBackLogo {        \n        width: 40%;\n    }\n\n</style>");
-$templateCache.put("in2BusinessCard/in2BuisnessCardTemplate.html","<style>\n    .buisnessCard {\n        border: 1px solid black;\n        width: 20em;\n        height: 10em;\n        font-family: Verdana, Cursive;        \n    }\n\n    .buisnessCardFront {\n        width: 100%;\n        height:100%;\n        text-align: left;\n    }\n\n    .buisnessCardFrontLogo {\n        float:right;\n        width: 25%;\n    }\n\n    .buisnessCardBack {\n        width: 100%;\n        height:100%;\n        text-align: center;\n    }\n\n    .buisnessCardBackLogo {        \n        width: 40%;\n    }\n\n</style>\n\n<div ng-click=\"front = !front\" ng-init=\"front = ctrl.getFrontSide()\">\n<div ng-switch on=\"front\">\n    <div ng-switch-when=\"true\">        \n        <div class=\"buisnessCard\">\n            <table class=\"buisnessCardFront\">\n                <tr>\n                    <td>\n                        <img class=\"buisnessCardFrontLogo\" ng-src=\"{{ctrl.image}}\"/>\n                    </td>\n                </tr>\n                <tr>\n                    <td>{{ctrl.fullName}}</td>\n                </tr>\n                <tr>\n                    <td>{{ctrl.company}}</td>\n                </tr>\n                <tr>\n                    <td>{{ctrl.position}}</td>\n                </tr>\n            </table>            \n        </div>       \n    </div>\n    <div ng-switch-when=\"false\">    \n        <div class=\"buisnessCard\" >\n            <table class=\"buisnessCardBack\">\n                <tr>\n                    <td>\n                        <img class=\"buisnessCardBackLogo\" ng-src=\"{{ctrl.image}}\"/>\n                    </td>\n                </tr>\n                <tr>\n                    <td>Have a nice day</td>\n                </tr>            \n            </table>            \n        </div>\n    </div>\n</div>\n</div>");
+angular.module("templates", []).run(["$templateCache", function($templateCache) {$templateCache.put("comment/comment.html","<div class=\"in2 comment\">\r\n  <div class=\"metadata\">\r\n    <span class=\"author\">{{comment.username}}</span>\r\n    <span class=\"time\">{{comment.time | date:\'dd.MM.yyyy HH:mm\'}}</span>\r\n  </div>\r\n  <div class=\"text\">\r\n    {{comment.text}}\r\n  </div>\r\n  <div class=\"toolbar\">\r\n    <span class=\"like button\" ng-click=\"comment.like()\">Like</span>\r\n    <span class=\"like counter\">{{comment.likes}}</span>\r\n  </div>\r\n</div>");
+$templateCache.put("in2Accordion/in2Accordion.template.html","<div class=\"accordion\">\r\n    <h1 class=\"accordionTitle\">{{title}}</h1>\r\n    <ul>\r\n        <ng-transclude></ng-transclude>\r\n    </ul>\r\n</div>\r\n\r\n<style>\r\n    .accordion {\r\n        width: 40em;\r\n        height: auto;\r\n        border: 1px solid gray;\r\n        border-radius: 10px;\r\n        margin-top: 2em;        \r\n        overflow-wrap: break-word;                \r\n    }\r\n\r\n    .accordionItem {        \r\n        border: 1px solid gray;\r\n        border-radius: 10px;\r\n        overflow-wrap: break-word;\r\n        padding: 0.2em;        \r\n        margin-right: 0.5em;\r\n    }\r\n\r\n    .accordionTitle {\r\n        padding-left: 0.4em;\r\n    }\r\n\r\n    .accordionItemVisible {  \r\n        display: normal;\r\n        padding: 0.2em;\r\n    }\r\n\r\n    .accordionItemHidden {        \r\n        display: none;\r\n    }\r\n</style>");
+$templateCache.put("in2Accordion/in2AccordionItem.template.html","<li class=\"accordionItem\">\r\n    <h3 ng-click=\"accordionItemCtrl.initializeAccordionItems(parentArray); accordionItemCtrl.openTabWithId($id);\" ng-init=\"myClass = \'accordionItemHidden\';\">{{accordionItemCtrl.title}}</h3>\r\n    <div ng-class=\"myClass\">\r\n        <ng-transclude></ng-transclude>\r\n    </div>\r\n</li>");
+$templateCache.put("in2BusinessCard/in2BuisnessCard.template.html","<div ng-click=\"front = !front\" ng-init=\"front = ctrl.getFrontSide()\">\r\n    <div ng-switch on=\"front\">\r\n        <div ng-switch-when=\"true\">        \r\n            <div class=\"buisnessCard\">\r\n                <table class=\"buisnessCardFront\">\r\n                    <tr>\r\n                        <td>\r\n                            <img class=\"buisnessCardFrontLogo\" ng-src=\"{{ctrl.image}}\"/>\r\n                        </td>\r\n                    </tr>\r\n                    <tr>\r\n                        <td>{{ctrl.fullName}}</td>\r\n                    </tr>\r\n                    <tr>\r\n                        <td>{{ctrl.company}}</td>\r\n                    </tr>\r\n                    <tr>\r\n                        <td>{{ctrl.position}}</td>\r\n                    </tr>\r\n                </table>            \r\n            </div>       \r\n        </div>\r\n        <div ng-switch-when=\"false\">    \r\n            <div class=\"buisnessCard\" >\r\n                <table class=\"buisnessCardBack\">\r\n                    <tr>\r\n                        <td>\r\n                            <img class=\"buisnessCardBackLogo\" ng-src=\"{{ctrl.image}}\"/>\r\n                        </td>\r\n                    </tr>\r\n                    <tr>\r\n                        <td>Have a nice day</td>\r\n                    </tr>            \r\n                </table>            \r\n            </div>\r\n        </div>\r\n    </div>\r\n</div>\r\n\r\n<style>\r\n    .buisnessCard {\r\n        border: 1px solid black;\r\n        width: 20em;\r\n        height: 10em;\r\n        font-family: Verdana, Cursive;        \r\n    }\r\n\r\n    .buisnessCardFront {\r\n        width: 100%;\r\n        height:100%;\r\n        text-align: left;\r\n    }\r\n\r\n    .buisnessCardFrontLogo {\r\n        float:right;\r\n        width: 25%;\r\n    }\r\n\r\n    .buisnessCardBack {\r\n        width: 100%;\r\n        height:100%;\r\n        text-align: center;\r\n    }\r\n\r\n    .buisnessCardBackLogo {        \r\n        width: 40%;\r\n    }\r\n\r\n</style>");
+$templateCache.put("in2BusinessCard/in2BuisnessCardTemplate.html","<style>\r\n    .buisnessCard {\r\n        border: 1px solid black;\r\n        width: 20em;\r\n        height: 10em;\r\n        font-family: Verdana, Cursive;        \r\n    }\r\n\r\n    .buisnessCardFront {\r\n        width: 100%;\r\n        height:100%;\r\n        text-align: left;\r\n    }\r\n\r\n    .buisnessCardFrontLogo {\r\n        float:right;\r\n        width: 25%;\r\n    }\r\n\r\n    .buisnessCardBack {\r\n        width: 100%;\r\n        height:100%;\r\n        text-align: center;\r\n    }\r\n\r\n    .buisnessCardBackLogo {        \r\n        width: 40%;\r\n    }\r\n\r\n</style>\r\n\r\n<div ng-click=\"front = !front\" ng-init=\"front = ctrl.getFrontSide()\">\r\n<div ng-switch on=\"front\">\r\n    <div ng-switch-when=\"true\">        \r\n        <div class=\"buisnessCard\">\r\n            <table class=\"buisnessCardFront\">\r\n                <tr>\r\n                    <td>\r\n                        <img class=\"buisnessCardFrontLogo\" ng-src=\"{{ctrl.image}}\"/>\r\n                    </td>\r\n                </tr>\r\n                <tr>\r\n                    <td>{{ctrl.fullName}}</td>\r\n                </tr>\r\n                <tr>\r\n                    <td>{{ctrl.company}}</td>\r\n                </tr>\r\n                <tr>\r\n                    <td>{{ctrl.position}}</td>\r\n                </tr>\r\n            </table>            \r\n        </div>       \r\n    </div>\r\n    <div ng-switch-when=\"false\">    \r\n        <div class=\"buisnessCard\" >\r\n            <table class=\"buisnessCardBack\">\r\n                <tr>\r\n                    <td>\r\n                        <img class=\"buisnessCardBackLogo\" ng-src=\"{{ctrl.image}}\"/>\r\n                    </td>\r\n                </tr>\r\n                <tr>\r\n                    <td>Have a nice day</td>\r\n                </tr>            \r\n            </table>            \r\n        </div>\r\n    </div>\r\n</div>\r\n</div>");
 $templateCache.put("in2Slideshow/in2Slide.template.html","<h2>{{ title }}</h2><ng-transclude/>");
 $templateCache.put("in2Slideshow/in2Slideshow.template.html","<div class=\"slideshowContainer\">\r\n    <button class=\"slideshowLeftArrow\" ng-click=\"ctrl.slideLeft()\" ng-show=\"ctrl.showLeftArrow\"><</button>\r\n    <button class=\"slideshowRightArrow\"ng-click=\"ctrl.slideRight()\" ng-show=\"ctrl.showRightArrow\">></button>\r\n    <div class=\"span\">\r\n        <div class=\"transcludeContainer\">\r\n            <ng-transclude/>\r\n        </div>\r\n    </div>\r\n</div>\r\n<style>\r\n    .slideshowContainer {\r\n        width: 100%;\r\n        height: 100%;\r\n    }\r\n    \r\n    .transcludeContainer {\r\n        width: 100%;\r\n    }\r\n    \r\n    \r\n    .slideshowContainer .slideshowLeftArrow {\r\n        float: left;\r\n        height: 100%;\r\n    }\r\n    \r\n    .slideshowContainer .slideshowRightArrow {\r\n        float: right;\r\n        height: 100%;\r\n    }\r\n    \r\n    .slideshowContainer .span {\r\n        display: block;\r\n        overflow: hidden;\r\n        padding: 0 5px;\r\n    }\r\n</style>");
 $templateCache.put("in2Terminal/in2Terminal.template.html","<div class=\"terminalContainer\">\r\n    <div ng-repeat=\"command in ctrl.commandHistory track by $index\">\r\n        {{ ctrl.promptPrefix + command }}\r\n    </div>\r\n    <label for=\"commandInput\">{{ ctrl.promptPrefix }}</label>\r\n    <span>\r\n        <input class=\"terminalPrompt\" ng-keypress=\"ctrl.keypress($event)\" ng-model=\"ctrl.command\" name=\"commandInput\" autofocus>\r\n    </span>\r\n</div>\r\n\r\n<style>\r\n    .terminalContainer {\r\n        background-color: black;\r\n        color: white;\r\n        width: 100%;\r\n        height: 100%;\r\n        overflow: auto;\r\n    }\r\n    \r\n    .terminalPrompt {\r\n        background-color: black;\r\n        color: white;\r\n        width: 100%;\r\n        border: none;\r\n        outline: 0;\r\n    }\r\n    \r\n    .terminalContainer label {\r\n        float: left;\r\n    }\r\n    \r\n    .terminalContainer span {\r\n        display: block;\r\n        overflow: hidden;\r\n        padding: 0 5px;\r\n    }\r\n</style>");
 $templateCache.put("tabbed/tab.html","<div class=\"tab body\" ng-show=\"tabs.tabs[name].active\" ng-transclude></div>");
-$templateCache.put("tabbed/tabs.html","<div class=\"in2 tabs\">\n  <div class=\"headers\">\n    <span class=\"header\" ng-class=\"{\'active\' : status.active}\" ng-repeat=\"(tab,status) in tabs.tabs\" ng-click=\"tabs.activate(tab)\">\n      {{tab}}\n    </span>\n  </div>\n  <div class=\"panel\" ng-transclude>\n  \n  </div>\n</div>");}]);
+$templateCache.put("tabbed/tabs.html","<div class=\"in2 tabs\">\r\n  <div class=\"headers\">\r\n    <span class=\"header\" ng-class=\"{\'active\' : status.active}\" ng-repeat=\"(tab,status) in tabs.tabs\" ng-click=\"tabs.activate(tab)\">\r\n      {{tab}}\r\n    </span>\r\n  </div>\r\n  <div class=\"panel\" ng-transclude>\r\n  \r\n  </div>\r\n</div>");}]);

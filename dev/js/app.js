@@ -19,7 +19,10 @@
     'in2.playground.rate',
     'in2.playground.slideshow',
     'in2.playground.terminal',
-    'in2.playground.parseiso'
+    'in2.playground.parseiso',
+	'in2.playground.reverse',
+	'in2.playground.metrics',
+	'in2.playground.loader'
   ]);
   
   
@@ -448,6 +451,71 @@
         };
     }
 })();
+(function() {
+    'use strict';
+
+    angular
+        .module('in2.playground.loader.controller', [])
+        .controller('in2LoaderController', LoaderController);
+
+    function LoaderController($scope){
+        $scope.isHidden = false;
+		$scope.loading = true;
+    }
+})();
+(function () {
+	'use strict';
+
+	angular
+		.module('in2.playground.loader.directive', [])
+		.directive('in2Loader', loader);
+	
+	loader.$inject = ['$interval'];
+
+	function loader($interval) {
+		return {
+			scope: {
+				state : '@'
+			},
+			controller: 'in2LoaderController',
+			controllerAs: 'ctrl',
+			restrict: 'AE',
+			replace: true,
+			template: '<div ng-hide="isHidden" state="true" id="loaderId"></div>',
+			bindToController: true,
+			link: function (scope, element) {
+				function callAtInterval() {
+						var innerHtml = angular.element(document.querySelector('#loaderId')).html();
+						console.log(innerHtml);
+						if (innerHtml == 'Loading...' || innerHtml.length == 0) {
+							innerHtml = 'Loading';
+						} else {
+							innerHtml += '.';
+						}
+						
+						angular.element(document.querySelector('#loaderId')).html(innerHtml);
+					}
+			
+			
+				scope.isHidden = true;
+				if(scope.ctrl.state) {
+										
+					scope.isHidden = false;
+					
+					scope.Timer = $interval(callAtInterval, 1000);
+					
+					
+				}
+			}
+		}
+	}
+})
+();
+(function() {
+    'use strict';
+    angular
+        .module('in2.playground.loader', ['in2.playground.loader.directive', 'in2.playground.loader.controller'])
+})();
 (function () {
     'use strict';
 
@@ -726,6 +794,64 @@
     angular
         .module('in2.playground.terminal', ['in2.playground.terminal.directive', 'in2.playground.terminal.controller'])
 })();
+(function() {
+    'use strict';
+
+    angular
+        .module('in2.playground.metrics.controller', [])
+        .controller('metrics.controller', metricsController);
+
+	metricsController.$inject = ['$scope', 'metrics'];
+	
+    function metricsController($scope, metrics){
+		$scope.metrics = metrics;
+    }
+})();
+(function () {
+    'use strict';
+    angular
+        .module('in2.playground.metrics.factory', [])
+        .factory('metrics', Metrics);
+		
+	function Metrics() {
+		
+			var metrics = {
+				kmToMiles : function(milesOrKilometers) {
+					if (typeof milesOrKilometers === 'number') {
+						if (milesOrKilometers < 0 ) {
+							throw 'Negative numbers are not allowed!';
+						} else {
+							return milesOrKilometers * 0.621371192;
+						}
+					} else {
+						throw 'Only numbers are allowed!';
+					}
+				},
+				
+				milesToKm : function(milesOrKilometers) {
+					if (typeof milesOrKilometers === 'number') {
+						if (milesOrKilometers < 0 ) {
+							throw 'Negative numbers are not allowed!';
+						} else {
+							return milesOrKilometers * 1.609344;
+						}
+					} else {
+						throw 'Only numbers are allowed!';
+					}
+				}
+			};
+			
+			return metrics;
+		
+		}
+	
+	}
+)();
+(function() {
+    'use strict';
+    angular
+        .module('in2.playground.metrics', ['in2.playground.metrics.factory', 'in2.playground.metrics.controller'])
+})();
 /**
 * @author Luka Skukan
 * @version 0.1.0
@@ -847,6 +973,43 @@
     'use strict';
     angular
         .module('in2.playground.parseiso', ['in2.playground.parseiso.factory', 'in2.playground.parseiso.controller'])
+})();
+(function() {
+	'use strict';
+	
+	angular
+		.module('in2.playground.reverse.filter', [])
+		.filter('reverse', reverse);
+		
+	function reverse() {
+		return reverse;
+		
+		function reverse(variable) {
+				var reversed, i;
+				
+				if (typeof variable === 'string') {
+					reversed = "";
+					for (i=variable.length; i>0; i--) {
+						reversed += variable[i-1];
+					}
+				} else if (variable instanceof Array) {
+					reversed = [];
+					for (i=variable.length; i>0; i--) {
+						reversed.push(variable[i-1]);
+					}
+				}
+				else {
+					reversed = variable;
+				}
+				
+				return reversed;
+			};
+	};
+})();
+(function() {
+    'use strict';
+    angular
+        .module('in2.playground.reverse', ['in2.playground.reverse.filter'])
 })();
 /**
 * @author Luka Skukan
