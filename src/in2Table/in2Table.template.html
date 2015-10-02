@@ -1,0 +1,13 @@
+<div class="tableContainer">
+    <table id="tbl">
+		<th ng-repeat="column in ctrl.columns">
+			<a href="" ng-click="ctrl.order(column)">{{column}}</a>
+			<span class="sortorder" ng-show="predicate === column" ng-class="{reverse:reverse}"></span>
+		</th>
+		<tr ng-repeat="item in ctrl.items | orderBy:predicate:reverse">
+		  <td ng-repeat="col in ctrl.columns">
+			{{item[col] || ctrl.default || '-'}}
+		  </td>
+		</tr>
+  </table>
+</div>
