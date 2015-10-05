@@ -28388,7 +28388,8 @@ var minlengthDirective = function() {
     'in2.playground.parseiso',
 	'in2.playground.reverse',
 	'in2.playground.metrics',
-	'in2.playground.loader'
+	'in2.playground.loader',
+	'in2.playground.table'
   ]);
   
   
@@ -28852,7 +28853,7 @@ var minlengthDirective = function() {
 			link: function (scope, element) {
 				function callAtInterval() {
 						var innerHtml = angular.element(document.querySelector('#loaderId')).html();
-						console.log(innerHtml);
+						//console.log(innerHtml);
 						if (innerHtml == 'Loading...' || innerHtml.length == 0) {
 							innerHtml = 'Loading';
 						} else {
@@ -29105,6 +29106,65 @@ var minlengthDirective = function() {
     'use strict';
     angular
         .module('in2.playground.slideshow', ['in2.playground.slideshow.directive', 'in2.playground.slideshow.slide.directive', 'in2.playground.slideshow.controller'])
+})();
+(function() {
+    'use strict';
+
+    angular
+        .module('in2.playground.table.controller', [])
+        .controller('in2TableController', TableController);
+
+    function TableController($scope){
+		var self = this;
+        if (self.items.length == 0) {
+			throw 'List of items can not be empty!';
+		}
+		
+		if (angular.isUndefined(self.columns)) {
+			var firstItems = self.items[0];
+			for (var key in firstItems) {
+				self.columns.push(key);
+			}
+		}
+		
+		//$scope.predicate = 'id';
+		$scope.reverse = false;
+		
+		$scope.order = function(predicate) {
+			$scope.reverse = ($scope.predicate === predicate) ? !$scope.reverse : false;
+			$scope.predicate = predicate;
+		};
+    }
+})();
+(function () {
+	'use strict';
+
+	angular
+		.module('in2.playground.table.directive', ['templates'])
+		.directive('in2Table', table);
+	
+	table.$inject = ['$templateCache'];
+
+	function table($templateCache) {
+		return {
+			scope: {
+				items : '=',
+				'default': '@',
+				columns: '=?'
+			},
+			controller: 'in2TableController',
+			controllerAs: 'ctrl',
+			restrict: 'AE',
+			replace: true,
+			template: $templateCache.get('in2Table/in2Table.template.html'),
+			bindToController: true
+		}
+	}
+})();
+(function() {
+    'use strict';
+    angular
+        .module('in2.playground.table', ['in2.playground.table.directive', 'in2.playground.table.controller'])
 })();
 (function() {
     'use strict';
@@ -29548,6 +29608,7 @@ $templateCache.put("in2BusinessCard/in2BuisnessCard.template.html","<div ng-clic
 $templateCache.put("in2BusinessCard/in2BuisnessCardTemplate.html","<style>\r\n    .buisnessCard {\r\n        border: 1px solid black;\r\n        width: 20em;\r\n        height: 10em;\r\n        font-family: Verdana, Cursive;        \r\n    }\r\n\r\n    .buisnessCardFront {\r\n        width: 100%;\r\n        height:100%;\r\n        text-align: left;\r\n    }\r\n\r\n    .buisnessCardFrontLogo {\r\n        float:right;\r\n        width: 25%;\r\n    }\r\n\r\n    .buisnessCardBack {\r\n        width: 100%;\r\n        height:100%;\r\n        text-align: center;\r\n    }\r\n\r\n    .buisnessCardBackLogo {        \r\n        width: 40%;\r\n    }\r\n\r\n</style>\r\n\r\n<div ng-click=\"front = !front\" ng-init=\"front = ctrl.getFrontSide()\">\r\n<div ng-switch on=\"front\">\r\n    <div ng-switch-when=\"true\">        \r\n        <div class=\"buisnessCard\">\r\n            <table class=\"buisnessCardFront\">\r\n                <tr>\r\n                    <td>\r\n                        <img class=\"buisnessCardFrontLogo\" ng-src=\"{{ctrl.image}}\"/>\r\n                    </td>\r\n                </tr>\r\n                <tr>\r\n                    <td>{{ctrl.fullName}}</td>\r\n                </tr>\r\n                <tr>\r\n                    <td>{{ctrl.company}}</td>\r\n                </tr>\r\n                <tr>\r\n                    <td>{{ctrl.position}}</td>\r\n                </tr>\r\n            </table>            \r\n        </div>       \r\n    </div>\r\n    <div ng-switch-when=\"false\">    \r\n        <div class=\"buisnessCard\" >\r\n            <table class=\"buisnessCardBack\">\r\n                <tr>\r\n                    <td>\r\n                        <img class=\"buisnessCardBackLogo\" ng-src=\"{{ctrl.image}}\"/>\r\n                    </td>\r\n                </tr>\r\n                <tr>\r\n                    <td>Have a nice day</td>\r\n                </tr>            \r\n            </table>            \r\n        </div>\r\n    </div>\r\n</div>\r\n</div>");
 $templateCache.put("in2Slideshow/in2Slide.template.html","<h2>{{ title }}</h2><ng-transclude/>");
 $templateCache.put("in2Slideshow/in2Slideshow.template.html","<div class=\"slideshowContainer\">\r\n    <button class=\"slideshowLeftArrow\" ng-click=\"ctrl.slideLeft()\" ng-show=\"ctrl.showLeftArrow\"><</button>\r\n    <button class=\"slideshowRightArrow\"ng-click=\"ctrl.slideRight()\" ng-show=\"ctrl.showRightArrow\">></button>\r\n    <div class=\"span\">\r\n        <div class=\"transcludeContainer\">\r\n            <ng-transclude/>\r\n        </div>\r\n    </div>\r\n</div>\r\n<style>\r\n    .slideshowContainer {\r\n        width: 100%;\r\n        height: 100%;\r\n    }\r\n    \r\n    .transcludeContainer {\r\n        width: 100%;\r\n    }\r\n    \r\n    \r\n    .slideshowContainer .slideshowLeftArrow {\r\n        float: left;\r\n        height: 100%;\r\n    }\r\n    \r\n    .slideshowContainer .slideshowRightArrow {\r\n        float: right;\r\n        height: 100%;\r\n    }\r\n    \r\n    .slideshowContainer .span {\r\n        display: block;\r\n        overflow: hidden;\r\n        padding: 0 5px;\r\n    }\r\n</style>");
+$templateCache.put("in2Table/in2Table.template.html","<div class=\"tableContainer\">\r\n    <table id=\"tbl\">\r\n		<th ng-repeat=\"column in ctrl.columns\">\r\n			<a href=\"\" class=\"{{column}}\" ng-click=\"order(column)\">{{column}}</a>\r\n			<span class=\"sortorder\" ng-show=\"predicate === column\" ng-class=\"{reverse:reverse}\"></span>\r\n		</th>\r\n		<tr ng-repeat=\"item in ctrl.items | orderBy:predicate:reverse\">\r\n		  <td ng-repeat=\"col in ctrl.columns\">\r\n			{{item[col] || ctrl.default || \'-\'}}\r\n		  </td>\r\n		</tr>\r\n  </table>\r\n</div>");
 $templateCache.put("in2Terminal/in2Terminal.template.html","<div class=\"terminalContainer\">\r\n    <div ng-repeat=\"command in ctrl.commandHistory track by $index\">\r\n        {{ ctrl.promptPrefix + command }}\r\n    </div>\r\n    <label for=\"commandInput\">{{ ctrl.promptPrefix }}</label>\r\n    <span>\r\n        <input class=\"terminalPrompt\" ng-keypress=\"ctrl.keypress($event)\" ng-model=\"ctrl.command\" name=\"commandInput\" autofocus>\r\n    </span>\r\n</div>\r\n\r\n<style>\r\n    .terminalContainer {\r\n        background-color: black;\r\n        color: white;\r\n        width: 100%;\r\n        height: 100%;\r\n        overflow: auto;\r\n    }\r\n    \r\n    .terminalPrompt {\r\n        background-color: black;\r\n        color: white;\r\n        width: 100%;\r\n        border: none;\r\n        outline: 0;\r\n    }\r\n    \r\n    .terminalContainer label {\r\n        float: left;\r\n    }\r\n    \r\n    .terminalContainer span {\r\n        display: block;\r\n        overflow: hidden;\r\n        padding: 0 5px;\r\n    }\r\n</style>");
 $templateCache.put("tabbed/tab.html","<div class=\"tab body\" ng-show=\"tabs.tabs[name].active\" ng-transclude></div>");
 $templateCache.put("tabbed/tabs.html","<div class=\"in2 tabs\">\r\n  <div class=\"headers\">\r\n    <span class=\"header\" ng-class=\"{\'active\' : status.active}\" ng-repeat=\"(tab,status) in tabs.tabs\" ng-click=\"tabs.activate(tab)\">\r\n      {{tab}}\r\n    </span>\r\n  </div>\r\n  <div class=\"panel\" ng-transclude>\r\n  \r\n  </div>\r\n</div>");}]);

@@ -2,12 +2,15 @@
 
 <head>
 	<script src="dev/js/playground.js"></script>
+	<link rel="stylesheet" type="text/css" href="ankicaTests.css">
 </head>
 
-<body ng-app="in2.playground" ng-controller='in2LoaderController as loadCtrl'>
+<body ng-app="in2.playground">
+	
 	<div style="width:500px;height:200px;" ng-hide="isHidden">
-		<in2-loader state="true"></in2-loader>
+		<in2-table items="[{id : 1, name : 'Ankica', angularLevel : 'Advanced Super Expert'}, {id : 2, name : 'Lukica'}, {id : 3, name : 'Deni', angularLevel : 'Advanced Super Expert'}]" columns="['id', 'name', 'angularLevel']" default="Awful"></in2-loader>
 	</div>
+	
 	
 	</br>
 	</br>

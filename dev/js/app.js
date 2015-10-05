@@ -22,7 +22,8 @@
     'in2.playground.parseiso',
 	'in2.playground.reverse',
 	'in2.playground.metrics',
-	'in2.playground.loader'
+	'in2.playground.loader',
+	'in2.playground.table'
   ]);
   
   
@@ -486,7 +487,7 @@
 			link: function (scope, element) {
 				function callAtInterval() {
 						var innerHtml = angular.element(document.querySelector('#loaderId')).html();
-						console.log(innerHtml);
+						//console.log(innerHtml);
 						if (innerHtml == 'Loading...' || innerHtml.length == 0) {
 							innerHtml = 'Loading';
 						} else {
@@ -739,6 +740,65 @@
     'use strict';
     angular
         .module('in2.playground.slideshow', ['in2.playground.slideshow.directive', 'in2.playground.slideshow.slide.directive', 'in2.playground.slideshow.controller'])
+})();
+(function() {
+    'use strict';
+
+    angular
+        .module('in2.playground.table.controller', [])
+        .controller('in2TableController', TableController);
+
+    function TableController($scope){
+		var self = this;
+        if (self.items.length == 0) {
+			throw 'List of items can not be empty!';
+		}
+		
+		if (angular.isUndefined(self.columns)) {
+			var firstItems = self.items[0];
+			for (var key in firstItems) {
+				self.columns.push(key);
+			}
+		}
+		
+		//$scope.predicate = 'id';
+		$scope.reverse = false;
+		
+		$scope.order = function(predicate) {
+			$scope.reverse = ($scope.predicate === predicate) ? !$scope.reverse : false;
+			$scope.predicate = predicate;
+		};
+    }
+})();
+(function () {
+	'use strict';
+
+	angular
+		.module('in2.playground.table.directive', ['templates'])
+		.directive('in2Table', table);
+	
+	table.$inject = ['$templateCache'];
+
+	function table($templateCache) {
+		return {
+			scope: {
+				items : '=',
+				'default': '@',
+				columns: '=?'
+			},
+			controller: 'in2TableController',
+			controllerAs: 'ctrl',
+			restrict: 'AE',
+			replace: true,
+			template: $templateCache.get('in2Table/in2Table.template.html'),
+			bindToController: true
+		}
+	}
+})();
+(function() {
+    'use strict';
+    angular
+        .module('in2.playground.table', ['in2.playground.table.directive', 'in2.playground.table.controller'])
 })();
 (function() {
     'use strict';

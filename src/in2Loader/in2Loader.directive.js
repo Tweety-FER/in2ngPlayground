@@ -21,7 +21,7 @@
 			link: function (scope, element) {
 				function callAtInterval() {
 						var innerHtml = angular.element(document.querySelector('#loaderId')).html();
-						console.log(innerHtml);
+						//console.log(innerHtml);
 						if (innerHtml == 'Loading...' || innerHtml.length == 0) {
 							innerHtml = 'Loading';
 						} else {
