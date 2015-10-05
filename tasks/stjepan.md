@@ -28,7 +28,10 @@ As stated, include comments, unit tests, an example and provide a brief descript
 
 ### Description:
 
-*Include some documentation describing the directive here, in markdown*
+shuffle is a factory used to randomly shuffle given array or a string. The function takes a single argument, array or a string, which we wish to shuffle.
+Shuffle is implemented using Math.Random function which gives a random value between zero and (length-1) of given array or string. We shuffle one element at a time and we go through our array or string element by element and switch current element with element at index which our random function gave us.
+Depending if our argument is array or string different function is called which switches places of two elements.
+If argument passed to factory isn't string or array, factory returns passed argument unchanged.
 
 ## Filter
 
@@ -44,7 +47,7 @@ As stated, include comments, unit tests, an example and provide a brief descript
 
 ### Description:
 
-*Include some documentation describing the directive here, in markdown*
+flatten is a filter which takes an array and if the array has array as an element it takes that array and returns its elements as elements of original array. Which means, an array with multiple level depth will become an array with one level depth. 
 
 ## Simple Directive
 
@@ -64,7 +67,7 @@ As stated, include comments, unit tests, an example and provide a brief descript
 
 ### Description:
 
-*Include some documentation describing the directive here, in markdown*
+`in2Img` is a directive which extends the normal html img element. It adds a new functionalitiy which in case of unavailable resource sets a default image instead. If the image is loaded correctly, the default functionality is the same.
 
 ## Advanced Directive
 
@@ -90,4 +93,5 @@ As stated, include comments, unit tests, an example and provide a brief descript
 
 ### Description:
 
-*Include some documentation describing the directive here, in markdown*
+`in2Menu` and `in2MenuItem` are directives used for creating a navigaton menu. Each in2MenuItem element represents a menu item and multiple in2MenuItems can be placed inside a single in2Menu item.
+Each in2MenuItem is registered to in2MenuController which handles which in2MenuItem is active. Clicking on a in2MenuItem calls a setActive function which adds an active class to that element and removes it from other active in2MenuItem element.
