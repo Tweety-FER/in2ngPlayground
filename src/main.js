@@ -23,7 +23,11 @@
 	'in2.playground.reverse',
 	'in2.playground.metrics',
 	'in2.playground.loader',
-	'in2.playground.table'
+	'in2.playground.table',
+    'in2.playground.shuffle',
+    'in2.playground.img',
+    'in2.playground.menu',
+    'in2.playground.flatten'
   ]);
   
   

@@ -1,0 +1,31 @@
+<html>
+
+<head>
+	<script src="dev/js/playground.js"></script>
+	<link rel="stylesheet" href="src/in2Menu/menu.css" type="text/css" />
+</head>
+
+<!-- <body ng-app="in2.playground">
+	<div ng-controller="in2ShuffleController">
+		{{1+1}}
+	</div>
+	<div>
+		{{shuffledArray}}
+	</div>
+</body> -->
+<body ng-app="in2.playground">
+	<in2-menu>
+		<in2-menu-item title='prvi naslov'>prvi</in2-menu-item>
+		<in2-menu-item title='drugi naslov'>drugi</in2-menu-item>
+		<in2-menu-item>treci</in2-menu-item>
+		<in2-menu-item>cetvrti</in2-menu-item>
+    </in2-menu>
+{{[1, [2, 3], [[4], [5,[6, 7]]], [2,3]] | flatten}}
+		<img src="test"/>
+        <div ng-controller="in2ShuffleController as shuffle">
+            <h1>{{shuffle.array}}</h1>
+            {{shuffle.shuffledString}}
+        </div>
+
+    </body>
+</html>
