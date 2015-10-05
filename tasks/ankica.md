@@ -99,4 +99,9 @@ As stated, include comments, unit tests, an example and provide a brief descript
 
 ###Description:
 
-*Include some documentation describing the directive here, in markdown*
+[`in2Table`](https://github.com/Tweety-FER/in2ngPlayground/blob/master/src/in2Table/in2Table.directive.js) is a directive used for representing table data given the input parameters.
+
+The directive has one mandatory two-way binding element named `items` and two optional elements named `default` and `columns`. 
+`items` is a list of objects which represent a single row table. Each object is in form of list with named members. If the optional element `columns` is not provided, given names of members are used as column headers. `default` element represents the value used when null is provided as row member, and it is set to '-' if not provided by user.
+
+The output of the directive is `HTML table` element filled with values provided in `items` with headers provided in `columns` or in `items` if `columns` is not provided. Each column header is sortable ascending and descending by clicking on it.
