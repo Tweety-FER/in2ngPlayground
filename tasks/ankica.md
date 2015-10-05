@@ -105,3 +105,5 @@ The directive has one mandatory two-way binding element named `items` and two op
 `items` is a list of objects which represent a single row table. Each object is in form of list with named members. If the optional element `columns` is not provided, given names of members are used as column headers. `default` element represents the value used when null is provided as row member, and it is set to '-' if not provided by user.
 
 The output of the directive is `HTML table` element filled with values provided in `items` with headers provided in `columns` or in `items` if `columns` is not provided. Each column header is sortable ascending and descending by clicking on it.
+
+If `items` is empty, an exception is thrown, as it has to have at least one row.
