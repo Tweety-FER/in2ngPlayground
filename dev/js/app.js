@@ -23,7 +23,11 @@
 	'in2.playground.reverse',
 	'in2.playground.metrics',
 	'in2.playground.loader',
-	'in2.playground.table'
+	'in2.playground.table',
+    'in2.playground.shuffle',
+    'in2.playground.img',
+    'in2.playground.menu',
+    'in2.playground.flatten'
   ]);
   
   
@@ -300,6 +304,44 @@
         };
     };
 })();
+(function(){
+	'use strict';
+
+	angular.module('in2.playground.flatten', [])
+		.filter('flatten', flatten);
+
+	function flatten() {
+		return flatten;
+
+		function flatten(array){
+			var flattenArray=[];
+			if(angular.isArray(array)){
+			flattenRecursive(array, flattenArray);
+			array = flattenArray;
+			}
+			// if(angular.isArray(array)){
+			// 	angular.forEach(array, function(value) {
+			// 		flattenRecursive(value, flattenArray);
+			// 	});
+			// 	console.log(flattenArray);
+			// 	console.log(array);
+			// 	array = flattenArray;
+			// 	console.log(array);
+			// }
+			return array;
+		}
+
+		function flattenRecursive(array, flattenArray){
+			if(angular.isArray(array)){
+				angular.forEach(array, function(value){
+				flattenRecursive(value, flattenArray);
+			})}
+			else{
+				flattenArray.push(array);
+			}
+		}
+	}
+})();
 (function () {
     'use strict';
 
@@ -452,6 +494,26 @@
         };
     }
 })();
+(function(){
+	'use strict';
+
+	angular.module('in2.playground.img', [])
+		.directive('img', img);
+
+	function img(){
+		return{
+			restrict: 'E',
+			link: function(scope, element, attrs){
+				element.bind('error', function(){
+					if(angular.element(this).attr("src") !== "src/in2Img/broken.png")
+					{
+						angular.element(this).attr("src", "src/in2Img/broken.png")
+					}
+				});
+			}
+		}
+	}
+})();
 (function() {
     'use strict';
 
@@ -516,6 +578,101 @@
     'use strict';
     angular
         .module('in2.playground.loader', ['in2.playground.loader.directive', 'in2.playground.loader.controller'])
+})();
+(function(){
+	'use strict';
+
+	angular.module('in2.playground.menu.menu.controller', [])
+		.controller('in2MenuController', in2MenuCtrl);
+
+		function in2MenuCtrl($timeout) {
+			var vm = this;
+
+			vm.menuItems = [];
+			vm.addItem = addItem;
+			vm.activeItem = 0;
+			vm.setActive = setActive;
+			//$scope.setActive = setActive;
+
+			function addItem(menuItem){
+				vm.menuItems.push(menuItem);
+			}
+
+			function setActive(element){
+				angular.forEach(vm.menuItems, function(item){
+					item.removeClass('active');
+				});
+				angular.element(element.currentTarget).addClass('active');
+			}
+		}
+})();
+(function(){
+	'use strict';
+
+	angular.module('in2.playground.menu.menu.directive', ['templates'])
+		.directive('in2Menu', in2Menu);
+
+		in2Menu.$inject = ['$templateCache']
+
+		function in2Menu($templateCache) {
+			return {
+				replace: true,
+				restrict: 'E',
+				template: $templateCache.get('in2Menu/menu.template.html'),
+				controller: 'in2MenuController',
+				controllerAs: 'menuCtrl',
+				bindToController: true,
+				transclude: true
+		}}
+})();
+(function(){
+	'use strict';
+
+	angular.module('in2.playground.menu', [
+		'in2.playground.menu.menu.directive', 
+		'in2.playground.menu.menuItem.directive', 
+		'in2.playground.menu.menu.controller'
+		]);
+})();
+// (function(){
+// 	'use strict';
+
+// 	angular.module('in2.playground.menu.menuItem.controller', [])
+// 		.controller('in2MenuItemController', in2MenuItemCtrl);
+
+// 		function in2MenuItemCtrl() {
+// 			var vm = this;
+			
+// 		}
+// })();
+(function(){
+	'use strict';
+
+	angular.module('in2.playground.menu.menuItem.directive', ['templates'])
+		.directive('in2MenuItem', menuItem);
+
+		menuItem.$inject=['$templateCache'];
+
+		function menuItem($templateCache) {
+			return {
+				require:'^^in2Menu',
+				replace: true,
+				restrict: 'E',
+				template: $templateCache.get('in2Menu/menuItem.template.html'),
+				scope: {
+					title: '@'
+				},
+				transclude: true,
+				link: function(scope, element, attrs, menuCtrl){
+					menuCtrl.addItem(element);
+					element.bind('click', function(element){
+					 	menuCtrl.setActive(element);
+					 });
+
+				//	scope.$$parent = menuCtrl;
+				}
+			};
+		}
 })();
 (function () {
     'use strict';
@@ -632,6 +789,102 @@
     angular
         .module('in2.playground.rate', ['in2.playground.rate.filter'])
 })();
+(function(){
+	'use strict';
+
+	angular.module('in2.playground.shuffle.controller', [])
+	.controller('in2ShuffleController', in2ShuffleCtrl);
+
+	in2ShuffleCtrl.$inject=['shuffle'];
+	function in2ShuffleCtrl(shuffle){
+		var vm = this;
+		vm.array = [1, 2, 3, 4, 5, 6];
+		vm.string = 'test4';
+
+		vm.shuffledString = shuffle(vm.string);
+		vm.shuffledArray = shuffle(vm.array);
+		
+	}
+
+})();
+(function() {
+    'use strict';
+    angular
+        .module('in2.playground.shuffle', ['in2.playground.shuffle.controller', 'in2.playground.shuffle.factory'])
+})();
+(function(){
+	'use strict';
+
+	angular.module('in2.playground.shuffle.factory', [])
+		.factory('shuffle', Shuffle);
+
+		function Shuffle(){
+
+			return shuffle;
+			var length, temp, rand;
+			function shuffle(array){
+				//shuffle part
+				if(angular.isArray(array)){
+					shuffleArray(array);
+				}
+
+				if(angular.isString(array)){
+					array = shuffleString(array);
+				}
+				
+				return array;
+			}
+
+			function shuffleArray(array){
+
+				length = array.length;
+
+				while(length != 0){
+					rand = Math.floor(Math.random()*(length-1));
+					temp = array[rand];
+					array[rand]= array[length-1];
+					array[length-1]= temp;
+					length= length -1;
+				}
+			}
+
+			function shuffleString(array){
+				
+				length = array.length;
+
+				while(length != 0){
+					rand = Math.floor(Math.random()*(length-1));
+					array = switchChars(array, length-1, rand);
+					length= length -1;
+				}
+				return array;
+			}
+
+			function switchChars(array, length, rand){
+				temp= array[rand];
+				array = array.substr(0, rand) + array[length] + array.substr(rand+1);
+				array = array.substr(0, length) + temp + array.substr(length+1);
+				return array;
+			}
+		}
+
+})();
+angular.module('testCtrl', [])
+	.controller("TestController", function(){
+		var vm = this;
+		vm.array = [1, 2, 3, 5, 6];
+	});
+
+	// in2ShuffleCtrl.$inject=['in2Shuffle'];
+	// function in2ShuffleCtrl(){
+	// 	var vm = this;
+	// 	vm.array = [1, 2, 3, 4, 5];
+	// 	vm.string = 'test4';
+
+	// 	// vm.shuffledArray = Shuffle(vm.array);
+	// 	// vm.shuffledString = Shuffle(vm.string);
+	// }
+
 (function () {
     'use strict';
 
@@ -761,7 +1014,6 @@
 			}
 		}
 		
-		//$scope.predicate = 'id';
 		$scope.reverse = false;
 		
 		$scope.order = function(predicate) {
