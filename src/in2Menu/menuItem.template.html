@@ -1,3 +1,3 @@
-<div class='menuItem'>
-	{{title}} <ng-transclude></ng-transclude>  
+<div class='menuItem' ng-class='activeClass' ng-init='activeClass = "";' ng-click='menuItemCtrl.initMenuItems(parentArray); menuItemCtrl.setActive($id);'>
+	{{menuItemCtrl.title}} <ng-transclude></ng-transclude>  
 </div>
