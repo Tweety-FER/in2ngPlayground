@@ -1,6 +1,12 @@
 # in2ngPlayground
 A small angularJS-based playground repo used for the AngularJS training track.
 
+## What is AngularJS?
+
+[AngularJS](https://angularjs.org) is a framework for JavaScript that has gained some popularity lately. And we all know JavaScript is awesome, so you better learn it.
+
+![Awesomeness](http://i.imgur.com/g96QleC.png)
+
 ## What now?
 
 ### Git setup
