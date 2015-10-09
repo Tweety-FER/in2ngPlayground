@@ -11,7 +11,7 @@
 			function shuffle(array){
 				//shuffle part
 				if(angular.isArray(array)){
-					shuffleArray(array);
+					array = shuffleArray(array);
 				}
 
 				if(angular.isString(array)){
@@ -32,6 +32,7 @@
 					array[length-1]= temp;
 					length= length -1;
 				}
+				return array;
 			}
 
 			function shuffleString(array){

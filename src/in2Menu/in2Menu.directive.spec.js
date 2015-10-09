@@ -39,5 +39,5 @@ describe('in2Menu.menu.controller', function(){
 		expect($(element).find("#menuItem1").text()).toContain('prvitest');
 		expect($(element).find("#menuItem1").text()).toContain('prvi naslov');
 		expect($(element).find("#menuItem3").text()).toContain('treci');
-	})
+	});
 });

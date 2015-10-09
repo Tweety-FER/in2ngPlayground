@@ -585,27 +585,33 @@
 	angular.module('in2.playground.menu.menu.controller', [])
 		.controller('in2MenuController', in2MenuCtrl);
 
-		function in2MenuCtrl($timeout) {
+		function in2MenuCtrl() {
 			var vm = this;
 
 			vm.menuItems = [];
 			vm.addItem = addItem;
-			vm.activeItem = 0;
-			vm.setActive = setActive;
-			//$scope.setActive = setActive;
+			//vm.setActive = setActive;
+			vm.getItems = getItems;
 
 			function addItem(menuItem){
 				vm.menuItems.push(menuItem);
-			}
+			};
 
-			function setActive(element){
-				angular.forEach(vm.menuItems, function(item){
-					item.removeClass('active');
-				});
-				angular.element(element.currentTarget).addClass('active');
-			}
+			// function setActive(element){
+			// 	angular.forEach(vm.menuItems, function(item){
+			// 		item.removeClass('active');
+			// 	});
+			// 	angular.element(element.currentTarget).addClass('active');
+			// };
+
+			function getItems(){
+				return vm.menuItems;
+			};
+
+
 		}
 })();
+
 (function(){
 	'use strict';
 
@@ -631,24 +637,46 @@
 	angular.module('in2.playground.menu', [
 		'in2.playground.menu.menu.directive', 
 		'in2.playground.menu.menuItem.directive', 
-		'in2.playground.menu.menu.controller'
+		'in2.playground.menu.menu.controller',
+		'in2.playground.menu.menuItem.controller'
 		]);
 })();
-// (function(){
-// 	'use strict';
-
-// 	angular.module('in2.playground.menu.menuItem.controller', [])
-// 		.controller('in2MenuItemController', in2MenuItemCtrl);
-
-// 		function in2MenuItemCtrl() {
-// 			var vm = this;
-			
-// 		}
-// })();
 (function(){
 	'use strict';
 
-	angular.module('in2.playground.menu.menuItem.directive', ['templates'])
+	angular.module('in2.playground.menu.menuItem.controller', [])
+		.controller('in2MenuItemController', in2MenuItemCtrl);
+
+		function in2MenuItemCtrl() {
+			var vm = this;
+			vm.menuItems= [];
+			vm.setActive= setActive;
+			vm.initMenuItems = initMenuItems;
+
+			function setActive(id){
+				angular.forEach(vm.menuItems, function(item){
+					if(item.$id === id){
+						item.activeClass = 'active';
+					}
+					else{
+						item.activeClass = '';
+					}
+				});
+			}
+
+			function initMenuItems(items){
+				if(vm.menuItems.length===0){
+					for(var i = 0; i< items.length; i++){
+						vm.menuItems.push(items[i]);
+					}	
+				}
+			}
+		}
+})();
+(function(){
+	'use strict';
+
+	angular.module('in2.playground.menu.menuItem.directive', ['in2.playground.menu.menuItem.controller','templates'])
 		.directive('in2MenuItem', menuItem);
 
 		menuItem.$inject=['$templateCache'];
@@ -658,16 +686,20 @@
 				require:'^^in2Menu',
 				replace: true,
 				restrict: 'E',
+				controller: 'in2MenuItemController',
+				controllerAs: 'menuItemCtrl',
+				bindToController: true,
 				template: $templateCache.get('in2Menu/menuItem.template.html'),
 				scope: {
 					title: '@'
 				},
 				transclude: true,
 				link: function(scope, element, attrs, menuCtrl){
-					menuCtrl.addItem(element);
-					element.bind('click', function(element){
-					 	menuCtrl.setActive(element);
-					 });
+					menuCtrl.addItem(scope);
+					scope.parentArray = menuCtrl.getItems();
+					// element.bind('click', function(element){
+					//  	menuCtrl.setActive(element);
+					//  });
 
 				//	scope.$$parent = menuCtrl;
 				}
@@ -825,7 +857,7 @@
 			function shuffle(array){
 				//shuffle part
 				if(angular.isArray(array)){
-					shuffleArray(array);
+					array = shuffleArray(array);
 				}
 
 				if(angular.isString(array)){
@@ -846,6 +878,7 @@
 					array[length-1]= temp;
 					length= length -1;
 				}
+				return array;
 			}
 
 			function shuffleString(array){
@@ -869,22 +902,6 @@
 		}
 
 })();
-angular.module('testCtrl', [])
-	.controller("TestController", function(){
-		var vm = this;
-		vm.array = [1, 2, 3, 5, 6];
-	});
-
-	// in2ShuffleCtrl.$inject=['in2Shuffle'];
-	// function in2ShuffleCtrl(){
-	// 	var vm = this;
-	// 	vm.array = [1, 2, 3, 4, 5];
-	// 	vm.string = 'test4';
-
-	// 	// vm.shuffledArray = Shuffle(vm.array);
-	// 	// vm.shuffledString = Shuffle(vm.string);
-	// }
-
 (function () {
     'use strict';
 
@@ -1125,36 +1142,43 @@ angular.module('testCtrl', [])
         .module('in2.playground.metrics.factory', [])
         .factory('metrics', Metrics);
 		
-	function Metrics() {
+		var kilometersToMilesConst = 0.621371192;
+		var milesToKilometersConst = 1.609344;
+		
+		function Metrics() {
+			
 		
 			var metrics = {
-				kmToMiles : function(milesOrKilometers) {
-					if (typeof milesOrKilometers === 'number') {
-						if (milesOrKilometers < 0 ) {
-							throw 'Negative numbers are not allowed!';
-						} else {
-							return milesOrKilometers * 0.621371192;
-						}
-					} else {
-						throw 'Only numbers are allowed!';
-					}
-				},
-				
-				milesToKm : function(milesOrKilometers) {
-					if (typeof milesOrKilometers === 'number') {
-						if (milesOrKilometers < 0 ) {
-							throw 'Negative numbers are not allowed!';
-						} else {
-							return milesOrKilometers * 1.609344;
-						}
-					} else {
-						throw 'Only numbers are allowed!';
-					}
-				}
+				kmToMiles : kmToMiles,			
+				milesToKm : milesToKm
 			};
 			
 			return metrics;
 		
+		}
+		
+		function kmToMiles(milesOrKilometers) {
+			if (angular.isNumber(milesOrKilometers)) {
+				if (milesOrKilometers < 0 ) {
+					throw 'Negative numbers are not allowed!';
+				} else {
+					return milesOrKilometers * kilometersToMilesConst;
+				}
+			} else {
+				throw 'Only numbers are allowed!';
+			}
+		}
+		
+		function milesToKm (milesOrKilometers) {
+			if (angular.isNumber(milesOrKilometers)) {
+				if (milesOrKilometers < 0 ) {
+					throw 'Negative numbers are not allowed!';
+				} else {
+					return milesOrKilometers * milesToKilometersConst;
+				}
+			} else {
+				throw 'Only numbers are allowed!';
+			}
 		}
 	
 	}
@@ -1330,54 +1354,6 @@ angular.module('testCtrl', [])
 (function() {
   'use strict';
   
-  angular.module('in2.playground.titlecase', [])
-         .filter('in2TitleCase', TitleCase);
-         
-  
-  TitleCase.$inject = [];
-  
-  function TitleCase() {
-    /**
-    * Constructs and returns a filter which takes a string and transforms its words to title case.
-    * An optional second argument can be provided. All words in that dictionary, if any, are lowercased
-    * instead of titlecased.
-    *
-    * @param value : string - String to titlecase (word-based titlecase)
-    * @param notCapitalisedList : [string] - Optional list of string to lowercase instead of titlecase
-    * @return - Given string, only with words transformed to a titlecase format
-    */
-    return function(value, notCapitalisedList) {
-      var words = value.split(' ');
-      var processed = []; //A list that will be filled with processed words
-
-      //If a list was given, lowercase its word for easier comparison. Default to empty list of words.
-      notCapitalisedList = !!notCapitalisedList ? notCapitalisedList.map(function(v)  {return v.toLowerCase()}) : [];
-      
-      //Use angular's forEach function for easy iteration
-      angular.forEach(words, function(word)  { //ES6 function declaration. Like a normal functions, only uses outside context's this variable.
-        var lowerWord = word.toLowerCase();
-                
-        if(notCapitalisedList.indexOf(lowerWord) === -1) { //indexOf returns index of element in list or -1 if not in list
-          processed.push(lowerWord[0].toUpperCase() + lowerWord.slice(1)); //Uppercase first and merge with the tail of the word
-        } else {
-          processed.push(lowerWord); //Is good, just push it
-        }
-        
-      });
-      
-      return processed.join(' '); //Join the words back up with spaces
-    };
-  }
-  
-  
-})();
-/**
-* @author Luka Skukan
-* @version 0.1.0
-*/
-(function() {
-  'use strict';
-  
   angular.module('in2.playground.tabbed', ['templates']) //We are using the template importing mechanism
          .directive('in2Tabs', Tabs)
          .controller('in2TabsController', TabsCtrl)
@@ -1485,5 +1461,53 @@ angular.module('testCtrl', [])
       template : $templateCache.get('tabbed/tab.html')
     };
   }
+  
+})();
+/**
+* @author Luka Skukan
+* @version 0.1.0
+*/
+(function() {
+  'use strict';
+  
+  angular.module('in2.playground.titlecase', [])
+         .filter('in2TitleCase', TitleCase);
+         
+  
+  TitleCase.$inject = [];
+  
+  function TitleCase() {
+    /**
+    * Constructs and returns a filter which takes a string and transforms its words to title case.
+    * An optional second argument can be provided. All words in that dictionary, if any, are lowercased
+    * instead of titlecased.
+    *
+    * @param value : string - String to titlecase (word-based titlecase)
+    * @param notCapitalisedList : [string] - Optional list of string to lowercase instead of titlecase
+    * @return - Given string, only with words transformed to a titlecase format
+    */
+    return function(value, notCapitalisedList) {
+      var words = value.split(' ');
+      var processed = []; //A list that will be filled with processed words
+
+      //If a list was given, lowercase its word for easier comparison. Default to empty list of words.
+      notCapitalisedList = !!notCapitalisedList ? notCapitalisedList.map(function(v)  {return v.toLowerCase()}) : [];
+      
+      //Use angular's forEach function for easy iteration
+      angular.forEach(words, function(word)  { //ES6 function declaration. Like a normal functions, only uses outside context's this variable.
+        var lowerWord = word.toLowerCase();
+                
+        if(notCapitalisedList.indexOf(lowerWord) === -1) { //indexOf returns index of element in list or -1 if not in list
+          processed.push(lowerWord[0].toUpperCase() + lowerWord.slice(1)); //Uppercase first and merge with the tail of the word
+        } else {
+          processed.push(lowerWord); //Is good, just push it
+        }
+        
+      });
+      
+      return processed.join(' '); //Join the words back up with spaces
+    };
+  }
+  
   
 })();

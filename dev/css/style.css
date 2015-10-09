@@ -92,24 +92,17 @@
 }
 
 	.active {
-		background-color: red;
+		background-color: rgba(34, 36, 38, 0.15);
+		color: red;
+		border-radius: 5%;
 	}
 	.myMenu {
 		margin-right: auto;
 		margin-left: auto;
 		text-align: center;
-		background-color: cornflowerblue;
+		border: 1px solid rgba(34, 36, 38, 0.15);
 		height: 50px;
-	}
-	
-	.myMenu in2-menu-item {
-		padding-right: 10px;
-	    padding-left: 10px;
-	    text-transform: uppercase;
-	    font-weight: 700;
-	    height: 50px;
-	    display: inline-block;
-	    line-height: 50px;
+		background-color: rgba(34,36,38, 0.05);
 	}
 
 	.myMenu ng-transclude {
@@ -125,14 +118,13 @@
 	}
 
 	.menuItem:hover {
-		background-color: yellow;
+		background-color: rgba(34, 36, 38, 0.15);
 	}
 
 	.menuItem{
 		padding-right: 10px;
 	    padding-left: 10px;
 	    text-transform: uppercase;
-	    font-weight: 700;
 	    height: 50px;
 	    display: inline-block;
 	    line-height: 50px;
