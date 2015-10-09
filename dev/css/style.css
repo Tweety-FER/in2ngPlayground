@@ -7,7 +7,7 @@
 .in2.comment .metadata {
   display: inline-block;
   padding-right: 2em;
-  color: #BFC1C1;
+  color: #bfc1c1;
   text-weight: bold;
   cursor: pointer;
   font-size: 0.7em;
@@ -20,7 +20,7 @@
   padding: 0;
   margin: 2em;
   margin-left: 1em;
-  border-left: 2px solid #BFC1C1;
+  border-left: 2px solid #bfc1c1;
   padding-left: 1em;
 }
 .in2.comment .toolbar .like {
@@ -29,14 +29,14 @@
 .in2.comment .toolbar .like.button {
   padding: 0.25em;
   border-radius: 10%;
-  background-color: #3385FF;
+  background-color: #3385ff;
   border: 1px solid #0066ff;
   cursor: pointer;
   font-size: 10pt;
 }
 .in2.comment .toolbar .like.button:hover {
   background-color: #66a3ff;
-  border: 1px solid #3385FF;
+  border: 1px solid #3385ff;
 }
 .in2.comment .toolbar .like.button:active {
   background-color: #99c2ff;
@@ -90,6 +90,53 @@
   display: block;
   margin: 0 auto;
 }
+
+	.active {
+		background-color: red;
+	}
+	.myMenu {
+		margin-right: auto;
+		margin-left: auto;
+		text-align: center;
+		background-color: cornflowerblue;
+		height: 50px;
+	}
+	
+	.myMenu in2-menu-item {
+		padding-right: 10px;
+	    padding-left: 10px;
+	    text-transform: uppercase;
+	    font-weight: 700;
+	    height: 50px;
+	    display: inline-block;
+	    line-height: 50px;
+	}
+
+	.myMenu ng-transclude {
+		display:block;
+		height: 100%;
+		vertical-align: middle;
+	}
+
+	.menuTable {
+		display:inline-flex;
+		height: 100%;
+		vertical-align: middle;
+	}
+
+	.menuItem:hover {
+		background-color: yellow;
+	}
+
+	.menuItem{
+		padding-right: 10px;
+	    padding-left: 10px;
+	    text-transform: uppercase;
+	    font-weight: 700;
+	    height: 50px;
+	    display: inline-block;
+	    line-height: 50px;
+	}
 
 .in2.tabs {
   display: block;
