@@ -7,7 +7,7 @@
 .in2.comment .metadata {
   display: inline-block;
   padding-right: 2em;
-  color: #bfc1c1;
+  color: #BFC1C1;
   text-weight: bold;
   cursor: pointer;
   font-size: 0.7em;
@@ -20,7 +20,7 @@
   padding: 0;
   margin: 2em;
   margin-left: 1em;
-  border-left: 2px solid #bfc1c1;
+  border-left: 2px solid #BFC1C1;
   padding-left: 1em;
 }
 .in2.comment .toolbar .like {
@@ -29,14 +29,14 @@
 .in2.comment .toolbar .like.button {
   padding: 0.25em;
   border-radius: 10%;
-  background-color: #3385ff;
+  background-color: #3385FF;
   border: 1px solid #0066ff;
   cursor: pointer;
   font-size: 10pt;
 }
 .in2.comment .toolbar .like.button:hover {
   background-color: #66a3ff;
-  border: 1px solid #3385ff;
+  border: 1px solid #3385FF;
 }
 .in2.comment .toolbar .like.button:active {
   background-color: #99c2ff;
@@ -130,6 +130,15 @@
 	    line-height: 50px;
 	}
 
+.subElement{
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align:center;
+  color:red;
+  font-size:medium;
+}
 .in2.tabs {
   display: block;
   width: 100%;

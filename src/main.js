@@ -27,8 +27,13 @@
     'in2.playground.shuffle',
     'in2.playground.img',
     'in2.playground.menu',
-    'in2.playground.flatten'
+    'in2.playground.flatten',
+    'in2.playground.cypher',
+    'in2.playground.rpn',
+    'in2.playground.subliminal'
+
+
   ]);
   
-  
+
 })();

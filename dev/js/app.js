@@ -27,10 +27,15 @@
     'in2.playground.shuffle',
     'in2.playground.img',
     'in2.playground.menu',
-    'in2.playground.flatten'
+    'in2.playground.flatten',
+    'in2.playground.cypher',
+    'in2.playground.rpn',
+    'in2.playground.subliminal'
+
+
   ]);
   
-  
+
 })();
 /**
 * @author Luka Skukan
@@ -85,6 +90,93 @@
   
   
 })();
+(function() {
+	'use strict';
+
+	angular
+		.module('in2.playground.cypher.filter', [])
+		.filter('cypher', cypher);
+
+    function cypher() {
+        return cypher;
+        function cypher(input, shift){
+
+            var output="";
+            //throw exception for invalid input
+            if (!angular.isString(input)){
+                throw 'Invalid data type for input: ' + typeof(input) + ', string expected.';
+            }
+            //define default value for shift
+            if (angular.isUndefined(shift)){
+                shift = 1;
+            }
+            //throw exception for invalid shift
+            if (!angular.isNumber(shift)){
+                throw 'Input shift is not in correct format, number expected.';
+            }
+
+            var i;
+            var code;
+			for(i=0; i< input.length; i++){
+                // apply a Caesar cypher only to characters of the English alphabet
+                if (((input.charCodeAt(i)>64) && (input.charCodeAt(i)<90) )||((input.charCodeAt(i)>96) && (input.charCodeAt(i)<123) )) {
+
+
+                    var overflow = 0;
+					code=0;
+					code = input.charCodeAt(i)+shift;
+                    //[a-z]
+				    if ((input.charCodeAt(i)>96) && (input.charCodeAt(i)<123)) {
+				        //in case of overflow, a character code should be adjusted/corrected
+                        //upper overflow
+					    if (code>122) {
+  						    overflow = code - 122;
+  							code = code - 26 +overflow +1;
+  						}
+                        //low overflow
+						else if (code<97){
+						    overflow = 97-code;
+							code = code + 26 - overflow +1;
+
+						}
+                    }
+
+                    ////[A-Z]
+			        if((input.charCodeAt(i)>64) && (input.charCodeAt(i)<91)) {
+			            //low overflow
+ 				        if (code<65) {
+					        overflow = 65-code;
+						    code = code + 26 -overflow +1;
+					    }
+                        //upper overflow
+					    else if (code>90) {
+						    overflow = code-90;
+							code = code - 26 + overflow +1;
+						}
+					}
+
+                    output+= String.fromCharCode(code);
+                }
+                //all other non-english characters are copied
+                else {
+                    output+=String.fromCharCode(input.charCodeAt(i));
+
+                }
+
+
+            }
+
+            return output;
+        };
+
+    };
+})
+();
+(function() {
+    'use strict';
+     angular.module('in2.playground.cypher', ['in2.playground.cypher.filter'])
+})();
+
 /**
 * @author Luka Skukan
 * @version 0.1.0
@@ -1015,6 +1107,87 @@
     'use strict';
 
     angular
+        .module('in2.playground.subliminal.controller', [])
+        .controller('in2SubliminalController', subliminalCtrl);
+
+
+
+    function subliminalCtrl($scope, $element,$attrs){
+         /*var vm=this;
+         this.text ="buy our stuff";
+         this.hideTime = angular.isDefined(this.hideTime) ? this.hideTime : 3000;
+         this.showTime = angular.isDefined(this.showTime) ? this.showTime : 500;
+         */
+         $scope.text =$attrs.text;
+       
+    }
+})();
+(function () {
+	'use strict';
+
+	angular
+		.module('in2.playground.subliminal.directive', ['templates'])
+		.directive('in2Subliminal', subliminal);
+
+    subliminal.$inject = ['$templateCache','$interval'];
+
+	function subliminal($templateCache,$interval) {
+		return {
+
+		    restrict :'E',
+            controller: 'in2SubliminalController',
+			controllerAs: 'subCtrl',
+
+			replace: true,
+
+			bindToController: true,
+			scope: {
+			    hideTime : '=?',
+                showTime: '=?',
+                text:'@'
+			},
+
+            template: $templateCache.get("in2Subliminal/in2Subliminal.template.html" ),
+
+            link : function(scope, element, attrs) {
+
+                    scope.hidden = true;
+                    scope.hideTime = angular.isDefined(attrs.hideTime) ? attrs.hideTime : 3000;
+                    scope.showTime = angular.isDefined(attrs.showTime) ?attrs.showTime : 500;
+                    scope.noviText =scope.subCtrl.text;
+                    //scope.hideTime =scope.subCtrl.hideTime;
+                    //scope.showTime=scope.subCtrl.showTime;
+                    $interval(showTxt,scope.hideTime,1);
+                    function showTxt(){
+
+                        scope.hidden=false;
+               			$interval(hideTxt,scope.showTime,1);
+                    }
+
+                    function hideTxt(){
+
+                        scope.hidden=true;
+                		$interval(showTxt,scope.hideTime,1);
+                    }
+
+
+
+
+            }
+
+
+		};
+	};
+})();
+(function() {
+    'use strict';
+    angular
+        .module('in2.playground.subliminal', ['in2.playground.subliminal.directive','in2.playground.subliminal.controller' ])
+})();
+(function() {
+    'use strict';
+
+    angular
         .module('in2.playground.table.controller', [])
         .controller('in2TableController', TableController);
 
@@ -1347,6 +1520,110 @@
     angular
         .module('in2.playground.reverse', ['in2.playground.reverse.filter'])
 })();
+(function() {
+    'use strict';
+
+    angular
+        .module('in2.playground.rpn.controller', [])
+        .controller('rpnController', rpnController);
+
+    rpnController.$inject = ['rpn'];
+
+    function rpnController(rpn){
+       	var vm = this;
+        vm.str = "7 3 / 2 +";
+
+        vm.test =rpn(vm.str);
+
+    }
+})();
+(function() {
+    'use strict';
+    angular
+        .module('in2.playground.rpn', ['in2.playground.rpn.controller', 'in2.playground.rpn.service'])
+})();
+(function () {
+    'use strict';
+    angular
+        .module('in2.playground.rpn.service', ['in2.playground.rpn.controller'])
+        .factory('rpn', rpn);
+
+    function rpn() {
+        return rpn;
+        /*function isPositiveInteger(input) {
+            var n =Math.trunc(Number(input));
+            if ((String(n) === input) && (n > 0)  )
+                return true;
+            else
+                return false;
+        }
+        */
+        function rpn(str){
+            var operations = [];
+            var nums = [];
+            var output = "";
+            var operators = ["+","-","*","/","%"];
+            var res = str.split(/\s+/);
+            var index;
+            // classify elements of input string as numbers or operators
+            for(index in res){
+                // classified operators have to be contained in an array 'operators'
+                if (operators.indexOf(res[index]) !=-1) {
+                    operations.push(res[index]);
+                }
+                // classified numbers have to be positive integers
+               // if (angular.isNumber(res[index])) {
+                    //if (isPositiveInteger(res[index])) {
+               else if (res[index]>0){
+                   //  if ((angular.isNumber(Number(res[index]))) && (Math.trunc(Number(res[index])===Number(res[index])) {
+                            nums.push(res[index]);
+                    // }
+                    }
+
+                  /* else
+                   {
+                         throw 'Invalid data type for number, positive integer expected.';
+                    }
+
+                    */
+
+
+              else
+                {
+                 throw 'Invalid expression, positive integers or mathematical operators expected';
+                }
+
+
+            }
+           //throw exception for invalid format of input string, e.g. '5 5 5 +'
+          /*  if ((nums.length-operations.length)!=1)  {
+                   throw 'Invalid format of input string.';
+
+            }
+           */
+            while(nums.length>1) {
+
+                if (operations[0]=="/") {
+                     nums.unshift(Math.floor(eval(nums.shift() + operations.shift()+ nums.shift())));
+
+                }
+                else {
+                    output+=nums.shift();
+                    output+=operations.shift();
+                }
+
+            }
+            if (nums.length>=1) {
+                output+=nums.shift();
+            }
+
+            return eval(output);
+
+        };
+
+};
+})
+();
 /**
 * @author Luka Skukan
 * @version 0.1.0

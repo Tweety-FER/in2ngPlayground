@@ -39,6 +39,7 @@ gulp.task('concat-app', ['compile-es6', 'coffee'], function() {
 * Performs a single unit test run.
 * Performs the build task beforehand.
 */
+
 gulp.task('unit-test', ['build'], function(done) {
   return new Server({
     configFile: __dirname + '/karma.conf.js',
@@ -50,6 +51,7 @@ gulp.task('unit-test', ['build'], function(done) {
 * Same as unit-test, but keeps watch on the files continuously and re-runs tests if anything changes.
 * Performs the build task beforehand.
 */
+
 gulp.task('tdd', ['build'], function(done) {
   return new Server({
     configFile: __dirname + '/karma.conf.js'

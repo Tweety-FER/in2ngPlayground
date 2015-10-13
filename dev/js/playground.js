@@ -28393,10 +28393,15 @@ var minlengthDirective = function() {
     'in2.playground.shuffle',
     'in2.playground.img',
     'in2.playground.menu',
-    'in2.playground.flatten'
+    'in2.playground.flatten',
+    'in2.playground.cypher',
+    'in2.playground.rpn',
+    'in2.playground.subliminal'
+
+
   ]);
   
-  
+
 })();
 /**
 * @author Luka Skukan
@@ -28451,6 +28456,93 @@ var minlengthDirective = function() {
   
   
 })();
+(function() {
+	'use strict';
+
+	angular
+		.module('in2.playground.cypher.filter', [])
+		.filter('cypher', cypher);
+
+    function cypher() {
+        return cypher;
+        function cypher(input, shift){
+
+            var output="";
+            //throw exception for invalid input
+            if (!angular.isString(input)){
+                throw 'Invalid data type for input: ' + typeof(input) + ', string expected.';
+            }
+            //define default value for shift
+            if (angular.isUndefined(shift)){
+                shift = 1;
+            }
+            //throw exception for invalid shift
+            if (!angular.isNumber(shift)){
+                throw 'Input shift is not in correct format, number expected.';
+            }
+
+            var i;
+            var code;
+			for(i=0; i< input.length; i++){
+                // apply a Caesar cypher only to characters of the English alphabet
+                if (((input.charCodeAt(i)>64) && (input.charCodeAt(i)<90) )||((input.charCodeAt(i)>96) && (input.charCodeAt(i)<123) )) {
+
+
+                    var overflow = 0;
+					code=0;
+					code = input.charCodeAt(i)+shift;
+                    //[a-z]
+				    if ((input.charCodeAt(i)>96) && (input.charCodeAt(i)<123)) {
+				        //in case of overflow, a character code should be adjusted/corrected
+                        //upper overflow
+					    if (code>122) {
+  						    overflow = code - 122;
+  							code = code - 26 +overflow +1;
+  						}
+                        //low overflow
+						else if (code<97){
+						    overflow = 97-code;
+							code = code + 26 - overflow +1;
+
+						}
+                    }
+
+                    ////[A-Z]
+			        if((input.charCodeAt(i)>64) && (input.charCodeAt(i)<91)) {
+			            //low overflow
+ 				        if (code<65) {
+					        overflow = 65-code;
+						    code = code + 26 -overflow +1;
+					    }
+                        //upper overflow
+					    else if (code>90) {
+						    overflow = code-90;
+							code = code - 26 + overflow +1;
+						}
+					}
+
+                    output+= String.fromCharCode(code);
+                }
+                //all other non-english characters are copied
+                else {
+                    output+=String.fromCharCode(input.charCodeAt(i));
+
+                }
+
+
+            }
+
+            return output;
+        };
+
+    };
+})
+();
+(function() {
+    'use strict';
+     angular.module('in2.playground.cypher', ['in2.playground.cypher.filter'])
+})();
+
 /**
 * @author Luka Skukan
 * @version 0.1.0
@@ -29381,6 +29473,87 @@ var minlengthDirective = function() {
     'use strict';
 
     angular
+        .module('in2.playground.subliminal.controller', [])
+        .controller('in2SubliminalController', subliminalCtrl);
+
+
+
+    function subliminalCtrl($scope, $element,$attrs){
+         /*var vm=this;
+         this.text ="buy our stuff";
+         this.hideTime = angular.isDefined(this.hideTime) ? this.hideTime : 3000;
+         this.showTime = angular.isDefined(this.showTime) ? this.showTime : 500;
+         */
+         $scope.text =$attrs.text;
+       
+    }
+})();
+(function () {
+	'use strict';
+
+	angular
+		.module('in2.playground.subliminal.directive', ['templates'])
+		.directive('in2Subliminal', subliminal);
+
+    subliminal.$inject = ['$templateCache','$interval'];
+
+	function subliminal($templateCache,$interval) {
+		return {
+
+		    restrict :'E',
+            controller: 'in2SubliminalController',
+			controllerAs: 'subCtrl',
+
+			replace: true,
+
+			bindToController: true,
+			scope: {
+			    hideTime : '=?',
+                showTime: '=?',
+                text:'@'
+			},
+
+            template: $templateCache.get("in2Subliminal/in2Subliminal.template.html" ),
+
+            link : function(scope, element, attrs) {
+
+                    scope.hidden = true;
+                    scope.hideTime = angular.isDefined(attrs.hideTime) ? attrs.hideTime : 3000;
+                    scope.showTime = angular.isDefined(attrs.showTime) ?attrs.showTime : 500;
+                    scope.noviText =scope.subCtrl.text;
+                    //scope.hideTime =scope.subCtrl.hideTime;
+                    //scope.showTime=scope.subCtrl.showTime;
+                    $interval(showTxt,scope.hideTime,1);
+                    function showTxt(){
+
+                        scope.hidden=false;
+               			$interval(hideTxt,scope.showTime,1);
+                    }
+
+                    function hideTxt(){
+
+                        scope.hidden=true;
+                		$interval(showTxt,scope.hideTime,1);
+                    }
+
+
+
+
+            }
+
+
+		};
+	};
+})();
+(function() {
+    'use strict';
+    angular
+        .module('in2.playground.subliminal', ['in2.playground.subliminal.directive','in2.playground.subliminal.controller' ])
+})();
+(function() {
+    'use strict';
+
+    angular
         .module('in2.playground.table.controller', [])
         .controller('in2TableController', TableController);
 
@@ -29713,6 +29886,110 @@ var minlengthDirective = function() {
     angular
         .module('in2.playground.reverse', ['in2.playground.reverse.filter'])
 })();
+(function() {
+    'use strict';
+
+    angular
+        .module('in2.playground.rpn.controller', [])
+        .controller('rpnController', rpnController);
+
+    rpnController.$inject = ['rpn'];
+
+    function rpnController(rpn){
+       	var vm = this;
+        vm.str = "7 3 / 2 +";
+
+        vm.test =rpn(vm.str);
+
+    }
+})();
+(function() {
+    'use strict';
+    angular
+        .module('in2.playground.rpn', ['in2.playground.rpn.controller', 'in2.playground.rpn.service'])
+})();
+(function () {
+    'use strict';
+    angular
+        .module('in2.playground.rpn.service', ['in2.playground.rpn.controller'])
+        .factory('rpn', rpn);
+
+    function rpn() {
+        return rpn;
+        /*function isPositiveInteger(input) {
+            var n =Math.trunc(Number(input));
+            if ((String(n) === input) && (n > 0)  )
+                return true;
+            else
+                return false;
+        }
+        */
+        function rpn(str){
+            var operations = [];
+            var nums = [];
+            var output = "";
+            var operators = ["+","-","*","/","%"];
+            var res = str.split(/\s+/);
+            var index;
+            // classify elements of input string as numbers or operators
+            for(index in res){
+                // classified operators have to be contained in an array 'operators'
+                if (operators.indexOf(res[index]) !=-1) {
+                    operations.push(res[index]);
+                }
+                // classified numbers have to be positive integers
+               // if (angular.isNumber(res[index])) {
+                    //if (isPositiveInteger(res[index])) {
+               else if (res[index]>0){
+                   //  if ((angular.isNumber(Number(res[index]))) && (Math.trunc(Number(res[index])===Number(res[index])) {
+                            nums.push(res[index]);
+                    // }
+                    }
+
+                  /* else
+                   {
+                         throw 'Invalid data type for number, positive integer expected.';
+                    }
+
+                    */
+
+
+              else
+                {
+                 throw 'Invalid expression, positive integers or mathematical operators expected';
+                }
+
+
+            }
+           //throw exception for invalid format of input string, e.g. '5 5 5 +'
+          /*  if ((nums.length-operations.length)!=1)  {
+                   throw 'Invalid format of input string.';
+
+            }
+           */
+            while(nums.length>1) {
+
+                if (operations[0]=="/") {
+                     nums.unshift(Math.floor(eval(nums.shift() + operations.shift()+ nums.shift())));
+
+                }
+                else {
+                    output+=nums.shift();
+                    output+=operations.shift();
+                }
+
+            }
+            if (nums.length>=1) {
+                output+=nums.shift();
+            }
+
+            return eval(output);
+
+        };
+
+};
+})
+();
 /**
 * @author Luka Skukan
 * @version 0.1.0
@@ -29887,6 +30164,7 @@ $templateCache.put("in2Menu/menuItem.template.html","<div class=\'menuItem\' ng-
 $templateCache.put("in2Shuffle/indexStjepanTests.html","<html>\r\n\r\n<head>\r\n	<script src=\"../../dev/js/playground.js\"></script>\r\n</head>\r\n\r\n<!-- <body ng-app=\"in2.playground\">\r\n	<div ng-controller=\"in2ShuffleController\">\r\n		{{1+1}}\r\n	</div>\r\n	<div>\r\n		{{shuffledArray}}\r\n	</div>\r\n</body> -->\r\n<body ng-app=\"in2.playground\">\r\n        <div ng-controller=\"TestController as shuffle\">\r\n            <h1>{{shuffle.array}}</h1>\r\n            {{1+1}}\r\n        }\r\n        }\r\n\r\n        </div>\r\n        \r\n    </body>\r\n</html>");
 $templateCache.put("in2Slideshow/in2Slide.template.html","<h2>{{ title }}</h2><ng-transclude/>");
 $templateCache.put("in2Slideshow/in2Slideshow.template.html","<div class=\"slideshowContainer\">\r\n    <button class=\"slideshowLeftArrow\" ng-click=\"ctrl.slideLeft()\" ng-show=\"ctrl.showLeftArrow\"><</button>\r\n    <button class=\"slideshowRightArrow\"ng-click=\"ctrl.slideRight()\" ng-show=\"ctrl.showRightArrow\">></button>\r\n    <div class=\"span\">\r\n        <div class=\"transcludeContainer\">\r\n            <ng-transclude/>\r\n        </div>\r\n    </div>\r\n</div>\r\n<style>\r\n    .slideshowContainer {\r\n        width: 100%;\r\n        height: 100%;\r\n    }\r\n    \r\n    .transcludeContainer {\r\n        width: 100%;\r\n    }\r\n    \r\n    \r\n    .slideshowContainer .slideshowLeftArrow {\r\n        float: left;\r\n        height: 100%;\r\n    }\r\n    \r\n    .slideshowContainer .slideshowRightArrow {\r\n        float: right;\r\n        height: 100%;\r\n    }\r\n    \r\n    .slideshowContainer .span {\r\n        display: block;\r\n        overflow: hidden;\r\n        padding: 0 5px;\r\n    }\r\n</style>");
+$templateCache.put("in2Subliminal/in2Subliminal.template.html","<div class=\"alert\">\r\n<div ng-hide=\"hidden\" class=\"subElement\">{{noviText}}</div>\r\n</div>");
 $templateCache.put("in2Table/in2Table.template.html","<div class=\"tableContainer\">\r\n    <table id=\"tbl\">\r\n		<th ng-repeat=\"column in ctrl.columns\">\r\n			<a href=\"\" class=\"{{column}}\" ng-click=\"order(column)\">{{column}}</a>\r\n			<span class=\"sortorder\" ng-show=\"predicate === column\" ng-class=\"{reverse:reverse}\"></span>\r\n		</th>\r\n		<tr ng-repeat=\"item in ctrl.items | orderBy:predicate:reverse\">\r\n		  <td ng-repeat=\"col in ctrl.columns\">\r\n			{{item[col] || ctrl.default || \'-\'}}\r\n		  </td>\r\n		</tr>\r\n  </table>\r\n</div>");
 $templateCache.put("in2Terminal/in2Terminal.template.html","<div class=\"terminalContainer\">\r\n    <div ng-repeat=\"command in ctrl.commandHistory track by $index\">\r\n        {{ ctrl.promptPrefix + command }}\r\n    </div>\r\n    <label for=\"commandInput\">{{ ctrl.promptPrefix }}</label>\r\n    <span>\r\n        <input class=\"terminalPrompt\" ng-keypress=\"ctrl.keypress($event)\" ng-model=\"ctrl.command\" name=\"commandInput\" autofocus>\r\n    </span>\r\n</div>\r\n\r\n<style>\r\n    .terminalContainer {\r\n        background-color: black;\r\n        color: white;\r\n        width: 100%;\r\n        height: 100%;\r\n        overflow: auto;\r\n    }\r\n    \r\n    .terminalPrompt {\r\n        background-color: black;\r\n        color: white;\r\n        width: 100%;\r\n        border: none;\r\n        outline: 0;\r\n    }\r\n    \r\n    .terminalContainer label {\r\n        float: left;\r\n    }\r\n    \r\n    .terminalContainer span {\r\n        display: block;\r\n        overflow: hidden;\r\n        padding: 0 5px;\r\n    }\r\n</style>");
 $templateCache.put("tabbed/tab.html","<div class=\"tab body\" ng-show=\"tabs.tabs[name].active\" ng-transclude></div>");
