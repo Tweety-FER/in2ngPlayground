@@ -99,31 +99,14 @@
 
     function cypher() {
         return cypher;
-        function cypher(input, shift){
-
+        function caesar(input, shift){
             var output="";
-            //throw exception for invalid input
-            if (!angular.isString(input)){
-                throw 'Invalid data type for input: ' + typeof(input) + ', string expected.';
-            }
-            //define default value for shift
-            if (angular.isUndefined(shift)){
-                shift = 1;
-            }
-            //throw exception for invalid shift
-            if (!angular.isNumber(shift)){
-                throw 'Input shift is not in correct format, number expected.';
-            }
-
-            var i;
-            var code;
-			for(i=0; i< input.length; i++){
+        	for(var i=0; i< input.length; i++){
                 // apply a Caesar cypher only to characters of the English alphabet
                 if (((input.charCodeAt(i)>64) && (input.charCodeAt(i)<90) )||((input.charCodeAt(i)>96) && (input.charCodeAt(i)<123) )) {
 
-
+                    var code =0;
                     var overflow = 0;
-					code=0;
 					code = input.charCodeAt(i)+shift;
                     //[a-z]
 				    if ((input.charCodeAt(i)>96) && (input.charCodeAt(i)<123)) {
@@ -157,14 +140,36 @@
 
                     output+= String.fromCharCode(code);
                 }
+
                 //all other non-english characters are copied
                 else {
                     output+=String.fromCharCode(input.charCodeAt(i));
 
                 }
 
-
             }
+            return output;
+        }
+
+        function cypher(input, shift){
+
+
+            //throw exception for invalid input
+            if (!angular.isString(input)){
+                throw 'Invalid data type for input: ' + typeof(input) + ', string expected.';
+            }
+            //define default value for shift
+            if (angular.isUndefined(shift)){
+                shift = 1;
+            }
+            //throw exception for invalid shift
+            if (!angular.isNumber(shift)){
+                throw 'Input shift is not in correct format, number expected.';
+            }
+
+            //call caesar function
+            var output= caesar(input, shift);
+
 
             return output;
         };
@@ -1110,18 +1115,31 @@
         .module('in2.playground.subliminal.controller', [])
         .controller('in2SubliminalController', subliminalCtrl);
 
+    subliminalCtrl.$inject = ['$interval'];
 
+    function subliminalCtrl($interval){
+        var self = this;
+        //define default values for hideTime and showTime
+        this.hideTime = angular.isDefined(this.hideTime) ? this.hideTime : 3000;
+        this.showTime = angular.isDefined(this.showTime) ? this.showTime : 500;
+        //change state of displayed text periodically,started with a hidden state
+        this.hidden=true;
+        $interval( function(){ self.showTxt();}, this.hideTime);
+        this.showTxt = function() {
+            this.hidden=false;
+            $interval( function(){ self.hideTxt(); }, this.showTime);
+        }
 
-    function subliminalCtrl($scope, $element,$attrs){
-         /*var vm=this;
-         this.text ="buy our stuff";
-         this.hideTime = angular.isDefined(this.hideTime) ? this.hideTime : 3000;
-         this.showTime = angular.isDefined(this.showTime) ? this.showTime : 500;
-         */
-         $scope.text =$attrs.text;
-       
+        this.hideTxt = function() {
+            this.hidden=true;
+            $interval( function(){ self.showTxt(); }, this.hideTime);
+        }
+
     }
 })();
+
+
+
 (function () {
 	'use strict';
 
@@ -1129,53 +1147,21 @@
 		.module('in2.playground.subliminal.directive', ['templates'])
 		.directive('in2Subliminal', subliminal);
 
-    subliminal.$inject = ['$templateCache','$interval'];
+    subliminal.$inject = ['$templateCache'];
 
-	function subliminal($templateCache,$interval) {
+	function subliminal($templateCache) {
 		return {
-
 		    restrict :'E',
             controller: 'in2SubliminalController',
 			controllerAs: 'subCtrl',
-
-			replace: true,
-
-			bindToController: true,
+		    bindToController: true,
 			scope: {
-			    hideTime : '=?',
-                showTime: '=?',
-                text:'@'
-			},
 
-            template: $templateCache.get("in2Subliminal/in2Subliminal.template.html" ),
+                text:'@',
+                hidden:'=',
 
-            link : function(scope, element, attrs) {
-
-                    scope.hidden = true;
-                    scope.hideTime = angular.isDefined(attrs.hideTime) ? attrs.hideTime : 3000;
-                    scope.showTime = angular.isDefined(attrs.showTime) ?attrs.showTime : 500;
-                    scope.noviText =scope.subCtrl.text;
-                    //scope.hideTime =scope.subCtrl.hideTime;
-                    //scope.showTime=scope.subCtrl.showTime;
-                    $interval(showTxt,scope.hideTime,1);
-                    function showTxt(){
-
-                        scope.hidden=false;
-               			$interval(hideTxt,scope.showTime,1);
-                    }
-
-                    function hideTxt(){
-
-                        scope.hidden=true;
-                		$interval(showTxt,scope.hideTime,1);
-                    }
-
-
-
-
-            }
-
-
+            },
+            template: $templateCache.get("in2Subliminal/in2Subliminal.template.html" )
 		};
 	};
 })();
@@ -1550,14 +1536,13 @@
 
     function rpn() {
         return rpn;
-        /*function isPositiveInteger(input) {
-            var n =Math.trunc(Number(input));
-            if ((String(n) === input) && (n > 0)  )
-                return true;
-            else
-                return false;
+        function isInteger(input) {
+
+            var pattern= /^\d+$/;
+            var value = ( pattern.test(input) )? true : false;
+            return value;
         }
-        */
+
         function rpn(str){
             var operations = [];
             var nums = [];
@@ -1566,41 +1551,30 @@
             var res = str.split(/\s+/);
             var index;
             // classify elements of input string as numbers or operators
-            for(index in res){
+            for(index in res) {
                 // classified operators have to be contained in an array 'operators'
                 if (operators.indexOf(res[index]) !=-1) {
                     operations.push(res[index]);
                 }
                 // classified numbers have to be positive integers
-               // if (angular.isNumber(res[index])) {
-                    //if (isPositiveInteger(res[index])) {
-               else if (res[index]>0){
-                   //  if ((angular.isNumber(Number(res[index]))) && (Math.trunc(Number(res[index])===Number(res[index])) {
-                            nums.push(res[index]);
-                    // }
-                    }
-
-                  /* else
-                   {
-                         throw 'Invalid data type for number, positive integer expected.';
-                    }
-
-                    */
-
-
-              else
-                {
-                 throw 'Invalid expression, positive integers or mathematical operators expected';
+                else if (isInteger(res[index])) {
+                     if (res[index] > 0)
+                          nums.push(res[index]);
+                     else
+                        throw 'Invalid data type for number, positive integer expected.';
+                }
+                else{
+                    throw 'Invalid expression, positive integers or mathematical operators expected';
                 }
 
 
             }
            //throw exception for invalid format of input string, e.g. '5 5 5 +'
-          /*  if ((nums.length-operations.length)!=1)  {
+            if ((nums.length-operations.length)!=1)  {
                    throw 'Invalid format of input string.';
 
             }
-           */
+
             while(nums.length>1) {
 
                 if (operations[0]=="/") {
@@ -1624,6 +1598,54 @@
 };
 })
 ();
+/**
+* @author Luka Skukan
+* @version 0.1.0
+*/
+(function() {
+  'use strict';
+  
+  angular.module('in2.playground.titlecase', [])
+         .filter('in2TitleCase', TitleCase);
+         
+  
+  TitleCase.$inject = [];
+  
+  function TitleCase() {
+    /**
+    * Constructs and returns a filter which takes a string and transforms its words to title case.
+    * An optional second argument can be provided. All words in that dictionary, if any, are lowercased
+    * instead of titlecased.
+    *
+    * @param value : string - String to titlecase (word-based titlecase)
+    * @param notCapitalisedList : [string] - Optional list of string to lowercase instead of titlecase
+    * @return - Given string, only with words transformed to a titlecase format
+    */
+    return function(value, notCapitalisedList) {
+      var words = value.split(' ');
+      var processed = []; //A list that will be filled with processed words
+
+      //If a list was given, lowercase its word for easier comparison. Default to empty list of words.
+      notCapitalisedList = !!notCapitalisedList ? notCapitalisedList.map(function(v)  {return v.toLowerCase()}) : [];
+      
+      //Use angular's forEach function for easy iteration
+      angular.forEach(words, function(word)  { //ES6 function declaration. Like a normal functions, only uses outside context's this variable.
+        var lowerWord = word.toLowerCase();
+                
+        if(notCapitalisedList.indexOf(lowerWord) === -1) { //indexOf returns index of element in list or -1 if not in list
+          processed.push(lowerWord[0].toUpperCase() + lowerWord.slice(1)); //Uppercase first and merge with the tail of the word
+        } else {
+          processed.push(lowerWord); //Is good, just push it
+        }
+        
+      });
+      
+      return processed.join(' '); //Join the words back up with spaces
+    };
+  }
+  
+  
+})();
 /**
 * @author Luka Skukan
 * @version 0.1.0
@@ -1738,53 +1760,5 @@
       template : $templateCache.get('tabbed/tab.html')
     };
   }
-  
-})();
-/**
-* @author Luka Skukan
-* @version 0.1.0
-*/
-(function() {
-  'use strict';
-  
-  angular.module('in2.playground.titlecase', [])
-         .filter('in2TitleCase', TitleCase);
-         
-  
-  TitleCase.$inject = [];
-  
-  function TitleCase() {
-    /**
-    * Constructs and returns a filter which takes a string and transforms its words to title case.
-    * An optional second argument can be provided. All words in that dictionary, if any, are lowercased
-    * instead of titlecased.
-    *
-    * @param value : string - String to titlecase (word-based titlecase)
-    * @param notCapitalisedList : [string] - Optional list of string to lowercase instead of titlecase
-    * @return - Given string, only with words transformed to a titlecase format
-    */
-    return function(value, notCapitalisedList) {
-      var words = value.split(' ');
-      var processed = []; //A list that will be filled with processed words
-
-      //If a list was given, lowercase its word for easier comparison. Default to empty list of words.
-      notCapitalisedList = !!notCapitalisedList ? notCapitalisedList.map(function(v)  {return v.toLowerCase()}) : [];
-      
-      //Use angular's forEach function for easy iteration
-      angular.forEach(words, function(word)  { //ES6 function declaration. Like a normal functions, only uses outside context's this variable.
-        var lowerWord = word.toLowerCase();
-                
-        if(notCapitalisedList.indexOf(lowerWord) === -1) { //indexOf returns index of element in list or -1 if not in list
-          processed.push(lowerWord[0].toUpperCase() + lowerWord.slice(1)); //Uppercase first and merge with the tail of the word
-        } else {
-          processed.push(lowerWord); //Is good, just push it
-        }
-        
-      });
-      
-      return processed.join(' '); //Join the words back up with spaces
-    };
-  }
-  
   
 })();

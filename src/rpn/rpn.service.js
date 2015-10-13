@@ -6,14 +6,13 @@
 
     function rpn() {
         return rpn;
-        /*function isPositiveInteger(input) {
-            var n =Math.trunc(Number(input));
-            if ((String(n) === input) && (n > 0)  )
-                return true;
-            else
-                return false;
+        function isInteger(input) {
+
+            var pattern= /^\d+$/;
+            var value = ( pattern.test(input) )? true : false;
+            return value;
         }
-        */
+
         function rpn(str){
             var operations = [];
             var nums = [];
@@ -22,41 +21,30 @@
             var res = str.split(/\s+/);
             var index;
             // classify elements of input string as numbers or operators
-            for(index in res){
+            for(index in res) {
                 // classified operators have to be contained in an array 'operators'
                 if (operators.indexOf(res[index]) !=-1) {
                     operations.push(res[index]);
                 }
                 // classified numbers have to be positive integers
-               // if (angular.isNumber(res[index])) {
-                    //if (isPositiveInteger(res[index])) {
-               else if (res[index]>0){
-                   //  if ((angular.isNumber(Number(res[index]))) && (Math.trunc(Number(res[index])===Number(res[index])) {
-                            nums.push(res[index]);
-                    // }
-                    }
-
-                  /* else
-                   {
-                         throw 'Invalid data type for number, positive integer expected.';
-                    }
-
-                    */
-
-
-              else
-                {
-                 throw 'Invalid expression, positive integers or mathematical operators expected';
+                else if (isInteger(res[index])) {
+                     if (res[index] > 0)
+                          nums.push(res[index]);
+                     else
+                        throw 'Invalid data type for number, positive integer expected.';
+                }
+                else{
+                    throw 'Invalid expression, positive integers or mathematical operators expected';
                 }
 
 
             }
            //throw exception for invalid format of input string, e.g. '5 5 5 +'
-          /*  if ((nums.length-operations.length)!=1)  {
+            if ((nums.length-operations.length)!=1)  {
                    throw 'Invalid format of input string.';
 
             }
-           */
+
             while(nums.length>1) {
 
                 if (operations[0]=="/") {

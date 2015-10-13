@@ -28465,31 +28465,14 @@ var minlengthDirective = function() {
 
     function cypher() {
         return cypher;
-        function cypher(input, shift){
-
+        function caesar(input, shift){
             var output="";
-            //throw exception for invalid input
-            if (!angular.isString(input)){
-                throw 'Invalid data type for input: ' + typeof(input) + ', string expected.';
-            }
-            //define default value for shift
-            if (angular.isUndefined(shift)){
-                shift = 1;
-            }
-            //throw exception for invalid shift
-            if (!angular.isNumber(shift)){
-                throw 'Input shift is not in correct format, number expected.';
-            }
-
-            var i;
-            var code;
-			for(i=0; i< input.length; i++){
+        	for(var i=0; i< input.length; i++){
                 // apply a Caesar cypher only to characters of the English alphabet
                 if (((input.charCodeAt(i)>64) && (input.charCodeAt(i)<90) )||((input.charCodeAt(i)>96) && (input.charCodeAt(i)<123) )) {
 
-
+                    var code =0;
                     var overflow = 0;
-					code=0;
 					code = input.charCodeAt(i)+shift;
                     //[a-z]
 				    if ((input.charCodeAt(i)>96) && (input.charCodeAt(i)<123)) {
@@ -28523,14 +28506,36 @@ var minlengthDirective = function() {
 
                     output+= String.fromCharCode(code);
                 }
+
                 //all other non-english characters are copied
                 else {
                     output+=String.fromCharCode(input.charCodeAt(i));
 
                 }
 
-
             }
+            return output;
+        }
+
+        function cypher(input, shift){
+
+
+            //throw exception for invalid input
+            if (!angular.isString(input)){
+                throw 'Invalid data type for input: ' + typeof(input) + ', string expected.';
+            }
+            //define default value for shift
+            if (angular.isUndefined(shift)){
+                shift = 1;
+            }
+            //throw exception for invalid shift
+            if (!angular.isNumber(shift)){
+                throw 'Input shift is not in correct format, number expected.';
+            }
+
+            //call caesar function
+            var output= caesar(input, shift);
+
 
             return output;
         };
@@ -29476,18 +29481,31 @@ var minlengthDirective = function() {
         .module('in2.playground.subliminal.controller', [])
         .controller('in2SubliminalController', subliminalCtrl);
 
+    subliminalCtrl.$inject = ['$interval'];
 
+    function subliminalCtrl($interval){
+        var self = this;
+        //define default values for hideTime and showTime
+        this.hideTime = angular.isDefined(this.hideTime) ? this.hideTime : 3000;
+        this.showTime = angular.isDefined(this.showTime) ? this.showTime : 500;
+        //change state of displayed text periodically,started with a hidden state
+        this.hidden=true;
+        $interval( function(){ self.showTxt();}, this.hideTime);
+        this.showTxt = function() {
+            this.hidden=false;
+            $interval( function(){ self.hideTxt(); }, this.showTime);
+        }
 
-    function subliminalCtrl($scope, $element,$attrs){
-         /*var vm=this;
-         this.text ="buy our stuff";
-         this.hideTime = angular.isDefined(this.hideTime) ? this.hideTime : 3000;
-         this.showTime = angular.isDefined(this.showTime) ? this.showTime : 500;
-         */
-         $scope.text =$attrs.text;
-       
+        this.hideTxt = function() {
+            this.hidden=true;
+            $interval( function(){ self.showTxt(); }, this.hideTime);
+        }
+
     }
 })();
+
+
+
 (function () {
 	'use strict';
 
@@ -29495,53 +29513,21 @@ var minlengthDirective = function() {
 		.module('in2.playground.subliminal.directive', ['templates'])
 		.directive('in2Subliminal', subliminal);
 
-    subliminal.$inject = ['$templateCache','$interval'];
+    subliminal.$inject = ['$templateCache'];
 
-	function subliminal($templateCache,$interval) {
+	function subliminal($templateCache) {
 		return {
-
 		    restrict :'E',
             controller: 'in2SubliminalController',
 			controllerAs: 'subCtrl',
-
-			replace: true,
-
-			bindToController: true,
+		    bindToController: true,
 			scope: {
-			    hideTime : '=?',
-                showTime: '=?',
-                text:'@'
-			},
 
-            template: $templateCache.get("in2Subliminal/in2Subliminal.template.html" ),
+                text:'@',
+                hidden:'=',
 
-            link : function(scope, element, attrs) {
-
-                    scope.hidden = true;
-                    scope.hideTime = angular.isDefined(attrs.hideTime) ? attrs.hideTime : 3000;
-                    scope.showTime = angular.isDefined(attrs.showTime) ?attrs.showTime : 500;
-                    scope.noviText =scope.subCtrl.text;
-                    //scope.hideTime =scope.subCtrl.hideTime;
-                    //scope.showTime=scope.subCtrl.showTime;
-                    $interval(showTxt,scope.hideTime,1);
-                    function showTxt(){
-
-                        scope.hidden=false;
-               			$interval(hideTxt,scope.showTime,1);
-                    }
-
-                    function hideTxt(){
-
-                        scope.hidden=true;
-                		$interval(showTxt,scope.hideTime,1);
-                    }
-
-
-
-
-            }
-
-
+            },
+            template: $templateCache.get("in2Subliminal/in2Subliminal.template.html" )
 		};
 	};
 })();
@@ -29916,14 +29902,13 @@ var minlengthDirective = function() {
 
     function rpn() {
         return rpn;
-        /*function isPositiveInteger(input) {
-            var n =Math.trunc(Number(input));
-            if ((String(n) === input) && (n > 0)  )
-                return true;
-            else
-                return false;
+        function isInteger(input) {
+
+            var pattern= /^\d+$/;
+            var value = ( pattern.test(input) )? true : false;
+            return value;
         }
-        */
+
         function rpn(str){
             var operations = [];
             var nums = [];
@@ -29932,41 +29917,30 @@ var minlengthDirective = function() {
             var res = str.split(/\s+/);
             var index;
             // classify elements of input string as numbers or operators
-            for(index in res){
+            for(index in res) {
                 // classified operators have to be contained in an array 'operators'
                 if (operators.indexOf(res[index]) !=-1) {
                     operations.push(res[index]);
                 }
                 // classified numbers have to be positive integers
-               // if (angular.isNumber(res[index])) {
-                    //if (isPositiveInteger(res[index])) {
-               else if (res[index]>0){
-                   //  if ((angular.isNumber(Number(res[index]))) && (Math.trunc(Number(res[index])===Number(res[index])) {
-                            nums.push(res[index]);
-                    // }
-                    }
-
-                  /* else
-                   {
-                         throw 'Invalid data type for number, positive integer expected.';
-                    }
-
-                    */
-
-
-              else
-                {
-                 throw 'Invalid expression, positive integers or mathematical operators expected';
+                else if (isInteger(res[index])) {
+                     if (res[index] > 0)
+                          nums.push(res[index]);
+                     else
+                        throw 'Invalid data type for number, positive integer expected.';
+                }
+                else{
+                    throw 'Invalid expression, positive integers or mathematical operators expected';
                 }
 
 
             }
            //throw exception for invalid format of input string, e.g. '5 5 5 +'
-          /*  if ((nums.length-operations.length)!=1)  {
+            if ((nums.length-operations.length)!=1)  {
                    throw 'Invalid format of input string.';
 
             }
-           */
+
             while(nums.length>1) {
 
                 if (operations[0]=="/") {
@@ -29990,6 +29964,54 @@ var minlengthDirective = function() {
 };
 })
 ();
+/**
+* @author Luka Skukan
+* @version 0.1.0
+*/
+(function() {
+  'use strict';
+  
+  angular.module('in2.playground.titlecase', [])
+         .filter('in2TitleCase', TitleCase);
+         
+  
+  TitleCase.$inject = [];
+  
+  function TitleCase() {
+    /**
+    * Constructs and returns a filter which takes a string and transforms its words to title case.
+    * An optional second argument can be provided. All words in that dictionary, if any, are lowercased
+    * instead of titlecased.
+    *
+    * @param value : string - String to titlecase (word-based titlecase)
+    * @param notCapitalisedList : [string] - Optional list of string to lowercase instead of titlecase
+    * @return - Given string, only with words transformed to a titlecase format
+    */
+    return function(value, notCapitalisedList) {
+      var words = value.split(' ');
+      var processed = []; //A list that will be filled with processed words
+
+      //If a list was given, lowercase its word for easier comparison. Default to empty list of words.
+      notCapitalisedList = !!notCapitalisedList ? notCapitalisedList.map(function(v)  {return v.toLowerCase()}) : [];
+      
+      //Use angular's forEach function for easy iteration
+      angular.forEach(words, function(word)  { //ES6 function declaration. Like a normal functions, only uses outside context's this variable.
+        var lowerWord = word.toLowerCase();
+                
+        if(notCapitalisedList.indexOf(lowerWord) === -1) { //indexOf returns index of element in list or -1 if not in list
+          processed.push(lowerWord[0].toUpperCase() + lowerWord.slice(1)); //Uppercase first and merge with the tail of the word
+        } else {
+          processed.push(lowerWord); //Is good, just push it
+        }
+        
+      });
+      
+      return processed.join(' '); //Join the words back up with spaces
+    };
+  }
+  
+  
+})();
 /**
 * @author Luka Skukan
 * @version 0.1.0
@@ -30106,54 +30128,6 @@ var minlengthDirective = function() {
   }
   
 })();
-/**
-* @author Luka Skukan
-* @version 0.1.0
-*/
-(function() {
-  'use strict';
-  
-  angular.module('in2.playground.titlecase', [])
-         .filter('in2TitleCase', TitleCase);
-         
-  
-  TitleCase.$inject = [];
-  
-  function TitleCase() {
-    /**
-    * Constructs and returns a filter which takes a string and transforms its words to title case.
-    * An optional second argument can be provided. All words in that dictionary, if any, are lowercased
-    * instead of titlecased.
-    *
-    * @param value : string - String to titlecase (word-based titlecase)
-    * @param notCapitalisedList : [string] - Optional list of string to lowercase instead of titlecase
-    * @return - Given string, only with words transformed to a titlecase format
-    */
-    return function(value, notCapitalisedList) {
-      var words = value.split(' ');
-      var processed = []; //A list that will be filled with processed words
-
-      //If a list was given, lowercase its word for easier comparison. Default to empty list of words.
-      notCapitalisedList = !!notCapitalisedList ? notCapitalisedList.map(function(v)  {return v.toLowerCase()}) : [];
-      
-      //Use angular's forEach function for easy iteration
-      angular.forEach(words, function(word)  { //ES6 function declaration. Like a normal functions, only uses outside context's this variable.
-        var lowerWord = word.toLowerCase();
-                
-        if(notCapitalisedList.indexOf(lowerWord) === -1) { //indexOf returns index of element in list or -1 if not in list
-          processed.push(lowerWord[0].toUpperCase() + lowerWord.slice(1)); //Uppercase first and merge with the tail of the word
-        } else {
-          processed.push(lowerWord); //Is good, just push it
-        }
-        
-      });
-      
-      return processed.join(' '); //Join the words back up with spaces
-    };
-  }
-  
-  
-})();
 angular.module("templates", []).run(["$templateCache", function($templateCache) {$templateCache.put("comment/comment.html","<div class=\"in2 comment\">\r\n  <div class=\"metadata\">\r\n    <span class=\"author\">{{comment.username}}</span>\r\n    <span class=\"time\">{{comment.time | date:\'dd.MM.yyyy HH:mm\'}}</span>\r\n  </div>\r\n  <div class=\"text\">\r\n    {{comment.text}}\r\n  </div>\r\n  <div class=\"toolbar\">\r\n    <span class=\"like button\" ng-click=\"comment.like()\">Like</span>\r\n    <span class=\"like counter\">{{comment.likes}}</span>\r\n  </div>\r\n</div>");
 $templateCache.put("in2Accordion/in2Accordion.template.html","<div class=\"accordion\">\r\n    <h1 class=\"accordionTitle\">{{title}}</h1>\r\n    <ul>\r\n        <ng-transclude></ng-transclude>\r\n    </ul>\r\n</div>\r\n\r\n<style>\r\n    .accordion {\r\n        width: 40em;\r\n        height: auto;\r\n        border: 1px solid gray;\r\n        border-radius: 10px;\r\n        margin-top: 2em;        \r\n        overflow-wrap: break-word;                \r\n    }\r\n\r\n    .accordionItem {        \r\n        border: 1px solid gray;\r\n        border-radius: 10px;\r\n        overflow-wrap: break-word;\r\n        padding: 0.2em;        \r\n        margin-right: 0.5em;\r\n    }\r\n\r\n    .accordionTitle {\r\n        padding-left: 0.4em;\r\n    }\r\n\r\n    .accordionItemVisible {  \r\n        display: normal;\r\n        padding: 0.2em;\r\n    }\r\n\r\n    .accordionItemHidden {        \r\n        display: none;\r\n    }\r\n</style>");
 $templateCache.put("in2Accordion/in2AccordionItem.template.html","<li class=\"accordionItem\">\r\n    <h3 ng-click=\"accordionItemCtrl.initializeAccordionItems(parentArray); accordionItemCtrl.openTabWithId($id);\" ng-init=\"myClass = \'accordionItemHidden\';\">{{accordionItemCtrl.title}}</h3>\r\n    <div ng-class=\"myClass\">\r\n        <ng-transclude></ng-transclude>\r\n    </div>\r\n</li>");
@@ -30164,8 +30138,8 @@ $templateCache.put("in2Menu/menuItem.template.html","<div class=\'menuItem\' ng-
 $templateCache.put("in2Shuffle/indexStjepanTests.html","<html>\r\n\r\n<head>\r\n	<script src=\"../../dev/js/playground.js\"></script>\r\n</head>\r\n\r\n<!-- <body ng-app=\"in2.playground\">\r\n	<div ng-controller=\"in2ShuffleController\">\r\n		{{1+1}}\r\n	</div>\r\n	<div>\r\n		{{shuffledArray}}\r\n	</div>\r\n</body> -->\r\n<body ng-app=\"in2.playground\">\r\n        <div ng-controller=\"TestController as shuffle\">\r\n            <h1>{{shuffle.array}}</h1>\r\n            {{1+1}}\r\n        }\r\n        }\r\n\r\n        </div>\r\n        \r\n    </body>\r\n</html>");
 $templateCache.put("in2Slideshow/in2Slide.template.html","<h2>{{ title }}</h2><ng-transclude/>");
 $templateCache.put("in2Slideshow/in2Slideshow.template.html","<div class=\"slideshowContainer\">\r\n    <button class=\"slideshowLeftArrow\" ng-click=\"ctrl.slideLeft()\" ng-show=\"ctrl.showLeftArrow\"><</button>\r\n    <button class=\"slideshowRightArrow\"ng-click=\"ctrl.slideRight()\" ng-show=\"ctrl.showRightArrow\">></button>\r\n    <div class=\"span\">\r\n        <div class=\"transcludeContainer\">\r\n            <ng-transclude/>\r\n        </div>\r\n    </div>\r\n</div>\r\n<style>\r\n    .slideshowContainer {\r\n        width: 100%;\r\n        height: 100%;\r\n    }\r\n    \r\n    .transcludeContainer {\r\n        width: 100%;\r\n    }\r\n    \r\n    \r\n    .slideshowContainer .slideshowLeftArrow {\r\n        float: left;\r\n        height: 100%;\r\n    }\r\n    \r\n    .slideshowContainer .slideshowRightArrow {\r\n        float: right;\r\n        height: 100%;\r\n    }\r\n    \r\n    .slideshowContainer .span {\r\n        display: block;\r\n        overflow: hidden;\r\n        padding: 0 5px;\r\n    }\r\n</style>");
-$templateCache.put("in2Subliminal/in2Subliminal.template.html","<div class=\"alert\">\r\n<div ng-hide=\"hidden\" class=\"subElement\">{{noviText}}</div>\r\n</div>");
 $templateCache.put("in2Table/in2Table.template.html","<div class=\"tableContainer\">\r\n    <table id=\"tbl\">\r\n		<th ng-repeat=\"column in ctrl.columns\">\r\n			<a href=\"\" class=\"{{column}}\" ng-click=\"order(column)\">{{column}}</a>\r\n			<span class=\"sortorder\" ng-show=\"predicate === column\" ng-class=\"{reverse:reverse}\"></span>\r\n		</th>\r\n		<tr ng-repeat=\"item in ctrl.items | orderBy:predicate:reverse\">\r\n		  <td ng-repeat=\"col in ctrl.columns\">\r\n			{{item[col] || ctrl.default || \'-\'}}\r\n		  </td>\r\n		</tr>\r\n  </table>\r\n</div>");
+$templateCache.put("in2Subliminal/in2Subliminal.template.html","<div class=\"alert\">\r\n<div ng-hide=\"subCtrl.hidden\" class=\"subElement\">{{subCtrl.text}}</div>\r\n</div>");
 $templateCache.put("in2Terminal/in2Terminal.template.html","<div class=\"terminalContainer\">\r\n    <div ng-repeat=\"command in ctrl.commandHistory track by $index\">\r\n        {{ ctrl.promptPrefix + command }}\r\n    </div>\r\n    <label for=\"commandInput\">{{ ctrl.promptPrefix }}</label>\r\n    <span>\r\n        <input class=\"terminalPrompt\" ng-keypress=\"ctrl.keypress($event)\" ng-model=\"ctrl.command\" name=\"commandInput\" autofocus>\r\n    </span>\r\n</div>\r\n\r\n<style>\r\n    .terminalContainer {\r\n        background-color: black;\r\n        color: white;\r\n        width: 100%;\r\n        height: 100%;\r\n        overflow: auto;\r\n    }\r\n    \r\n    .terminalPrompt {\r\n        background-color: black;\r\n        color: white;\r\n        width: 100%;\r\n        border: none;\r\n        outline: 0;\r\n    }\r\n    \r\n    .terminalContainer label {\r\n        float: left;\r\n    }\r\n    \r\n    .terminalContainer span {\r\n        display: block;\r\n        overflow: hidden;\r\n        padding: 0 5px;\r\n    }\r\n</style>");
 $templateCache.put("tabbed/tab.html","<div class=\"tab body\" ng-show=\"tabs.tabs[name].active\" ng-transclude></div>");
 $templateCache.put("tabbed/tabs.html","<div class=\"in2 tabs\">\r\n  <div class=\"headers\">\r\n    <span class=\"header\" ng-class=\"{\'active\' : status.active}\" ng-repeat=\"(tab,status) in tabs.tabs\" ng-click=\"tabs.activate(tab)\">\r\n      {{tab}}\r\n    </span>\r\n  </div>\r\n  <div class=\"panel\" ng-transclude>\r\n  \r\n  </div>\r\n</div>");}]);
