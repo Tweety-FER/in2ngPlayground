@@ -25,7 +25,7 @@ rpn('?') //Throw appropri-, well, you get the gist of it
 'rpn' is a factory used to implement an evaluation of expression given in a reverse notation. Its function takes a single parameter, an input string. First, an input string is classified into two distinctive arrays, depending on whether they are positive integers or mathematical operators. The informative execeptions are thrown for expressions containing elements that can not be classified. In the next step, the function iterates through the corresponding arrays, pulling one operator and one number array element in each step. These two elements are merged in order to build an input string for a function 'eval' which
 carries out the final evaluation.
 
-Finally, using 'eval'
+
 ## Filter
 
 Implement a `cypher` filter. It takes a string and applies a Caesar cypher to it. It rotates ONLY characters of the English alphabet and preserves all other characters. It can optionally take a second parameter - a number of slots to rotate by. A positive number means rotation to the right and a negative one a rotation to the left. The default should be `1`. If the second parameter is invalid, it should throw an appropriate exception.
