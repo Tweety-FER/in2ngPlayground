@@ -1,0 +1,31 @@
+<html>
+
+<head>
+	<script src="dev/js/playground.js"></script>
+    <link rel="stylesheet" type="text/css" href="src/in2Subliminal/ivanaStyle.css">
+
+</head>
+
+<body ng-app="in2.playground">
+
+  <h1>Testiranje cypher filtra</h1>
+        <h3>Test 1</h3>
+        <p> {{ '3abba3' | cypher:-1 }} </p>
+        <body ng-app="in2.playground">
+  <h1>Testiranje rpn servisa</h1>
+        <div ng-controller="rpnController as rpn">
+            <p>rpn({{rpn.str}}) === {{rpn.test}}</p>
+        </div>
+
+  <h1>Testiranje in2-subliminal direktive</h1>
+  <div ng-controller="in2SubliminalController as subCtrl">
+       <in2-subliminal text="Buy our stuff" hide-time="5000" show-time="750"></in2-subliminal>
+
+
+  </div>
+
+	</br>
+	</br>
+</body>
+
+</html>
