@@ -22,9 +22,10 @@ rpn('?') //Throw appropri-, well, you get the gist of it
 ```
 
 ### Description:
+'rpn' is a factory used to implement an evaluation of expression given in a reverse notation. Its function takes a single parameter, an input string. First, an input string is classified into two distinctive arrays, depending on whether they are positive integers or mathematical operators. The informative execeptions are thrown for expressions containing elements that can not be classified. In the next step, the function iterates through the corresponding arrays, pulling one operator and one number array element in each step. These two elements are merged in order to build an input string for a function 'eval' which
+carries out the final evaluation.
 
-*Description here*
-
+Finally, using 'eval'
 ## Filter
 
 Implement a `cypher` filter. It takes a string and applies a Caesar cypher to it. It rotates ONLY characters of the English alphabet and preserves all other characters. It can optionally take a second parameter - a number of slots to rotate by. A positive number means rotation to the right and a negative one a rotation to the left. The default should be `1`. If the second parameter is invalid, it should throw an appropriate exception.
@@ -38,11 +39,12 @@ An example:
 {{ 'abba' | cypher:'wut' }} is cause for error
 ```
 
-Provide a brief description below.
+
 
 ### Description:
 
-*Description here*
+A 'cypher' function that implements a given filter takes two parameters, of which the first one represents an input string, while the second one is optional and represents a shift number value. Informative exceptions are thrown for invalid data types for both parameters. Function 'caesar' iterates through the input string, rotating each input English alphabet character by shift value, while preserving all other input characters. The rotation of each character is carried out by ASCII decoding of sum of the correspoding ASCII code and shift value.
+If the result of the addition falls outside the ASCII areas of the English alphabet characters, it is properly adjusted by adding/subtracting length of observed area and the overflow value.
 
 ## Simple Directive
 
@@ -59,8 +61,10 @@ An example of usage:
 <in2-subliminal text="Buy our stuff" hide-time="5000" show-time="750"></in2-subliminal>
 ```
 
-Provide a brief description below.
+
 
 ### Description:
 
-*Description here*
+A custom directive 'in2Subliminal' invokes a built-in directive 'ng-hide' extended with an additional functionality: an attribute that controlls the visibility of an element is periodically changed. If the hide and show periods are not defined by user, the controller assigned to directive 'in2Subliminal' initialize their values. The change of the text visibility state is also implemented inside the controller function. A directive has an isolated scope that uses 'controllerAs' which means that its properties are directly bound to the controller.
+
+
